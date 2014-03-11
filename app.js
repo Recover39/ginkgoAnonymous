@@ -29,8 +29,11 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', function(req, res){
-	res.render('welcome_page.html')
+app.get('/', function(req, res) {
+	res.render('main.html');
+});
+app.get('/welcome', function(req, res){
+	res.render('welcome_page.html');
 });
 app.get('/signIn', function(req, res) {
 	res.render('signin.html');	
@@ -38,7 +41,9 @@ app.get('/signIn', function(req, res) {
 app.get('/register', function(req, res) {
 	res.render('register.html');
 });
-
+app.get('/grayscale', function(req, res) {
+	res.render('grayscale.html')
+});
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

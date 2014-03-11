@@ -1,0 +1,50 @@
+body, html {
+	height: 100%;
+	width: 100%;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: "맑은 고딕", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #E7EAEB;
+    padding-top: 60px;
+}
+
+nav.navbar {
+    background-color: #5a5a5a;
+    min-height: 40px;
+}
+
+.writePostCard {
+    display: table;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    color: #525252;
+}
+
+#introduction {
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(230,121,104,0.45);
+    background-color: #E57766;
+    color : #eeeeee;
+    font-size: 15px;
+}
+
+#writePost {
+    margin-top : 20px;
+    padding: 30px;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.cardList {
+    display: table;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    color: #525252;
+}
