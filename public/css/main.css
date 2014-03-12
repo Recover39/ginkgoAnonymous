@@ -17,6 +17,26 @@ nav.navbar {
     min-height: 36px;
 }
 
+nav #title {
+    text-align: center;
+    font-size: 16px;
+    color: #f8f8f8;
+    padding: 4px;
+}
+
+nav .customer {
+    clear: both;
+    margin-top: 10px;
+    width: 50px;
+    height: 20px;
+    border-radius: 2px;
+    1border: 1px solid #a5abb2;
+    font-size: 12px;
+    line-height: 7px;
+    vertical-align: middle;
+    float: right;
+}
+
 .writePostCard {
     display: table;
     width: 100%;
@@ -26,7 +46,7 @@ nav.navbar {
 }
 
 #introduction {
-    padding: 10px;
+    padding : 10px;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(230,121,104,0.45);
     background-color: #E57766;
@@ -36,11 +56,39 @@ nav.navbar {
 
 #writePost {
     margin-top : 20px;
-    padding: 30px;
+    padding-top: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 16px;
     border: 1px solid #d4d4d4;
     border-radius: 3px;
     background-color: #fafafa;
     box-shadow: 2px 2px 6px rgba(162,162,162,0.4);
+}
+
+#writePost .simple{
+    width: 100%;
+	border: 1px solid #a5abb2;
+	border-radius: 2px;	
+	font-size: 14px;
+	1margin-left: 5%;
+	margin-right: 2%;
+	word-break: break-word;
+	resize: none;
+	line-height: 23px;
+}
+
+#writePost .writeButton {
+    clear: both;
+    margin-top: 10px;
+    width: 50px;
+    min-height: 25px;
+    border-radius: 2px;
+    1border: 1px solid #a5abb2;
+    font-size: 12px;
+    line-height: 7px;
+    vertical-align: middle;
+    float: right;
 }
 
 .cardList {
@@ -101,11 +149,13 @@ nav.navbar {
     height : 30px;
     1border : 1px solid black;
     font-size: 12px;
-    padding-left: 15px;
+    padding-left: 25px;
     padding-right: 15px;
-    background-color: #eff0f5;
+    background-color: #e7e8ec;
     border-top: 1px solid #d4d4d4;
     border-bottom: 1px solid #d4d4d4;
+    vertical-align: middle;
+    line-height: 28px;
 }
 
 .cardStatus .likeCount {
@@ -114,7 +164,6 @@ nav.navbar {
     height : 30px;
     1border : 1px solid black;
     text-align: left;
-    vertical-align: middle;
 }
 
 .cardStatus .commitCount{
@@ -123,7 +172,6 @@ nav.navbar {
     height : 30px;
     1border : 1px solid black;
     text-align: right;
-    vertical-align: middle;
 }
 
 .cardReply {
@@ -145,31 +193,35 @@ nav.navbar {
     padding-bottom: 5px;
     padding-left: 6px;
     margin-bottom: 4px;
-    border-bottom: 2px solid #f7f7f7;
+    border-bottom: 1px solid #ded9d9;
     text-align: left;
 }
 
 .cardReply .replyCommit {
-    padding-top: 6px;
-    border-top : 1px solid #d4d4d4;
+    padding-top: 4px;
+    1border-top : 1px solid #d4d4d4;
     width: 100%;
-    height : 44px;
+    height : 42px;
+    padding-left: 22px;
+    padding-bottom: 4px;
 }
 
 .cardReply .replyCommit .simpleInput {
-    width: 80%;
-    height: 28px;
+    width: 82%;
 	border: 1px solid #a5abb2;
 	border-radius: 2px;	
 	font-size: 14px;
-	margin-left: 4%;
+	1margin-left: 5%;
 	margin-right: 2%;
 	float : left;
+	word-break: break-word;
+	resize: none;
+	line-height: 23px;
 }
 
 .cardReply .replyCommit .replyButton {
     width: 50px;
-    height: 28px;
+    min-height: 25px;
     border-radius: 2px;
     border: 1px solid #a5abb2;
     font-size: 12px;
@@ -178,5 +230,10 @@ nav.navbar {
 }
 
 footer {
-    height: 30px;
+    height: 50px;
+    padding: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #6e6c6c;
+    font-size: 15px;
 }
