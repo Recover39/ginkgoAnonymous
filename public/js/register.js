@@ -22,6 +22,10 @@ var formMethod = (function() {
         psReField.value = "";  
     };
     
+    var validId = function() {
+        
+    };
+    
     (function() {
        psReField.addEventListener("click",restorePsField,true); 
     })();
