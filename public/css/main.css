@@ -55,6 +55,7 @@ nav .customer {
 }
 
 #writePost {
+    height: auto;
     margin-top : 20px;
     padding-top: 16px;
     padding-left: 20px;
@@ -66,6 +67,13 @@ nav .customer {
     box-shadow: 2px 2px 6px rgba(162,162,162,0.4);
 }
 
+#writePost .writeCommit {
+    padding-top: 4px;
+    width: 100%;
+    height: auto;
+    min-height : 42px;
+}
+
 #writePost .simple{
     width: 100%;
 	border: 1px solid #a5abb2;
@@ -73,7 +81,6 @@ nav .customer {
 	font-size: 14px;
 	1margin-left: 5%;
 	margin-right: 2%;
-	word-break: break-word;
 	resize: none;
 	line-height: 23px;
 }
@@ -201,7 +208,7 @@ nav .customer {
     padding-top: 4px;
     1border-top : 1px solid #d4d4d4;
     width: 100%;
-    height : 42px;
+    min-height : 42px;
     padding-left: 22px;
     padding-bottom: 4px;
 }

@@ -32,8 +32,10 @@
                 모든 글은 익명으로 작성됩니다.
             </div>
             <div class = "col-md-5 col-md-offset-3" id = "writePost">
-                <textarea rows = "3" cols="60" class = "simple" type = "text" name = "replyValue"></textarea>
+                <form class = "writeCommit" role = "form">
+                        <textarea rows = "3" cols="60" class = "simple" type = "text" name = "writeValue"></textarea>
                         <button class = "btn btn-lg btn-primary btn-block writeButton" type = "submit"> 글쓰기 </button>
+                </form>
             </div>
         </div>
     </div>
@@ -70,7 +72,8 @@
                             돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 
                         </div>
                     </div>
-                    <form class = "replyCommit">
+                    <form class = "replyCommit" role = "form">
+                        <input type = "hidden" name = "cardId" value="이게 아이디가 되야함"/>
                         <textarea rows = "1" cols="20" class = "simpleInput" type = "text" name = "replyValue"></textarea>
                         <button class = "btn btn-lg btn-block replyButton" type = "submit"> 댓글달기 </button>
                     </form>
