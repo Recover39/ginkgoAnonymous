@@ -29,11 +29,11 @@
     <div class = "container">
         <div class = "row">
             <div class = "col-md-5 col-md-offset-3" id = "introduction">
-                모든 글은 익명으로 작성됩니다.
+                모든 글은 익명으로 작성되며, 24시간 후 지워집니다.
             </div>
             <div class = "col-md-5 col-md-offset-3" id = "writePost">
                 <form class = "writeCommit" role = "form">
-                        <textarea rows = "3" cols="60" class = "simple" type = "text" name = "writeValue"></textarea>
+                        <textarea rows = "3" cols="60" class = "simple" id = "postTextArea" type = "text" name = "writeValue"></textarea>
                         <button class = "btn btn-lg btn-primary btn-block writeButton" type = "submit"> 글쓰기 </button>
                 </form>
             </div>
@@ -90,6 +90,7 @@
 <!-- JavaScript -->
 <script src="/js/jquery-1.10.2.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
 
 </body>
 </html>
