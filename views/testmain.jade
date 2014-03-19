@@ -1,0 +1,85 @@
+html(lang='en')
+    head
+        meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(name='description', content='')
+        meta(name='author', content='')
+        title 은행잎필무렵
+        //
+           Bootstrap core CSS
+        link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
+        //
+           Add custom CSS here
+        link(href='/stylesheets/main.css', rel='stylesheet')
+        style(type='text/css')
+    body(style='')
+        nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+            #title.col-md-6.col-md-offset-3
+                | 은행잎필무렵
+                button.btn.btn-lg.btn-block.customer  고객센터        
+        #newCard(onclick ='location.href = \'/test#newCardStart\';')
+            | ↑ 새로운 소식
+        .writePostCard
+            .container
+                .row
+                    #introduction.col-md-6.col-md-offset-3
+                        | 모든 글은 익명으로 작성되며, 24시간 후 지워집니다.
+                    #writePost.col-md-6.col-md-offset-3
+                        form.writeCommit(role='form')
+                            textarea#postTextArea.simple(rows='3', cols='60', type='text', name='writeValue')
+                            button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit')  글쓰기
+                            #newCardStart
+        .cardList
+            .container
+                .row
+                    .col-md-6.col-md-offset-3.card
+                        .cardInfomation
+                            .cardNum
+                                | No.123454
+                            .cardCommitTime
+                                | 24 Hours ago
+                        .cardBody
+                            | show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money
+                        .cardStatus
+                            .likeCount
+                                | 은행 115개
+                            .commitCount
+                                | 댓글 123개
+                        .cardComment
+                            .commentList
+                                .comment
+                                    | 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘
+                            form.commentCommit(method = 'post', role='form')
+                                input(type='hidden', name='cardId', value='')
+                                textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
+                                button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+                    .col-md-6.col-md-offset-3.card
+                        .cardInfomation
+                            .cardNum
+                                | No.123454
+                            .cardCommitTime
+                                | 24 Hours ago
+                        .cardBody
+                            | show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money show me the money
+                        .cardStatus
+                            .likeCount
+                                | 은행 115개
+                            .commitCount
+                                | 댓글 123개
+                        .cardComment
+                            .commentList
+                                .comment
+                                    | 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘 돈을 보여줘
+                            form.commentCommit(method = 'post', role='form')
+                                input(type='hidden', name='cardId', value='')
+                                textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
+                                button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+        footer
+            .col-md-6.col-md-offset-3
+                | 2014, Angtree
+        //
+           JavaScript
+        script(src='/javascripts/jquery-1.10.2.js')
+        script(src='/javascripts/bootstrap.js')
+        script(src='/javascripts/main.js')

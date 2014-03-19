@@ -37,8 +37,13 @@ app.get('/', function(req, res) {
 	res.redirect('/card');
 });
 
-app.get('/card/add', routes.write);
+app.get('/card', routes.loadCard);
 
+app.post('/card/add', routes.write);
+
+app.get('/test', function (req, res){
+    res.render('testmain');
+});
 
 
 http.createServer(app).listen(app.get('port'), function(){

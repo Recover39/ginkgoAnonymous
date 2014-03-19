@@ -1,10 +1,10 @@
 body, html {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 body, h1, h2, h3, h4, h5, h6 {
-	font-family: "맑은 고딕", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "맑은 고딕", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -30,11 +30,28 @@ nav .customer {
     width: 50px;
     height: 20px;
     border-radius: 2px;
-    1border: 1px solid #a5abb2;
     font-size: 12px;
     line-height: 7px;
     vertical-align: middle;
     float: right;
+}
+
+#newCard {
+    position: fixed;
+    width: 111px;
+    height: 26px;
+    border-radius: 15px;
+    background-color: #f3f3f3;
+    color: #427fe7;
+    z-index: 3;
+    font-size: 13px;
+    box-shadow: 1px 2px 6px #848484;
+    text-align: center;
+    line-height: 26px;
+    vertical-align: middle;
+    cursor: pointer;
+    left: 50%;
+    margin: 0 0 0 -56px;
 }
 
 .writePostCard {
@@ -46,17 +63,17 @@ nav .customer {
 }
 
 #introduction {
-    padding : 10px;
+    padding: 10px;
     border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(230,121,104,0.45);
+    box-shadow: 1px 1px 1px rgba(230, 121, 104, 0.45);
     background-color: #E57766;
-    color : #eeeeee;
+    color: #eeeeee;
     font-size: 15px;
 }
 
 #writePost {
     height: auto;
-    margin-top : 20px;
+    margin-top: 20px;
     padding-top: 16px;
     padding-left: 20px;
     padding-right: 20px;
@@ -64,34 +81,33 @@ nav .customer {
     border: 1px solid #d4d4d4;
     border-radius: 3px;
     background-color: #fafafa;
-    box-shadow: 2px 2px 6px rgba(162,162,162,0.4);
+    box-shadow: 2px 2px 6px rgba(162, 162, 162, 0.4);
+    overflow: hidden;
 }
 
 #writePost .writeCommit {
     padding-top: 4px;
     width: 100%;
     height: auto;
-    min-height : 42px;
+    min-height: 42px;
 }
 
-#writePost .simple{
+#writePost #postTextArea {
     width: 100%;
-	border: 1px solid #a5abb2;
-	border-radius: 2px;	
-	font-size: 14px;
-	1margin-left: 5%;
-	margin-right: 2%;
-	resize: none;
-	line-height: 23px;
+    border: 1px solid #a5abb2;
+    border-radius: 2px;
+    font-size: 14px;
+    margin-right: 2%;
+    resize: none;
+    line-height: 23px;
 }
 
-#writePost .writeButton {
+#writePost #writeButton {
     clear: both;
     margin-top: 10px;
     width: 50px;
     min-height: 25px;
     border-radius: 2px;
-    1border: 1px solid #a5abb2;
     font-size: 12px;
     line-height: 7px;
     vertical-align: middle;
@@ -106,19 +122,20 @@ nav .customer {
     color: #525252;
 }
 
-.col-md-5.col-md-offset-3.card {
-    margin-top : 25px;
+.col-md-6.col-md-offset-3.card {
+    margin-top: 25px;
     background-color: #fafafa;
     border-radius: 3px;
-    border : 1px solid #d4d4d4;
+    border: 1px solid #d4d4d4;
     padding-left: 0px;
     padding-right: 0px;
-    box-shadow: 2px 2px 6px rgba(162,162,162,0.4);
+    box-shadow: 2px 2px 6px rgba(162, 162, 162, 0.4);
+    height: auto;
 }
 
 .cardInfomation {
     width: 100%;
-    height : 20px;
+    height: 20px;
     font-size: 12px;
     margin-top: 16px;
     color: #999595;
@@ -126,35 +143,33 @@ nav .customer {
 
 .cardInfomation .cardNum {
     width: 80px;
-    height : auto;
+    height: auto;
     float: left;
-    1border : 1px solid black;
     text-align: left;
     margin-left: 22px;
 }
 
 .cardInfomation .cardCommitTime {
-    width : 90px;
-    height : auto;
-    float : right;
-    1border : 1px solid black;
+    width: 90px;
+    height: auto;
+    float: right;
     text-align: right;
     margin-right: 22px;
 }
 
-.col-md-5.col-md-offset-3.card .cardBody {
+.col-md-6.col-md-offset-3.card .cardBody {
     clear: both;
     margin-top: 6px;
     margin-bottom: 14px;
-    padding-left: 17px;
-    padding-right: 17px;
+    padding-left: 22px;
+    padding-right: 22px;
+    text-align: left;
 }
 
 .cardStatus {
     clear: both;
     width: 100%;
-    height : 30px;
-    1border : 1px solid black;
+    height: 30px;
     font-size: 12px;
     padding-left: 25px;
     padding-right: 15px;
@@ -166,35 +181,33 @@ nav .customer {
 }
 
 .cardStatus .likeCount {
-    float : left;
-    width : 60px;
-    height : 30px;
-    1border : 1px solid black;
+    float: left;
+    width: 60px;
+    height: 30px;
     text-align: left;
 }
 
-.cardStatus .commitCount{
-    float : left;
-    width : 60px;
-    height : 30px;
-    1border : 1px solid black;
+.cardStatus .commitCount {
+    float: left;
+    width: 60px;
+    height: 30px;
     text-align: right;
 }
 
-.cardReply {
+.cardComment {
     clear: both;
     width: 100%;
     height: auto;
-    1border : 1px solid black;
     background-color: #eff0f5;
+    overflow: hidden;
 }
 
-.cardReply .replyList {
+.cardComment .commentList {
     padding-left: 20px;
     padding-right: 20px;
 }
 
-.cardReply .replyList .reply {
+.cardComment .commentList .comment {
     width: 100%;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -204,30 +217,30 @@ nav .customer {
     text-align: left;
 }
 
-.cardReply .replyCommit {
+.cardComment .commentCommit {
     padding-top: 4px;
-    1border-top : 1px solid #d4d4d4;
     width: 100%;
-    min-height : 42px;
+    min-height: 42px;
     padding-left: 22px;
     padding-bottom: 4px;
+    margin-bottom: 0px;
 }
 
-.cardReply .replyCommit .simpleInput {
+.cardComment .commentCommit .commentBody {
     width: 82%;
-	border: 1px solid #a5abb2;
-	border-radius: 2px;	
-	font-size: 14px;
-	1margin-left: 5%;
-	margin-right: 2%;
-	float : left;
-	word-break: break-word;
-	resize: none;
-	line-height: 23px;
+    border: 1px solid #a5abb2;
+    border-radius: 2px;
+    font-size: 14px;
+    margin-right: 2%;
+    margin-bottom: 9px;
+    float: left;
+    word-break: break-all;
+    resize: none;
+    line-height: 23px;
 }
 
-.cardReply .replyCommit .replyButton {
-    width: 50px;
+.cardComment .commentCommit .commentButton {
+    width: 10%;
     min-height: 25px;
     border-radius: 2px;
     border: 1px solid #a5abb2;
@@ -239,7 +252,6 @@ nav .customer {
 footer {
     height: 50px;
     padding: 16px;
-    margin-bottom: 20px;
     text-align: center;
     color: #6e6c6c;
     font-size: 15px;
