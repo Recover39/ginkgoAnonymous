@@ -36,7 +36,7 @@ nav .customer {
     float: right;
 }
 
-#newCard {
+#newCardButton {
     position: fixed;
     width: 111px;
     height: 26px;
@@ -52,6 +52,7 @@ nav .customer {
     cursor: pointer;
     left: 50%;
     margin: 0 0 0 -56px;
+    display: none;
 }
 
 .writePostCard {
@@ -127,8 +128,6 @@ nav .customer {
     background-color: #fafafa;
     border-radius: 3px;
     border: 1px solid #d4d4d4;
-    padding-left: 0px;
-    padding-right: 0px;
     box-shadow: 2px 2px 6px rgba(162, 162, 162, 0.4);
     height: auto;
 }
@@ -159,10 +158,10 @@ nav .customer {
 
 .col-md-6.col-md-offset-3.card .cardBody {
     clear: both;
-    margin-top: 6px;
-    margin-bottom: 14px;
-    padding-left: 22px;
-    padding-right: 22px;
+    margin-top: 16px;
+    margin-bottom: 19px;
+    padding-left: 24px;
+    padding-right: 24px;
     text-align: left;
 }
 
@@ -223,7 +222,6 @@ nav .customer {
     min-height: 42px;
     padding-left: 22px;
     padding-bottom: 4px;
-    margin-bottom: 0px;
 }
 
 .cardComment .commentCommit .commentBody {
