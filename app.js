@@ -44,6 +44,10 @@ app.get('/', function (req, res) {
 app.get('/card', routes.loadCard);
 app.get('/card/checkNewCard', routes.checkNewCard);
 
+//customer
+app.get('/customer/review', routes.customerReviewPage);
+app.post('/customer/review/add', routes.customerReviewAdd);
+
 //writeCard
 app.post('/card/add', routes.write);
 

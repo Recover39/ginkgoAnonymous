@@ -17,21 +17,29 @@ nav.navbar {
     min-height: 36px;
 }
 
-nav #title {
+#title {
+    position : fixed;
+    left: 50%;
+    margin : 0 0 0 -101px;
+    height: 30px;
+    width: 200px;
     text-align: center;
     font-size: 16px;
     color: #f8f8f8;
     padding: 4px;
+    float: left;
+    line-height: 24px;
+    cursor: pointer;
 }
 
 nav .customer {
     clear: both;
-    margin-top: 10px;
+    margin-top: 6px;
     width: 50px;
-    height: 20px;
+    height: 24px;
     border-radius: 2px;
     font-size: 12px;
-    line-height: 7px;
+    line-height: 4px;
     vertical-align: middle;
     float: right;
 }
@@ -70,6 +78,7 @@ nav .customer {
     background-color: #E57766;
     color: #eeeeee;
     font-size: 15px;
+    text-align: center;
 }
 
 #writePost {
@@ -128,6 +137,8 @@ nav .customer {
     background-color: #fafafa;
     border-radius: 3px;
     border: 1px solid #d4d4d4;
+    padding-left: 0px;
+    padding-right: 0px;
     box-shadow: 2px 2px 6px rgba(162, 162, 162, 0.4);
     height: auto;
 }
@@ -222,6 +233,7 @@ nav .customer {
     min-height: 42px;
     padding-left: 22px;
     padding-bottom: 4px;
+    margin-bottom: 0px;
 }
 
 .cardComment .commentCommit .commentBody {

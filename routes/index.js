@@ -30,6 +30,11 @@ exports.loadCard = function (req, res) {
             throw err;
         }
         else {
+            var dataLen = data.length;
+            //console.log(dataLen);
+            for (var i = 0; dataLen < i; i++) {
+
+            }
             res.render('main', { cards: data });
         }
     });
@@ -45,6 +50,14 @@ exports.checkNewCard = function (req, res) {
             res.send({data: data});
         }
     });
+};
+
+exports.customerReviewPage = function (req, res) {
+    res.render('customerReview');
+};
+
+exports.customerReviewAdd = function (req, res) {
+
 };
 
 exports.write = function (req, res) {

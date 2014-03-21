@@ -13,13 +13,13 @@ var pageWriteFunction = (function () {
             request.onreadystatechange = function () {
                 if (request.readyState == 4 && request.status == 200) {
                     var res = JSON.parse(request.responseText),
-                        card ='<div class="col-md-6 col-md-offset-3 card"><div class="cardInfomation">' +
-                            '<div class="cardNum"> No.' + res._id +'</div><div class="cardCommitTime"> 방금 </div>' +
-                            '</div><div class="cardBody">'+ res.body +'</div><div class="cardStatus">' +
+                        card = '<div class="col-md-6 col-md-offset-3 card"><div class="cardInfomation">' +
+                            '<div class="cardNum"> No.' + res._id + '</div><div class="cardCommitTime"> 방금 </div>' +
+                            '</div><div class="cardBody">' + res.body + '</div><div class="cardStatus">' +
                             '<div class="likeCount">은행 115개</div><div class="commitCount">댓글 0개</div></div>' +
                             '<div class="cardComment"><div class="commentList"></div>' +
-                            '<form action="/card/'+res._id+'/comment/add" method="post" role="form" class="commentCommit">' +
-                            '<input type="hidden" name="cardId" value="'+res._id+'"/><textarea rows="1" cols="20" type="text"' +
+                            '<form action="/card/' + res._id + '/comment/add" method="post" role="form" class="commentCommit">' +
+                            '<input type="hidden" name="cardId" value="' + res._id + '"/><textarea rows="1" cols="20" type="text"' +
                             ' name="commentBody" class="commentBody"></textarea><button type="submit" ' +
                             'class="btn btn-lg btn-block commentButton"> 댓글</button></form></div></div>';
                     appendTarget.insertAdjacentHTML('afterbegin', card);
@@ -34,7 +34,7 @@ var pageWriteFunction = (function () {
             comment.addEvent();
         },
 
-        addEvent : function() {
+        addEvent: function () {
             var writeArea = document.getElementById('postTextArea'),
                 writeButton = document.getElementById('writeButton');
             writeArea.addEventListener("click", util.writeSectionExpand, true);
@@ -50,11 +50,11 @@ var pageWriteFunction = (function () {
                 appendTarget = curForm.parentNode.firstChild,
                 sendFormData = new FormData(curForm),
                 cardId = curForm[0].value,
-                //curForm[1] => card_id
+            //curForm[1] => card_id
                 url = "/card/" + cardId + "/comment/add",
                 request = new XMLHttpRequest();
 
-            if(curForm[1].value === "") {
+            if (curForm[1].value === "") {
                 return;
             }
 
@@ -79,7 +79,7 @@ var pageWriteFunction = (function () {
             curForm[1].value = "";
         },
 
-        addEvent : function () {
+        addEvent: function () {
             var commentSection = document.getElementsByClassName("commentBody"),
                 commentButton = document.getElementsByClassName("commentButton"),
                 commentNum = commentSection.length;
@@ -94,7 +94,7 @@ var pageWriteFunction = (function () {
     var util = {
         writeSectionExpand: function (e) {
             var curTextArea = e.toElement;
-            curTextArea.oninput = function() {
+            curTextArea.oninput = function () {
                 curTextArea.style.height = "";
                 curTextArea.style.height = Math.min(curTextArea.scrollHeight, 100) + "px";
             };
@@ -102,47 +102,61 @@ var pageWriteFunction = (function () {
     };
 
     return {
-        cardEventAdd : card.addEvent,
-        commentEventAdd : comment.addEvent
+        cardEventAdd: card.addEvent,
+        commentEventAdd: comment.addEvent
     };
 })();
 
-var pageFunction = (function() {
+var pageFunction = (function () {
     var load = {
-        cardNum : 0,
-        checkNewCard : function() {
+        cardNum: 0,
+        isFirst: true,
+        checkNewCard: function () {
             $.ajax({
-                type : "GET",
-                url : "/card/checkNewCard",
-                success : function(obj) {
+                type: "GET",
+                url: "/card/checkNewCard",
+                success: function (obj) {
                     load.showButton(obj.data.length);
                 }
             });
         },
-        showButton : function(number) {
-            if (load.cardNum != number) {
-                $("#newCardButton").css("display", "block");
+        showButton: function (number) {
+            console.log(load.cardNum);
+            console.log(number);
+            if (load.isFirst == true) {
+                load.isFirst = false;
                 load.cardNum = number;
             }
+            else {
+                if (load.cardNum != number) {
+                    $("#newCardButton").css("display", "block");
+                }
+            }
+
         },
-        hideButton : function() {
+        hideButton: function () {
             $("#newCardButton").css("display", "none");
         },
-        newCard : function() {
+        newCard: function () {
             window.location.reload();
             load.hideButton();
             window.location = "/card#newCardStart";
+        },
+        toMain : function () {
+            window.location.reload();
+            window.location = "/card";
         }
     };
 
     return {
-        checkNewCard : load.checkNewCard,
-        hideButton : load.hideButton,
-        newCard : load.newCard
+        checkNewCard: load.checkNewCard,
+        hideButton: load.hideButton,
+        newCard: load.newCard,
+        toMain : load.toMain
     }
 })();
 
-(function() {
+(function () {
     pageWriteFunction.cardEventAdd();
     pageWriteFunction.commentEventAdd();
 
@@ -150,3 +164,4 @@ var pageFunction = (function() {
 })();
 
 var newCard = pageFunction.newCard;
+var toMain = pageFunction.toMain;

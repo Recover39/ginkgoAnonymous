@@ -1,0 +1,36 @@
+//indent, space
+DOCTYPE 5
+head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    //
+      make-favicon 
+    link(rel='shortcut icon', href='http://getbootstrap.com/assets/ico/favicon.ico')
+    title 은행잎필무렵 로그인 페이지
+    //
+       Bootstrap core CSS 
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    //
+       Custom styles for this template 
+    link(href='/css/register.css', rel='stylesheet')
+  body
+    .container
+      form.form-signin(role='form')
+        h2.form-signin-heading 회원가입
+        input.form-control(type='id', placeholder='아이디', required='', autofocus='')
+        input.form-control(type='password', placeholder='비밀번호', required='')
+        input.form-control(type='password', placeholder='비밀번호 재확인', required='', onchange='validPassword()')
+        input.form-control(type='email', placeholder='이메일', required='')
+        button.btn.btn-lg.btn-primary.btn-block.signUp(type='submit') 회원가입
+    //
+       /container 
+    //
+       Bootstrap core JavaScript
+          ================================================== 
+    //
+       Placed at the end of the document so the pages load faster 
+    script(src='/js/register.js')
