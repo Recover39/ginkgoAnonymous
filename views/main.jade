@@ -41,10 +41,9 @@ html(lang='en')
                             .cardBody
                                 | #{card.body}
                             .cardStatus
-                                .likeCount
-                                    | 은행 115개
                                 .commitCount
                                     | 댓글 #{card.comments.length}개
+                                .likeCount
                             .cardComment
                                 .commentList
                                     each comment in card.comments

@@ -201,7 +201,7 @@ nav .user {
     float: left;
     width: 60px;
     height: 30px;
-    text-align: right;
+    text-align: left;
 }
 
 .cardComment {

@@ -71,6 +71,20 @@ var pageWriteFunction = (function () {
                     commentFragment.appendChild(commentDiv);
 
                     appendTarget.appendChild(commentFragment);
+
+                    // change commentCount
+
+                    var likeCountPattern = /\d+/, // regExp that find all digits
+                        likeSection = curForm.parentNode.parentNode.childNodes[2].childNodes[0],
+                        likeCountText = likeSection.innerText,
+                        likeCountNum = likeCountPattern.exec(likeCountText);
+                        likeCountNum = Number(likeCountNum); // change String type result to Number type
+                        likeCountNum++; // increase comment Number
+
+                    (function(){
+                        likeSection.innerHTML = "댓글 " + likeCountNum + "개";
+                    })();
+
                 }
             };
 
