@@ -24,6 +24,14 @@ cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
 
 var cardModel = conn.model('Card', cardScheme);
 
+var userScheme = new Schema({
+
+}, {collection: 'user'});
+
+userScheme.plugin(autoIncrement.plugin, {model: 'User', field: '_id'});
+
+var userModel = conn.model('User', userScheme);
+
 ///////////////////////////////////////////////
 //////  configure App Mail Setting
 ///////////////////////////////////////////////
@@ -34,16 +42,19 @@ var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
-        user: "gmail.user@gmail.com",
-        pass: "userpass"
+        user: "ginkgoanonymous@gmail.com",
+        pass: "angtree!"
     }
 });
-
 
 
 ///////////////////////////////////////////////
 //////  App function
 ///////////////////////////////////////////////
+
+exports.welcome = function(req, res) {
+    res.render('welcome');
+}
 
 exports.loadCard = function (req, res) {
     cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
@@ -73,10 +84,6 @@ exports.checkNewCard = function (req, res) {
     });
 };
 
-exports.welcome = function(req, res) {
-    res.render('welcome');
-}
-
 exports.userRegisterPage =  function(req, res) {
     res.render('register');
 };
@@ -86,7 +93,30 @@ exports.userReviewPage = function (req, res) {
 };
 
 exports.userReviewAdd = function (req, res) {
+    var body = req.body.body;
 
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
+        to: "ginkgoanonymous@gmail.com", // list of receivers
+        subject: "고객 피드백", // Subject line
+        text: "고객 피드백", // plaintext body
+        html: body
+    };
+
+    // send mail with defined transport object
+    smtpTransport.sendMail(mailOptions, function (error, response) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Message sent: " + response.message);
+        }
+
+        // if you don't want to use this transport object anymore, uncomment following line
+        //.close(); // shut down the connection pool, no more messages
+    });
+
+    res.redirect('/card');
 };
 
 exports.write = function (req, res) {
@@ -100,6 +130,7 @@ exports.write = function (req, res) {
     card.like = 0;
     card.comments = [];
 
+    // not using ajax
     card.save(function (err) {
         if (err) {
             throw err;
