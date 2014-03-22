@@ -78,10 +78,10 @@ var pageWriteFunction = (function () {
                         likeSection = curForm.parentNode.parentNode.childNodes[2].childNodes[0],
                         likeCountText = likeSection.innerText,
                         likeCountNum = likeCountPattern.exec(likeCountText);
-                        likeCountNum = Number(likeCountNum); // change String type result to Number type
-                        likeCountNum++; // increase comment Number
+                    likeCountNum = Number(likeCountNum); // change String type result to Number type
+                    likeCountNum++; // increase comment Number
 
-                    (function(){
+                    (function () {
                         likeSection.innerHTML = "댓글 " + likeCountNum + "개";
                     })();
 
@@ -154,17 +154,40 @@ var pageFunction = (function () {
             load.hideButton();
             window.location = "/card#newCardStart";
         },
-        toMain : function () {
+        toMain: function () {
             window.location.reload();
             window.location = "/card";
         }
     };
 
+    var cardInfo = {
+        showCardCommitTime: function () {
+            var commitTimeDiv = $(".cardCommitTime"),
+                cardNum = commitTimeDiv.length,
+                curTime = Date.now(),
+                ms24Hour = 86400000;
+
+            for (var i = 0; i < cardNum; i++) {
+                var commitTime = commitTimeDiv[i].innerText,
+                    elapsedTime = (ms24Hour-(curTime-commitTime))/1000,
+                    elapsedHours = Math.floor(((elapsedTime % 31536000) % 86400) / 3600),
+                    elapsedMinutes = Math.floor((((elapsedTime % 31536000) % 86400) % 3600) / 60);
+
+                //later, add color to Time
+                commitTimeDiv[i].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
+            }
+        }
+    };
+
+    (function() {
+        cardInfo.showCardCommitTime();
+    })();
+
     return {
         checkNewCard: load.checkNewCard,
         hideButton: load.hideButton,
         newCard: load.newCard,
-        toMain : load.toMain
+        toMain: load.toMain
     }
 })();
 
@@ -172,6 +195,7 @@ var pageFunction = (function () {
     pageWriteFunction.cardEventAdd();
     pageWriteFunction.commentEventAdd();
 
+    //refresh every 30sec
     setInterval(pageFunction.checkNewCard, 30000);
 })();
 

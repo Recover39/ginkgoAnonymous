@@ -6,13 +6,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
-var conn = mongoose.createConnection('mongodb://localhost/skkuApp');
+var conn = mongoose.createConnection('mongodb://localhost/ginkgoAnonymous');
 
 autoIncrement.initialize(conn);
 
 var cardScheme = new Schema({
     _id: { type: Number, index: true},
-    date: Date,
+    date: Number,
     body: String,
     like: Number,
     comments: [
@@ -24,13 +24,13 @@ cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
 
 var cardModel = conn.model('Card', cardScheme);
 
-var userScheme = new Schema({
-
-}, {collection: 'user'});
-
-userScheme.plugin(autoIncrement.plugin, {model: 'User', field: '_id'});
-
-var userModel = conn.model('User', userScheme);
+//var userScheme = new Schema({
+//
+//}, {collection: 'user'});
+//
+//userScheme.plugin(autoIncrement.plugin, {model: 'User', field: '_id'});
+//
+//var userModel = conn.model('User', userScheme);
 
 ///////////////////////////////////////////////
 //////  configure App Mail Setting
@@ -54,7 +54,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 
 exports.welcome = function(req, res) {
     res.render('welcome');
-}
+};
 
 exports.loadCard = function (req, res) {
     cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
@@ -113,7 +113,7 @@ exports.userReviewAdd = function (req, res) {
         }
 
         // if you don't want to use this transport object anymore, uncomment following line
-        //.close(); // shut down the connection pool, no more messages
+        //smtpTransport.close(); // shut down the connection pool, no more messages
     });
 
     res.redirect('/card');
