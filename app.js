@@ -44,9 +44,12 @@ app.get('/', function (req, res) {
 app.get('/card', routes.loadCard);
 app.get('/card/checkNewCard', routes.checkNewCard);
 
-//customer
-app.get('/customer/review', routes.customerReviewPage);
-app.post('/customer/review/add', routes.customerReviewAdd);
+app.get('/welcome', routes.welcome);
+
+//user
+app.get('/user/register', routes.userRegisterPage);
+app.get('/user/review', routes.userReviewPage);
+app.post('/user/review/add', routes.userReviewAdd);
 
 //writeCard
 app.post('/card/add', routes.write);
@@ -58,6 +61,6 @@ app.post('/card/:card_id/comment/add', routes.addComment);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('\n///////////////////////////////////////////////\n' +
-        '//// Express server listening on port ' + app.get('port') +' ////'+
+        '//// Express server listening on port ' + app.get('port') + ' ////' +
         '\n///////////////////////////////////////////////\n');
 });

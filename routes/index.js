@@ -1,4 +1,6 @@
-// configure App Setting
+///////////////////////////////////////////////
+//////  configure App Database Setting
+///////////////////////////////////////////////
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -22,7 +24,26 @@ cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
 
 var cardModel = conn.model('Card', cardScheme);
 
-//
+///////////////////////////////////////////////
+//////  configure App Mail Setting
+///////////////////////////////////////////////
+
+var nodemailer = require("nodemailer");
+
+// create reusable transport method (opens pool of SMTP connections)
+var smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "gmail.user@gmail.com",
+        pass: "userpass"
+    }
+});
+
+
+
+///////////////////////////////////////////////
+//////  App function
+///////////////////////////////////////////////
 
 exports.loadCard = function (req, res) {
     cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
@@ -52,11 +73,19 @@ exports.checkNewCard = function (req, res) {
     });
 };
 
-exports.customerReviewPage = function (req, res) {
-    res.render('customerReview');
+exports.welcome = function(req, res) {
+    res.render('welcome');
+}
+
+exports.userRegisterPage =  function(req, res) {
+    res.render('register');
 };
 
-exports.customerReviewAdd = function (req, res) {
+exports.userReviewPage = function (req, res) {
+    res.render('userReview');
+};
+
+exports.userReviewAdd = function (req, res) {
 
 };
 

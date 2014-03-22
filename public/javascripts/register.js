@@ -1,39 +1,51 @@
-var formMethod = (function() {
-    var psField = document.getElementsByClassName('form-control')[1],
+var formMethod = (function () {
+    var idField = document.getElementsByClassName('form-control')[0],
+        psField = document.getElementsByClassName('form-control')[1],
         psReField = document.getElementsByClassName('form-control')[2],
         button = document.getElementsByClassName('signUp')[0];
-        
-    var validPassword = function() {
-        if(psReField.value !== psField.value) {
+
+    var validPassword = function () {
+        if (psReField.value !== psField.value) {
             button.style.backgroundColor = "#f67373";
             button.style.borderColor = "#f67373";
             psReField.type = "text";
             psReField.value = "비밀번호를 다시 입력해주세요";
-            psReField.color = "#999C9F";         
+            psReField.color = "#999C9F";
         }
         else {
             button.style.backgroundColor = "#428BCA";
-            button.style.borderColor = "#428BCA";            
+            button.style.borderColor = "#428BCA";
         }
     };
-    
-    var restorePsField = function() {
+
+    var restorePsField = function () {
         psReField.type = "password";
-        psReField.value = "";  
+        psReField.value = "";
     };
-    
+
     var validId = function() {
-        
+        var userId = idField.value;
     };
-    
-    (function() {
-       psReField.addEventListener("click",restorePsField,true); 
-    })();
-    
+
     return {
-        validPassword : validPassword,
-        hello : "hello" 
+        validPassword: validPassword,
+        validId: validId
     };
 }());
 
+var pageWriteFunction = (function () {
+    var util = {
+        toMain: function () {
+            window.location.reload();
+            window.location = "/card";
+        }
+    };
+
+    return {
+        toMain: util.toMain
+    }
+})();
+
+var toMain = pageWriteFunction.toMain;
+var validId = formMethod.validId;
 var validPassword = formMethod.validPassword;

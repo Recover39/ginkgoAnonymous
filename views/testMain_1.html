@@ -1,0 +1,394 @@
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>은행잎필무렵</title><!--Bootstrap core CSS-->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!--Add custom CSS here-->
+    <link href="/stylesheets/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="">
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+    <div id="title" class="col-md-6 col-md-offset-3">은행잎필무렵
+        <button class="btn btn-lg btn-block customer"> 고객센터</button>
+    </div>
+</nav>
+<div id="newCardButton" onclick="location.href = '/card#newCardStart';">↑ 새로운 소식</div>
+<div class="writePostCard">
+    <div class="container">
+        <div class="row">
+            <div id="introduction" class="col-md-6 col-md-offset-3">모든 글은 익명으로 작성되며, 24시간 후 지워집니다.</div>
+            <div id="writePost" class="col-md-6 col-md-offset-3">
+                <form method="post" role="form" action="/card/add" class="writeCommit"><textarea id="postTextArea"
+                                                                                                 rows="3" cols="60"
+                                                                                                 type="text" name="body"
+                                                                                                 class="simple"></textarea>
+                    <button id="writeButton" type="submit" class="btn btn-lg btn-primary btn-block"> 글쓰기</button>
+                    <div id="newCardStart"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cardList">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.14</div>
+                    <div class="cardCommitTime">Thu Mar 20 2014 09:46:53 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">주식떨어져서 밥 못먹음</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 19개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList">
+                        <div class="comment">댓글댓글 내 주식이얌</div>
+                        <div class="comment">짱이지</div>
+                        <div class="comment">동적으로 되는게 안된다 아직
+                        </div>
+                        <div class="comment">안녕</div>
+                        <div class="comment">hello</div>
+                        <div class="comment"></div>
+                        <div class="comment"></div>
+                        <div class="comment"></div>
+                        <div class="comment">hello</div>
+                        <div class="comment">sjsj</div>
+                        <div class="comment">gpdl</div>
+                        <div class="comment"></div>
+                        <div class="comment">asdfasdf</div>
+                        <div class="comment">hello</div>
+                        <div class="comment">halsdfasf</div>
+                        <div class="comment">hello</div>
+                        <div class="comment">helllldodlf</div>
+                        <div class="comment">제발</div>
+                        <div class="comment">오예</div>
+                    </div>
+                    <form action="/card/14/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="14"/><textarea rows="1" cols="20" type="text"
+                                                                              name="commentBody"
+                                                                              class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.13</div>
+                    <div class="cardCommitTime">Thu Mar 20 2014 09:46:47 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">성균관대 어플리케이션 ㅋㅋㅋㅋㅋㅋ</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 2개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList">
+                        <div class="comment">이제 덧글은 되는 듯 엔터 치면 입력하게 하는 기능을 만들어야징</div>
+                        <div class="comment">징징이쥐포</div>
+                    </div>
+                    <form action="/card/13/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="13"/><textarea rows="1" cols="20" type="text"
+                                                                              name="commentBody"
+                                                                              class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.12</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 13:24:41 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">안녕하세요</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 1개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList">
+                        <div class="comment">넵 반갑습니당ㅎㅎ</div>
+                    </div>
+                    <form action="/card/12/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="12"/><textarea rows="1" cols="20" type="text"
+                                                                              name="commentBody"
+                                                                              class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.11</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 13:24:09 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">jade</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/11/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="11"/><textarea rows="1" cols="20" type="text"
+                                                                              name="commentBody"
+                                                                              class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.10</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 12:54:50 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">안녕하세요</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/10/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="10"/><textarea rows="1" cols="20" type="text"
+                                                                              name="commentBody"
+                                                                              class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.9</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 11:32:00 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">데이트 파스</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/9/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="9"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.8</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 11:29:55 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">아 성균관대해해햏ㅎㅎㅎ</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 3개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList">
+                        <div class="comment">성균관댛ㅎㅎ잏명게시팧ㅎㅎㅎ</div>
+                        <div class="comment">게시게시팦ㅎㅎㅎ</div>
+                        <div class="comment">
+                            미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ미ㅏ;ㄴ어롸ㅣㅁㄴ어뤼ㅏㅌ처푸ㅏㅣㅋ터ㅜ
+                        </div>
+                    </div>
+                    <form action="/card/8/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="8"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.7</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 11:05:10 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">너 이름이 뭔데</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 4개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList">
+                        <div class="comment">난 김영</div>
+                        <div class="comment">넌 이름이 뭐야?</div>
+                        <div class="comment">난 영김이라고햏ㅎㅎㅎ</div>
+                        <div class="comment">후후후... 난 김영이라고 하之지</div>
+                    </div>
+                    <form action="/card/7/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="7"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.6</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 11:04:59 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">너 이름은 뭐야?</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/6/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="6"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.5</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 10:35:18 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">반가워</div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 1개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList">
+                        <div class="comment">응 나도 반가웡 ㅎㅎ</div>
+                    </div>
+                    <form action="/card/5/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="5"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.4</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 10:30:15 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">너 이름은 뭐니
+                </div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/4/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="4"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.3</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 10:18:22 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">너 이름은 뭐니
+                </div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/3/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="3"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.2</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 10:18:03 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">너 이름은 뭐니
+                </div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/2/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="2"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.1</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 10:06:54 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">안녕
+                </div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/1/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="1"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 card">
+                <div class="cardInfomation">
+                    <div class="cardNum">No.0</div>
+                    <div class="cardCommitTime">Wed Mar 19 2014 10:05:51 GMT+0900 (KST)</div>
+                </div>
+                <div class="cardBody">안녕
+                </div>
+                <div class="cardStatus">
+                    <div class="likeCount">은행 115개</div>
+                    <div class="commitCount">댓글 0개</div>
+                </div>
+                <div class="cardComment">
+                    <div class="commentList"></div>
+                    <form action="/card/0/comment/add" method="post" role="form" class="commentCommit"><input
+                            type="hidden" name="cardId" value="0"/><textarea rows="1" cols="20" type="text"
+                                                                             name="commentBody"
+                                                                             class="commentBody"></textarea>
+                        <button type="submit" class="btn btn-lg btn-block commentButton"> 댓글</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="col-md-6 col-md-offset-3">2014, Angtree</div>
+</footer>
+<!--JavaScript-->
+<script src="/javascripts/jquery-1.10.2.js"></script>
+<script src="/javascripts/bootstrap.js"></script>
+<script src="/javascripts/main.js"></script>
+</body>
+</html>

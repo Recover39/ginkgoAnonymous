@@ -121,8 +121,6 @@ var pageFunction = (function () {
             });
         },
         showButton: function (number) {
-            console.log(load.cardNum);
-            console.log(number);
             if (load.isFirst == true) {
                 load.isFirst = false;
                 load.cardNum = number;
