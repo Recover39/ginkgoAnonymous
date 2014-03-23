@@ -39,7 +39,7 @@ var cardModel = conn.model('Card', cardScheme);
 var nodemailer = require("nodemailer");
 
 // create reusable transport method (opens pool of SMTP connections)
-var smtpTransport = nodemailer.createTransport("SMTP",{
+var smtpTransport = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
         user: "ginkgoanonymous@gmail.com",
@@ -52,7 +52,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 //////  App function
 ///////////////////////////////////////////////
 
-exports.welcome = function(req, res) {
+exports.welcome = function (req, res) {
     res.render('welcome');
 };
 
@@ -84,7 +84,7 @@ exports.checkNewCard = function (req, res) {
     });
 };
 
-exports.userRegisterPage =  function(req, res) {
+exports.userRegisterPage = function (req, res) {
     res.render('register');
 };
 
@@ -116,7 +116,7 @@ exports.userReviewAdd = function (req, res) {
 //        //smtpTransport.close(); // shut down the connection pool, no more messages
 //    });
 
-    res.render('message', {message : "감사합니다"});
+    res.render('message', {message: "감사합니다"});
 };
 
 exports.write = function (req, res) {
@@ -130,39 +130,52 @@ exports.write = function (req, res) {
     card.like = 0;
     card.comments = [];
 
-    // not using ajax
-    card.save(function (err) {
-        if (err) {
-            throw err;
-        }
-        else {
+    // prevent null value on body
+    if (body === undefined || body === "") {
+        res.render('main');
+    }
+    else {
+        // not using ajax
+        card.save(function (err) {
+            if (err) {
+                throw err;
+            }
+            else {
 //            res.contentType('json');
 //            res.send(card);
-        }
-    });
+            }
+        });
 
-    res.redirect('/card');
+        res.redirect('/card');
+    }
 };
 
 exports.addComment = function (req, res) {
     var card_id = req.params.card_id,
         commentBody = req.body.commentBody;
 
-    cardModel.findOne({_id: card_id}, function (err, data) {
-        if (err) {
-            throw err;
-        }
-        else {
-            data.comments.push({ body: commentBody});
-            data.save(function (err) {
-                if (err) {
-                    throw err;
-                }
-                else {
-                    res.contentType('json');
-                    res.send({commentBody: commentBody});
-                }
-            });
-        }
-    });
+    // prevent null value on commentBody
+    if (commentBody === undefined || commentBody === "") {
+        res.render('main');
+    }
+    else {
+
+        cardModel.findOne({_id: card_id}, function (err, data) {
+            if (err) {
+                throw err;
+            }
+            else {
+                data.comments.push({ body: commentBody});
+                data.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                    else {
+                        res.contentType('json');
+                        res.send({commentBody: commentBody});
+                    }
+                });
+            }
+        });
+    }
 };
