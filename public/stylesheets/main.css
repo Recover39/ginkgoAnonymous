@@ -32,10 +32,6 @@ nav.navbar {
     cursor: pointer;
 }
 
-.navDiv {
-    z-index: 2;
-}
-
 nav .user {
     clear: both;
     margin-top: 8px;
@@ -46,7 +42,7 @@ nav .user {
     line-height: 3px;
     vertical-align: middle;
     float: right;
-    z-index: 3;
+    z-index: 2;
     background-color: #c7c7c7;
 }
 
@@ -83,7 +79,7 @@ nav .user {
     box-shadow: 1px 1px 1px rgba(230, 121, 104, 0.45);
     background-color: #E57766;
     color: #eeeeee;
-    font-size: 15px;
+    font-size: 13px;
     text-align: center;
 }
 
