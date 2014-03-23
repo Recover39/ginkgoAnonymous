@@ -132,7 +132,7 @@ exports.write = function (req, res) {
 
     // prevent null value on body
     if (body === undefined || body === "") {
-        res.render('main');
+        res.render('message', {message: "글 입력란은 빈칸으로 둘 수 없습니다."});
     }
     else {
         // not using ajax
@@ -156,10 +156,9 @@ exports.addComment = function (req, res) {
 
     // prevent null value on commentBody
     if (commentBody === undefined || commentBody === "") {
-        res.render('main');
+        res.render('message', {message: "댓글란은 빈칸으로 둘 수 없습니다."});
     }
     else {
-
         cardModel.findOne({_id: card_id}, function (err, data) {
             if (err) {
                 throw err;
