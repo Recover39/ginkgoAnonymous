@@ -66,6 +66,8 @@ nav .user {
 }
 
 .writePostCard {
+    display: table;
+    width: 100%;
     height: auto;
     text-align: center;
     color: #525252;
@@ -126,12 +128,14 @@ nav .user {
 }
 
 .cardList {
+    display: table;
+    width: 100%;
     height: auto;
     text-align: center;
     color: #525252;
 }
 
-.card {
+.col-md-6.col-md-offset-3.card {
     margin-top: 25px;
     background-color: #fafafa;
     border-radius: 3px;
@@ -166,7 +170,7 @@ nav .user {
     margin-right: 22px;
 }
 
-.card .cardBody {
+.col-md-6.col-md-offset-3.card .cardBody {
     clear: both;
     margin-top: 16px;
     margin-bottom: 19px;

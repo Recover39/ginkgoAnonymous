@@ -36,6 +36,7 @@ if ('development' == app.get('env')) {
 app.get('/test', function (req, res) {
     res.render('testmain');
 });
+app.get('/cardTest', routes.loadCardTest);
 
 //basic function
 app.get('/', function (req, res) {

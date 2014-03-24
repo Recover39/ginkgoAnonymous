@@ -16,15 +16,15 @@ html(lang='en')
                 #title(onclick = 'toMain()')
                     | 은행잎필무렵
                 button.btn.btn-lg.btn-block.user(onclick='location.href=\'/user/review\';')  고객센터
-        .writeReview
-            .container
-                .row
-                    #userReview.col-md-6.col-md-offset-3
+        .container
+            .row
+                .review.col-md-6.col-md-offset-3
+                    #userReview
                         h2
                             | 개선사항 및 의견
                         form.writeReview(method ='post', role='form', action = '/user/review/add')
                             textarea#reviewTextArea.simple(rows='3', cols='60', type='text', name='body')
-                            
+
                             .form-actions
                                 button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit')  의견 보내기
         //JavaScript

@@ -72,6 +72,22 @@ exports.loadCard = function (req, res) {
     });
 };
 
+exports.loadCardTest = function (req, res) {
+    cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
+        if (err) {
+            throw err;
+        }
+        else {
+            var dataLen = data.length;
+            //console.log(dataLen);
+            for (var i = 0; dataLen < i; i++) {
+
+            }
+            res.render('test', { cards: data });
+        }
+    });
+};
+
 exports.checkNewCard = function (req, res) {
     cardModel.find({}, function (err, data) {
         if (err) {

@@ -18,21 +18,21 @@ html(lang='en')
                 button.btn.btn-lg.btn-block.user(onclick='location.href=\'/user/review\';')  고객센터
         #newCardButton(onclick ='newCard()')
             | ↑ 새로운 소식
-        .container
-            .row
-                .col-md-6.col-md-offset-3.writePostCard
-                    #introduction
+        .writePostCard
+            .container
+                .row
+                    #introduction.col-md-6.col-md-offset-3
                         | 모든 글은 익명으로 작성되며, 24시간 후 지워집니다.
-                    #writePost
+                    #writePost.col-md-6.col-md-offset-3
                         form.writeCommit(method ='post', role='form', action = '/card/add')
                             textarea#postTextArea.simple(rows='3', cols='60', type='text', name='body')
                             button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit')  글쓰기
                             #newCardStart
-        .container
-            .row
-                .col-md-6.col-md-offset-3.cardList
+        .cardList
+            .container
+                .row
                     each card in cards
-                        .card
+                        .col-md-6.col-md-offset-3.card
                             .cardInfomation
                                 .cardNum
                                     | No.#{card._id}
