@@ -159,10 +159,10 @@ exports.write = function (req, res) {
             else {
 //            res.contentType('json');
 //            res.send(card);
+                res.redirect('/card');
+//            res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
             }
         });
-
-        res.redirect('/card');
     }
 };
 
@@ -193,4 +193,13 @@ exports.addComment = function (req, res) {
             }
         });
     }
+};
+
+exports.deleteCard = function (req, res) {
+    var card_id = req.params.card_id;
+    cardModel.remove({_id: card_id}, function (err) {
+        if (err) {
+            throw err;
+        }
+    });
 };

@@ -58,6 +58,7 @@ app.post('/card/add', routes.write);
 //modifyCard
 //app.post('/card/:card_id/like', routes.like);
 app.post('/card/:card_id/comment/add', routes.addComment);
+app.post('/card/:card_id/delete', routes.deleteCard);
 
 
 http.createServer(app).listen(app.get('port'), function () {

@@ -162,24 +162,39 @@ var pageFunction = (function () {
 
     var cardInfo = {
         showCardCommitTime: function () {
-            var commitTimeDiv = $(".cardCommitTime"),
-                cardNum = commitTimeDiv.length,
+            var cardInfoDiv = $(".cardInfomation"),
+                cardNum = cardInfoDiv.length,
                 curTime = Date.now(),
                 ms24Hour = 86400000;
 
             for (var i = 0; i < cardNum; i++) {
-                var commitTime = commitTimeDiv[i].innerText,
-                    elapsedTime = (ms24Hour-(curTime-commitTime))/1000,
+                var commitTime = cardInfoDiv[i].childNodes[1].innerText,
+                    elapsedTime = (ms24Hour - (curTime - commitTime)) / 1000,
                     elapsedHours = Math.floor(((elapsedTime % 31536000) % 86400) / 3600),
                     elapsedMinutes = Math.floor((((elapsedTime % 31536000) % 86400) % 3600) / 60);
 
                 //later, add color to Time
-                commitTimeDiv[i].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
+                cardInfoDiv[i].childNodes[1].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
+                // if card's aging is over, auto delete item (execute at client)
+                if (elapsedHours <= 0 && elapsedMinutes <= 0) {
+                    var cardNo = cardInfoDiv[i].childNodes[0].innerText,
+                        cardNoCountPattern = /\d+/,
+                        card_id = cardNoCountPattern.exec(cardNo);
+
+                    cardInfo.deleteCard(card_id);
+                }
             }
+        },
+
+        deleteCard: function (card_id) {
+            $.ajax({
+                type: "POST",
+                url: "/card/" + card_id + "/delete"
+            });
         }
     };
 
-    (function() {
+    (function () {
         cardInfo.showCardCommitTime();
     })();
 
@@ -196,7 +211,7 @@ var pageFunction = (function () {
     pageWriteFunction.commentEventAdd();
 
     //refresh every 30sec
-    setInterval(pageFunction.checkNewCard, 10000);
+    setInterval(pageFunction.checkNewCard, 30000);
 })();
 
 var newCard = pageFunction.newCard;

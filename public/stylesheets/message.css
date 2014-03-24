@@ -47,13 +47,13 @@ nav .user {
 }
 
 .message {
-    height: 70px;
+    height: 40px;
     text-align: center;
     background-color: #fafafa;
     border-radius: 10px;
     border: 1px solid #d48482;
     color : #525252;
-    line-height: 66px;
+    line-height: 36px;
     vertical-align: middle;
-    font-size: 30px;
+    font-size: 14px;
 }
