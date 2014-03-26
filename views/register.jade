@@ -23,17 +23,15 @@ html(lang ='en')
                     | 은행잎필무렵
                 button.btn.btn-lg.btn-block.user(onclick='location.href=\'/user/review\';')  고객센터
         .container
-            form.form-signin(role='form')
+            form.form-signin(method ='post', role='form', action = '/user/register/add')
                 h2.form-signin-heading 회원가입
-                input.form-control(type='id', placeholder='아이디', required='', autofocus='', onchange='validId()')
-                input.form-control(type='password', placeholder='비밀번호', required='')
-                input.form-control(type='password', placeholder='비밀번호 재확인', required='', onchange='validPassword()')
-                input.form-control.mail(type='id', placeholder='이메일', required='')
+                input.form-control(type='id', placeholder='아이디', required='', autofocus='', onchange='validId()', name='userId')
+                input.form-control(type='password', placeholder='비밀번호', required='', name='userPs', onclick='resetPassword()')
+                input.form-control(type='password', placeholder='비밀번호 재확인', required='', onchange='validPassword()', onclick='resetPassword()')
+                input.form-control.mail(type='id', placeholder='이메일', required='', name='userMail')
                 .skkuEmail
                     | @ skku.edu
                 button.btn.btn-lg.btn-primary.btn-block.signUp(type='submit') 회원가입
-        //
-           /container
         //
            Bootstrap core JavaScript
               ==================================================

@@ -11,21 +11,23 @@ var app = express();
 
 // all environments
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.set('view option', { layout: false });
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-//app.use(express.cookieDecoder());
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({ secret: "keyboard cat" }));
-app.use(express.methodOverride());
-app.use(app.router);
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.set('port', process.env.PORT || 3000);
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'jade');
+    app.set('view option', { layout: false });
+    app.use(express.favicon());
+    app.use(express.logger('dev'));
+    app.use(express.json());
+    app.use(express.urlencoded());
+    //app.use(express.cookieDecoder());
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "keyboard cat" }));
+    app.use(express.methodOverride());
+    app.use(app.router);
+});
 
 // development only
 if ('development' == app.get('env')) {
@@ -49,6 +51,10 @@ app.get('/welcome', routes.welcome);
 
 //user
 app.get('/user/register', routes.userRegisterPage);
+app.post('/user/register/add', routes.userRegisterAdd);
+//app.get('/user/register/checkId', routes.userRegisterCheckId);
+//app.get('/user/register/checkMail', routes.userRegisterCheckMail);
+//app.get('/user/register/complete/:AuthKey', routes.userRegisterComplete);
 app.get('/user/review', routes.userReviewPage);
 app.post('/user/review/add', routes.userReviewAdd);
 

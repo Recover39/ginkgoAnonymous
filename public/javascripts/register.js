@@ -18,7 +18,7 @@ var formMethod = (function () {
         }
     };
 
-    var restorePsField = function () {
+    var resetPsField = function () {
         psReField.type = "password";
         psReField.value = "";
     };
@@ -29,7 +29,8 @@ var formMethod = (function () {
 
     return {
         validPassword: validPassword,
-        validId: validId
+        validId: validId,
+        resetPassword: resetPsField
     };
 }());
 
@@ -49,3 +50,4 @@ var pageWriteFunction = (function () {
 var toMain = pageWriteFunction.toMain;
 var validId = formMethod.validId;
 var validPassword = formMethod.validPassword;
+var resetPassword = formMethod.resetPassword;
