@@ -2,17 +2,47 @@
 //////  configure App Database Setting
 ///////////////////////////////////////////////
 
+// mysql connection configure
+// for userData
+
+var mysql = require('mysql');
+var crypto = require('crypto');
+
+var extractConnection = (function () {
+    var mysqlConfig = {
+            host: 'localhost',
+            port: 3306,
+            user: 'ginkgoanonymous',
+            password: 'Angtree!',
+            database: 'ginkgoanonymous'
+        },
+
+        returnInfo = function () {
+            return mysqlConfig;
+        };
+
+    return {
+        returnInfo: returnInfo
+    };
+}());
+
+var mysqlConn = mysql.createConnection(extractConnection.returnInfo());
+
+// mongodb connection configure
+// for Document Data
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
-var conn = mongoose.createConnection('mongodb://localhost/ginkgoAnonymous');
+var mongoConn = mongoose.createConnection('mongodb://localhost/ginkgoAnonymous');
 
-autoIncrement.initialize(conn);
+autoIncrement.initialize(mongoConn);
 
 var cardScheme = new Schema({
     _id: { type: Number, index: true},
     date: Number,
+    expirationDate: Number,
     body: String,
     like: Number,
     comments: [
@@ -22,7 +52,7 @@ var cardScheme = new Schema({
 
 cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
 
-var cardModel = conn.model('Card', cardScheme);
+var cardModel = mongoConn.model('Card', cardScheme);
 
 //var userScheme = new Schema({
 //
@@ -104,6 +134,83 @@ exports.userRegisterPage = function (req, res) {
     res.render('register');
 };
 
+exports.userRegisterAdd = function (req, res) {
+    var id = req.body.userId,
+        password = req.body.userPs,
+        mail = req.body.userMail,
+    //  to convert Date to JSON Data
+        now = new Date(),
+        jsonDate = now.toJSON(),
+        time = new Date(jsonDate);
+
+    //  make hashed Password for security
+    var salt = Math.round((new Date().valueOf() * Math.random())) + '',
+        hashpassword = crypto.createHash('sha512').update(salt + password).digest('hex'),
+        hashAuthKey = crypto.createHash('sha512').update(salt + id).digest('hex');
+
+    var userData = {
+        id: id,
+        password: hashpassword,
+        passwordSalt: salt,
+        universityMail: mail + "@skku.edu",
+        registerDate: time,
+        grade: '0'
+    };
+
+    var userAuth = {
+        user_id: id,
+        key: hashAuthKey
+    };
+
+    //  Email에 혹시 @을 넣었는지 확인해볼 것.
+    var emailRegExp = /.+\@.+\..+/;
+
+    if (emailRegExp.test(mail) === true) {
+        res.render('message', {message: '@skku.edu를 제외한 이메일 앞자리만 입력해주세요'})
+    }
+    else {
+        mysqlConn.query(
+            'INSERT INTO user SET ?', userData, function (err, info) {
+                if (err) {
+                    throw err;
+                    //res.render('message', {message: '이미 사용중인 아이디 혹은 대학 메일입니다. 다시 입력해주세요'});
+                }
+                else {
+                    mysqlConn.query(
+                        'INSERT INTO userAuthKey SET ?', userAuth, function (err, info) {
+                            if (err) {
+                                res.render('message', {message: '내부오류입니다. 죄송합니다. 다시 시도해주세요.'});
+                            }
+                            else {
+                                // 회원가입이 무사히 이루어졌을 때,
+                                var mailOptions = {
+                                    from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
+                                    to: userData.universityMail, // list of receivers
+                                    subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
+                                    html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
+                                        + "<br/><br/>http://localhost:3000/user/register/complete/" + userAuth.key
+                                        + "<br/><br/><b>감사합니다.</b>"
+                                };
+
+                                smtpTransport.sendMail(mailOptions, function (error, response) {
+                                    if (error) {
+                                        res.render('message', {message: '내부오류입니다. 죄송합니다. 다시 시도해주세요.'});
+                                    } else {
+                                        console.log("Message sent: " + response.message);
+                                    }
+                                    // if you don't want to use this transport object anymore, uncomment following line
+                                    //smtpTransport.close(); // shut down the connection pool, no more messages
+                                });
+                                res.render('message', {message: '입력하신 이메일 계정으로 보내진 메일을 통해 대학 인증을 해주세요'});
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
+};
+
 exports.userReviewPage = function (req, res) {
     res.render('userReview');
 };
@@ -121,16 +228,16 @@ exports.userReviewAdd = function (req, res) {
     };
 
     // send mail with defined transport object
-//    smtpTransport.sendMail(mailOptions, function (error, response) {
-//        if (error) {
-//            console.log(error);
-//        } else {
-//            console.log("Message sent: " + response.message);
-//        }
-//
-//        // if you don't want to use this transport object anymore, uncomment following line
-//        //smtpTransport.close(); // shut down the connection pool, no more messages
-//    });
+    smtpTransport.sendMail(mailOptions, function (error, response) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Message sent: " + response.message);
+        }
+
+        // if you don't want to use this transport object anymore, uncomment following line
+        //smtpTransport.close(); // shut down the connection pool, no more messages
+    });
 
     res.render('message', {message: "감사합니다"});
 };
@@ -143,6 +250,7 @@ exports.write = function (req, res) {
 
     card.body = body;
     card.date = date;
+    card.expirationDate = card.date + 86400000;
     card.like = 0;
     card.comments = [];
 
