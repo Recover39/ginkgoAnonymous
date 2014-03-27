@@ -41,20 +41,26 @@ app.get('/test', function (req, res) {
 app.get('/cardTest', routes.loadCardTest);
 
 //basic function
-app.get('/', function (req, res) {
-    res.redirect('/card');
-});
-app.get('/card', routes.loadCard);
+app.get('/', routes.checkLoginStatus);
+
+app.get('/card/:id', routes.loadCard);
 app.get('/card/checkNewCard', routes.checkNewCard);
 
 app.get('/welcome', routes.welcome);
 
-//user
+//user register
 app.get('/user/register', routes.userRegisterPage);
 app.post('/user/register/add', routes.userRegisterAdd);
 //app.get('/user/register/checkId', routes.userRegisterCheckId);
 //app.get('/user/register/checkMail', routes.userRegisterCheckMail);
-//app.get('/user/register/complete/:AuthKey', routes.userRegisterComplete);
+//app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
+
+//user login
+app.get('/user/login', function(req, res) {
+   res.render('signin');
+});
+app.post('/user/login/complete', routes.userLoginComplete);
+
 app.get('/user/review', routes.userReviewPage);
 app.post('/user/review/add', routes.userReviewAdd);
 

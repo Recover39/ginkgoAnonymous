@@ -54,14 +54,6 @@ cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
 
 var cardModel = mongoConn.model('Card', cardScheme);
 
-//var userScheme = new Schema({
-//
-//}, {collection: 'user'});
-//
-//userScheme.plugin(autoIncrement.plugin, {model: 'User', field: '_id'});
-//
-//var userModel = conn.model('User', userScheme);
-
 ///////////////////////////////////////////////
 //////  configure App Mail Setting
 ///////////////////////////////////////////////
@@ -81,6 +73,27 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 ///////////////////////////////////////////////
 //////  App function
 ///////////////////////////////////////////////
+
+exports.checkLoginStatus = function (req, res) {
+//    //isAdmin?
+//    //redirect to adminpage
+//    if (req.session.isAdmin) {
+//        res.redirect('/admin');
+//    }
+
+    //loginStatus on
+    if (req.session.loginStatus) {
+        res.redirect('/card/' + req.session.userId);
+    }
+
+    //loginStatus off
+    else {
+        /* res.render('error', {errorMsg : "오랜만이네"}); */
+        req.session.isAdmin = false;
+        req.session.loginStatus = false;
+        res.redirect('/user/login');
+    }
+};
 
 exports.welcome = function (req, res) {
     res.render('welcome');
@@ -185,7 +198,7 @@ exports.userRegisterAdd = function (req, res) {
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
                                     from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
-                                    to: userData.universityMail, // list of receivers
+                                    to: "ky200223@gmail.com", // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
                                         + "<br/><br/>http://localhost:3000/user/register/complete/" + userAuth.key
@@ -209,6 +222,84 @@ exports.userRegisterAdd = function (req, res) {
             }
         );
     }
+};
+
+exports.userRegisterComplete = function (req, res) {
+    var authKey = req.params.authKey;
+
+    mysqlConn.query(
+        'SELECT id FROM userAuthKey WHERE key = ?', [authKey], function (err, result) {
+            if (err) {
+                res.render('message', {message: "잘못된 접근입니다"});
+            }
+            else {
+                var userId = result[0].user_id;
+                mysqlConn.query(
+                    'UPDATE user SET grade = \'1\' WHERE id =?', [userId], function (err) {
+                        if (err) {
+                            res.render('message', {message: "다시 시도해 주세요"});
+                        }
+                        else {
+                            res.render('message', {message: "인증 되었습니다. 감사합니다."});
+                        }
+                    }
+                );
+            }
+        }
+    );
+};
+
+exports.userLoginComplete = function (req, res) {
+    var userId = req.body.userId,
+        password = req.body.password;
+
+    function setUserSession() {
+        req.session.isAdmin = false;
+        req.session.loginStatus = true;
+        req.session.userId = userId;
+    }
+
+    function setAdminSession() {
+        req.session.isAdmin = true;
+        req.session.loginStatus = true;
+        req.session.userId = userId;
+    }
+
+    mysqlConn.query(
+        'SELECT id, password, passwordSalt, grade FROM user WHERE id = ?', [userId], function (err, result) {
+            if (err) {
+                res.render('message', {message: "다시 시도해 주세요"});
+            }
+            if (result.length === 0) {
+                res.render('message', {message: "없는 아이디 입니다."});
+            }
+            else {
+                var newhash = crypto.createHash('sha512').update(result[0].passwordSalt + password).digest('hex');
+
+                if (result[0].password === newhash) {
+                    if (result[0].grade === '0') {
+                        //인증 안한 사용자
+                        res.render('message', {message: "대학 메일 인증을 해주세요"});
+                    }
+                    else {
+                        if (result[0].grade === '1') {
+                            // 인증한 사용자
+                            setUserSession();
+                            res.redirect('/card/' + userId);
+                        }
+                        else {
+                            // 관리자
+                            setAdminSession();
+                            res.redirect('/card/' + userId);
+                        }
+                    }
+                }
+                else {
+                    res.render('message', {message: "비밀 번호 오류입니다."});
+                }
+            }
+        }
+    );
 };
 
 exports.userReviewPage = function (req, res) {

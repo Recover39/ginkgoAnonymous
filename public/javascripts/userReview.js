@@ -17,7 +17,7 @@ var pageWriteFunction = (function () {
 
         toMain : function () {
             window.location.reload();
-            window.location = "/card";
+            window.location = "/";
         }
     };
 
