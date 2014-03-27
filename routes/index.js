@@ -311,6 +311,12 @@ exports.userLoginComplete = function (req, res) {
     );
 };
 
+exports.userLogoutComplete = function(req, res) {
+    req.session.loginStatus = false;
+    req.session.isAdmin = false;
+    res.redirect('/');
+};
+
 exports.userReviewPage = function (req, res) {
     res.render('userReview');
 };

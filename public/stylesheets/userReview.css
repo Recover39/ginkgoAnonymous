@@ -33,7 +33,6 @@ nav.navbar {
 }
 
 nav .user {
-    clear: both;
     margin-top: 8px;
     width: 50px;
     height: 24px;
@@ -42,6 +41,20 @@ nav .user {
     line-height: 3px;
     vertical-align: middle;
     float: right;
+    z-index: 2;
+    background-color: #c7c7c7;
+}
+
+nav .logout {
+    clear: both;
+    margin-top: 8px;
+    width: 50px;
+    height: 24px;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 3px;
+    vertical-align: middle;
+    float: left;
     z-index: 2;
     background-color: #c7c7c7;
 }

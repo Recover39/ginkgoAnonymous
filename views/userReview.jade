@@ -13,6 +13,7 @@ html(lang='en')
     body(style='')
         nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
             .col-md-6.col-md-offset-3.navDiv
+                button.btn.btn-lg.btn-block.logout(onclick='location.href=\'/user/logout\';')  로그아웃
                 #title(onclick = 'toMain()')
                     | 은행잎필무렵
                 button.btn.btn-lg.btn-block.user(onclick='location.href=\'/user/review\';')  고객센터

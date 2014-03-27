@@ -60,6 +60,7 @@ app.get('/user/login', function(req, res) {
    res.render('signin');
 });
 app.post('/user/login/complete', routes.userLoginComplete);
+app.get('/user/logout', routes.userLogoutComplete);
 
 app.get('/user/review', routes.userReviewPage);
 app.post('/user/review/add', routes.userReviewAdd);
