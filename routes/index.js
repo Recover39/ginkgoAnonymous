@@ -172,7 +172,7 @@ exports.userRegisterAdd = function (req, res) {
 
     var userAuth = {
         user_id: id,
-        key: hashAuthKey
+        user_key: hashAuthKey
     };
 
     //  Email에 혹시 @을 넣었는지 확인해볼 것.
@@ -198,10 +198,10 @@ exports.userRegisterAdd = function (req, res) {
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
                                     from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
-                                    to: "ky200223@gmail.com", // list of receivers
+                                    to: userData.universityMail, // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/>http://localhost:3000/user/register/complete/" + userAuth.key
+                                        + "<br/><br/>http://localhost:3000/user/register/complete/" + userAuth.user_key
                                         + "<br/><br/><b>감사합니다.</b>"
                                 };
 
@@ -228,7 +228,7 @@ exports.userRegisterComplete = function (req, res) {
     var authKey = req.params.authKey;
 
     mysqlConn.query(
-        'SELECT id FROM userAuthKey WHERE key = ?', [authKey], function (err, result) {
+        'SELECT user_id FROM userAuthKey WHERE user_key = ?', [authKey], function (err, result) {
             if (err) {
                 res.render('message', {message: "잘못된 접근입니다"});
             }
@@ -240,7 +240,16 @@ exports.userRegisterComplete = function (req, res) {
                             res.render('message', {message: "다시 시도해 주세요"});
                         }
                         else {
-                            res.render('message', {message: "인증 되었습니다. 감사합니다."});
+                            mysqlConn.query(
+                                'DETELE FROM userAuthKey WHERE user_key= ?',[authKey], function (err) {
+                                    if(err) {
+                                        console.log("user_id = "+ authKey + "의 AuthKey가 삭제되지 않음");
+                                    }
+                                    else {
+                                        res.render('message', {message: "인증 되었습니다. 감사합니다."});
+                                    }
+                                }
+                            );
                         }
                     }
                 );
@@ -358,7 +367,7 @@ exports.write = function (req, res) {
             else {
 //            res.contentType('json');
 //            res.send(card);
-                res.redirect('/card');
+                res.redirect('/');
 //            res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
             }
         });

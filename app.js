@@ -53,7 +53,7 @@ app.get('/user/register', routes.userRegisterPage);
 app.post('/user/register/add', routes.userRegisterAdd);
 //app.get('/user/register/checkId', routes.userRegisterCheckId);
 //app.get('/user/register/checkMail', routes.userRegisterCheckMail);
-//app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
+app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
 
 //user login
 app.get('/user/login', function(req, res) {
