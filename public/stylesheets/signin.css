@@ -55,6 +55,15 @@ nav .user {
     margin: 0 auto;
 }
 
+#t1 {
+    margin-bottom: 18px;
+}
+
+#t2 {
+    margin-left: 3px;
+    margin-bottom: 15px;
+}
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;

@@ -41,12 +41,13 @@ autoIncrement.initialize(mongoConn);
 
 var cardScheme = new Schema({
     _id: { type: Number, index: true},
+    user: String,
     date: Number,
     expirationDate: Number,
     body: String,
     like: Number,
     comments: [
-        { body: String }
+        { user : String, body: String }
     ]
 }, {collection: 'card'});
 
@@ -100,6 +101,16 @@ exports.welcome = function (req, res) {
 };
 
 exports.loadCard = function (req, res) {
+    var isLogin = req.session.loginStatus,
+        userSessionId = req.session.userId;
+    var userId = req.params.id;
+
+    if (isLogin === false) {
+        res.redirect('/');
+    }
+    if (userSessionId !== userId) {
+        res.redirect('/');
+    }
     cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
@@ -199,11 +210,11 @@ exports.userRegisterAdd = function (req, res) {
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
                                     from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
-                                    to: userData.universityMail, // list of receivers
+                                    to: "ky200223@gmail.com", // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/>http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com:3000/user/register/complete/" + userAuth.user_key
-                                        + "<br/><br/><b>감사합니다.</b>"
+                                        + "<br/><br/><a href = \'http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key
+                                        + "\'></a><br/><br/><b>감사합니다.</b>"
                                 };
 
                                 smtpTransport.sendMail(mailOptions, function (error, response) {
@@ -242,9 +253,9 @@ exports.userRegisterComplete = function (req, res) {
                         }
                         else {
                             mysqlConn.query(
-                                'DELETE FROM userAuthKey WHERE user_key = ?',[authKey], function (err) {
-                                    if(err) {
-                                        console.log("user_id = "+ authKey + "의 AuthKey가 삭제되지 않음");
+                                'DELETE FROM userAuthKey WHERE user_key = ?', [authKey], function (err) {
+                                    if (err) {
+                                        console.log("user_id = " + authKey + "의 AuthKey가 삭제되지 않음");
                                     }
                                     else {
                                         res.render('message', {message: "인증 되었습니다. 감사합니다."});
@@ -312,14 +323,15 @@ exports.userLoginComplete = function (req, res) {
     );
 };
 
-exports.userLogoutComplete = function(req, res) {
+exports.userLogoutComplete = function (req, res) {
     req.session.loginStatus = false;
     req.session.isAdmin = false;
     res.redirect('/');
 };
 
 exports.userReviewPage = function (req, res) {
-    res.render('userReview');
+    var isLogin = req.session.loginStatus;
+    res.render('userReview', {login: isLogin});
 };
 
 exports.userReviewAdd = function (req, res) {
@@ -351,11 +363,13 @@ exports.userReviewAdd = function (req, res) {
 
 exports.write = function (req, res) {
     var body = req.body.body,
-        date = Date.now();
+        date = Date.now(),
+        user = req.session.userId;
 
     var card = new cardModel();
 
     card.body = body;
+    card.user = user;
     card.date = date;
     card.expirationDate = card.date + 86400000;
     card.like = 0;
@@ -383,7 +397,8 @@ exports.write = function (req, res) {
 
 exports.addComment = function (req, res) {
     var card_id = req.params.card_id,
-        commentBody = req.body.commentBody;
+        commentBody = req.body.commentBody,
+        user = req.session.userId;
 
     // prevent null value on commentBody
     if (commentBody === undefined || commentBody === "") {
@@ -395,7 +410,7 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                data.comments.push({ body: commentBody});
+                data.comments.push({ user : user, body: commentBody});
                 data.save(function (err) {
                     if (err) {
                         throw err;
@@ -418,3 +433,31 @@ exports.deleteCard = function (req, res) {
         }
     });
 };
+
+var deleteCard = function () {
+    var cardLifeMs = 86400000,
+        curTime = Date.now();
+    cardModel.find({}, null, null, function (err, data) {
+        if (err) {
+            throw err;
+        }
+        else {
+            var dataLen = data.length;
+            for (var i = 0; dataLen < i; i++) {
+                var cardTime = data[i].date,
+                    cardSurviveTime = curTime - cardTime;
+                if (cardSurviveTime >= cardLifeMs) {
+                    cardModel.remove({_id: data[i]._id}, function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                }
+            }
+        }
+    });
+};
+
+(function () {
+    setInterval(function() {deleteCard();}, 120000);
+})();

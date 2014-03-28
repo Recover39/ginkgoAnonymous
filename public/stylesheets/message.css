@@ -56,4 +56,6 @@ nav .user {
     line-height: 36px;
     vertical-align: middle;
     font-size: 14px;
+    padding-right: 10px;
+    padding-left: 10px;
 }

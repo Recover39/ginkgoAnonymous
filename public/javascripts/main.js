@@ -176,13 +176,14 @@ var pageFunction = (function () {
                 //later, add color to Time
                 cardInfoDiv[i].childNodes[1].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
                 // if card's aging is over, auto delete item (execute at client)
-                if (elapsedHours <= 0 && elapsedMinutes <= 0) {
-                    var cardNo = cardInfoDiv[i].childNodes[0].innerText,
-                        cardNoCountPattern = /\d+/,
-                        card_id = cardNoCountPattern.exec(cardNo);
-
-                    cardInfo.deleteCard(card_id);
-                }
+                // now execute at server
+//                if (elapsedHours <= 0 && elapsedMinutes <= 0) {
+//                    var cardNo = cardInfoDiv[i].childNodes[0].innerText,
+//                        cardNoCountPattern = /\d+/,
+//                        card_id = cardNoCountPattern.exec(cardNo);
+//
+//                    cardInfo.deleteCard(card_id);
+//                }
             }
         },
 

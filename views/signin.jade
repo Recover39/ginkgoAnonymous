@@ -24,7 +24,8 @@ html(lang ='en')
                 button.btn.btn-lg.btn-block.user(onclick='location.href=\'/user/review\';')  고객센터
         .container
             form.form-signin(method ='post', role='form', action = '/user/login/complete')
-                h2.form-signin-heading 로그인
+                h2.form-signin-heading#t1 성균관대 익명게시판
+                h4.form-signin-heading#t2 은행꽃필무렵
                 input.form-control(type='id', placeholder='아이디', required='', autofocus='', name='userId')
                 input.form-control(type='password', placeholder='비밀번호', required='password', name='password')
                 //label.checkbox
