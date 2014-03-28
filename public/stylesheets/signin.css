@@ -93,4 +93,6 @@ nav .user {
 #register {
     cursor: pointer;
     text-align: center;
+    margin-top: 4px;
+    font-weight: 700;
 }

@@ -195,7 +195,7 @@ exports.userRegisterAdd = function (req, res) {
                                 res.render('message', {message: '내부오류입니다. 죄송합니다. 다시 시도해주세요.'});
                             }
                             else {
-                                // callback으로 성공여부를 확인할 것. 
+                                // callback으로 성공여부를 확인할 것.
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
                                     from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
