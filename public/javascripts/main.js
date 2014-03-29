@@ -212,7 +212,7 @@ var pageFunction = (function () {
     pageWriteFunction.commentEventAdd();
 
     //refresh every 30sec
-    setInterval(pageFunction.checkNewCard, 30000);
+    //setInterval(pageFunction.checkNewCard, 30000);
 })();
 
 var newCard = pageFunction.newCard;
