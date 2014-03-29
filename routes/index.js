@@ -433,7 +433,7 @@ exports.deleteCard = function (req, res) {
 };
 
 var deleteCard = function () {
-    var cardLifeMs = 20000,
+    var cardLifeMs = 86400000,
         curTime = Date.now();
     cardModel.find({}, null, null, function (err, data) {
         if (err) {
@@ -459,5 +459,5 @@ var deleteCard = function () {
 (function () {
     setInterval(function () {
         deleteCard();
-    }, 5000);
+    }, 120000);
 })();
