@@ -43,11 +43,10 @@ var cardScheme = new Schema({
     _id: { type: Number, index: true},
     user: String,
     date: Number,
-    expirationDate: Number,
     body: String,
     like: Number,
     comments: [
-        { user : String, body: String }
+        { user: String, body: String }
     ]
 }, {collection: 'card'});
 
@@ -371,7 +370,6 @@ exports.write = function (req, res) {
     card.body = body;
     card.user = user;
     card.date = date;
-    card.expirationDate = card.date + 86400000;
     card.like = 0;
     card.comments = [];
 
@@ -410,7 +408,7 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                data.comments.push({ user : user, body: commentBody});
+                data.comments.push({ user: user, body: commentBody});
                 data.save(function (err) {
                     if (err) {
                         throw err;
@@ -435,7 +433,7 @@ exports.deleteCard = function (req, res) {
 };
 
 var deleteCard = function () {
-    var cardLifeMs = 86400000,
+    var cardLifeMs = 20000,
         curTime = Date.now();
     cardModel.find({}, null, null, function (err, data) {
         if (err) {
@@ -443,7 +441,7 @@ var deleteCard = function () {
         }
         else {
             var dataLen = data.length;
-            for (var i = 0; dataLen < i; i++) {
+            for (var i = 0; i < dataLen; i++) {
                 var cardTime = data[i].date,
                     cardSurviveTime = curTime - cardTime;
                 if (cardSurviveTime >= cardLifeMs) {
@@ -459,5 +457,7 @@ var deleteCard = function () {
 };
 
 (function () {
-    setInterval(function() {deleteCard();}, 120000);
+    setInterval(function () {
+        deleteCard();
+    }, 5000);
 })();
