@@ -75,12 +75,6 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 ///////////////////////////////////////////////
 
 exports.checkLoginStatus = function (req, res) {
-//    //isAdmin?
-//    //redirect to adminpage
-//    if (req.session.isAdmin) {
-//        res.redirect('/admin');
-//    }
-
     //loginStatus on
     if (req.session.loginStatus) {
         res.redirect('/card/' + req.session.userId);
@@ -88,7 +82,6 @@ exports.checkLoginStatus = function (req, res) {
 
     //loginStatus off
     else {
-        /* res.render('error', {errorMsg : "오랜만이네"}); */
         req.session.isAdmin = false;
         req.session.loginStatus = false;
         res.redirect('/user/login');
@@ -209,7 +202,7 @@ exports.userRegisterAdd = function (req, res) {
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
                                     from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
-                                    to: "ky200223@gmail.com", // list of receivers
+                                    to: userData.universityMail, // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
                                         + "<br/><br/><a href = \'http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key

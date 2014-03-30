@@ -3,5 +3,5 @@
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-49512548-1', '125.209.193.216');
+ga('create', 'UA-49526516-1', 'skkuleaf.com');
 ga('send', 'pageview');

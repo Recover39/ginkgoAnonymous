@@ -13,6 +13,7 @@ var pageWriteFunction = (function () {
             request.onreadystatechange = function () {
                 if (request.readyState == 4 && request.status == 200) {
                     var res = JSON.parse(request.responseText),
+                    // later, change String object to DOM Object
                         card = '<div class="col-md-6 col-md-offset-3 card"><div class="cardInfomation">' +
                             '<div class="cardNum"> No.' + res._id + '</div><div class="cardCommitTime"> 방금 </div>' +
                             '</div><div class="cardBody">' + res.body + '</div><div class="cardStatus">' +
@@ -125,15 +126,15 @@ var pageFunction = (function () {
     var load = {
         cardNum: 0,
         isFirst: true,
-        checkNewCard: function () {
-            $.ajax({
-                type: "GET",
-                url: "/card/checkNewCard",
-                success: function (obj) {
-                    load.showButton(obj.data.length);
-                }
-            });
-        },
+//        checkNewCard: function () {
+//            $.ajax({
+//                type: "GET",
+//                url: "/card/checkNewCard",
+//                success: function (obj) {
+//                    load.showButton(obj.data.length);
+//                }
+//            });
+//        },
         showButton: function (number) {
             if (load.isFirst == true) {
                 load.isFirst = false;
