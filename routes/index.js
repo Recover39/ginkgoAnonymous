@@ -64,7 +64,7 @@ var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
-        user: "nextAngtree@gmail.com",
+        user: "nextangtree@gmail.com",
         pass: "angtree!"
     }
 });
