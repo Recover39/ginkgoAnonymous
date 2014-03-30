@@ -41,12 +41,11 @@ autoIncrement.initialize(mongoConn);
 
 var cardScheme = new Schema({
     _id: { type: Number, index: true},
-    user: String,
     date: Number,
     body: String,
     like: Number,
     comments: [
-        { user: String, body: String }
+        { body: String }
     ]
 }, {collection: 'card'});
 
@@ -197,6 +196,7 @@ exports.userRegisterAdd = function (req, res) {
                                 res.render('message', {message: '내부오류입니다. 죄송합니다. 다시 시도해주세요.'});
                             }
                             else {
+                                var mailUrl = "http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com/user/register/complete/" + userAuth.user_key;
                                 // callback으로 성공여부를 확인할 것.
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
@@ -204,7 +204,7 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "넥스트 익명게시판 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/>http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com/user/register/complete/" + userAuth.user_key
+                                        + "<br/><br/><a href = "+ mailUrl + "/>"
                                         + "<br/><br/><b>감사합니다.</b>"
                                 };
 
@@ -354,13 +354,11 @@ exports.userReviewAdd = function (req, res) {
 
 exports.write = function (req, res) {
     var body = req.body.body,
-        date = Date.now(),
-        user = req.session.userId;
+        date = Date.now();
 
     var card = new cardModel();
 
     card.body = body;
-    card.user = user;
     card.date = date;
     card.like = 0;
     card.comments = [];
@@ -387,8 +385,7 @@ exports.write = function (req, res) {
 
 exports.addComment = function (req, res) {
     var card_id = req.params.card_id,
-        commentBody = req.body.commentBody,
-        user = req.session.userId;
+        commentBody = req.body.commentBody;
 
     // prevent null value on commentBody
     if (commentBody === undefined || commentBody === "") {
@@ -400,7 +397,7 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                data.comments.push({ user: user, body: commentBody});
+                data.comments.push({ body: commentBody});
                 data.save(function (err) {
                     if (err) {
                         throw err;
