@@ -353,7 +353,7 @@ exports.userReviewAdd = function (req, res) {
 };
 
 exports.write = function (req, res) {
-    var body = req.body.body,
+    var body = req.body.body.toString(),
         date = Date.now();
 
     var card = new cardModel();
@@ -376,7 +376,7 @@ exports.write = function (req, res) {
             else {
 //            res.contentType('json');
 //            res.send(card);
-                res.redirect('/');
+              res.redirect('/');
 //            res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
             }
         });
@@ -385,7 +385,7 @@ exports.write = function (req, res) {
 
 exports.addComment = function (req, res) {
     var card_id = req.params.card_id,
-        commentBody = req.body.commentBody;
+        commentBody = req.body.commentBody.toString();
 
     // prevent null value on commentBody
     if (commentBody === undefined || commentBody === "") {
