@@ -204,7 +204,7 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "넥스트 익명게시판 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/>http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com//user/register/complete/" + userAuth.user_key
+                                        + "<br/><br/>http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com/user/register/complete/" + userAuth.user_key
                                         + "<br/><br/><b>감사합니다.</b>"
                                 };
 
