@@ -12,9 +12,9 @@ var extractConnection = (function () {
     var mysqlConfig = {
             host: 'localhost',
             port: 3306,
-            user: 'ginkgoanonymous',
+            user: 'angtree',
             password: 'Angtree!',
-            database: 'ginkgoanonymous'
+            database: 'angtree'
         },
 
         returnInfo = function () {
@@ -35,7 +35,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
-var mongoConn = mongoose.createConnection('mongodb://localhost/ginkgoAnonymous');
+var mongoConn = mongoose.createConnection('mongodb://localhost/angtree');
 
 autoIncrement.initialize(mongoConn);
 
@@ -64,7 +64,7 @@ var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
-        user: "ginkgoanonymous@gmail.com",
+        user: "nextAngtree@gmail.com",
         pass: "angtree!"
     }
 });
@@ -200,7 +200,7 @@ exports.userRegisterAdd = function (req, res) {
                                 // callback으로 성공여부를 확인할 것.
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
-                                    from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
+                                    from: "앙트리 <noReply@nextAngtree.com>", // sender address
                                     to: userData.universityMail, // list of receivers
                                     subject: "넥스트 익명게시판 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
