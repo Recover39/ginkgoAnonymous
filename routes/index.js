@@ -198,6 +198,7 @@ exports.userRegisterAdd = function (req, res) {
                                 res.render('message', {message: '내부오류입니다. 죄송합니다. 다시 시도해주세요.'});
                             }
                             else {
+                                var mailURL = "http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key;
                                 // callback으로 성공여부를 확인할 것.
                                 // 회원가입이 무사히 이루어졌을 때,
                                 var mailOptions = {
@@ -205,7 +206,7 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/>http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key
+                                        + "<br/><br/><a href = "+ mailUrl + ">인증하기</a>"
                                         + "<br/><br/><b>감사합니다.</b>"
                                 };
 
