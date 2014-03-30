@@ -204,8 +204,8 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "넥스트 익명게시판 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/><a href = \'http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com//user/register/complete/" + userAuth.user_key
-                                        + "\'></a><br/><br/><b>감사합니다.</b>"
+                                        + "<br/><br/>http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com//user/register/complete/" + userAuth.user_key
+                                        + "<br/><br/><b>감사합니다.</b>"
                                 };
 
                                 smtpTransport.sendMail(mailOptions, function (error, response) {
@@ -291,7 +291,7 @@ exports.userLoginComplete = function (req, res) {
                 if (result[0].password === newhash) {
                     if (result[0].grade === '0') {
                         //인증 안한 사용자
-                        res.render('message', {message: "대학 메일 인증을 해주세요"});
+                        res.render('message', {message: "메일 인증을 해주세요"});
                     }
                     else {
                         if (result[0].grade === '1') {
@@ -331,7 +331,7 @@ exports.userReviewAdd = function (req, res) {
     // setup e-mail data with unicode symbols
     var mailOptions = {
         from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
-        to: "ginkgoanonymous@gmail.com", // list of receivers
+        to: "nextAngtree@gmail.com", // list of receivers
         subject: "고객 피드백", // Subject line
         text: "고객 피드백", // plaintext body
         html: body
