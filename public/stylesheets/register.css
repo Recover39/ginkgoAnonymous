@@ -91,9 +91,9 @@ nav .user {
     float: right;
     width: 40%;
     height: auto;
-    font-size: 21px;
+    font-size: 18px;
     margin-left: 4%;
-    margin-top: 16px;
+    margin-top: 18px;
     color : #525252;
 }
 
@@ -103,9 +103,9 @@ nav .user {
         float: right;
         width: 40%;
         height: auto;
-        font-size: 19px;
+        font-size: 15px;
         margin-left: 4%;
-        margin-top: 18px;
+        margin-top: 20px;
         color : #525252;
     }
 }
