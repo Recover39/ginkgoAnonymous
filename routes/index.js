@@ -205,8 +205,8 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/><a href = \'http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key
-                                        + "\'></a><br/><br/><b>감사합니다.</b>"
+                                        + "<br/><br/>http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key
+                                        + "<br/><br/><b>감사합니다.</b>"
                                 };
 
                                 smtpTransport.sendMail(mailOptions, function (error, response) {
