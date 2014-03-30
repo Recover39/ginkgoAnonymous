@@ -355,7 +355,7 @@ exports.userReviewAdd = function (req, res) {
 };
 
 exports.write = function (req, res) {
-    var body = req.body.body,
+    var body = req.body.body.toString(),
         date = Date.now(),
         user = req.session.userId;
 
@@ -389,7 +389,7 @@ exports.write = function (req, res) {
 
 exports.addComment = function (req, res) {
     var card_id = req.params.card_id,
-        commentBody = req.body.commentBody,
+        commentBody = req.body.commentBody.toString(),
         user = req.session.userId;
 
     // prevent null value on commentBody
