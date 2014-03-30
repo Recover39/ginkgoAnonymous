@@ -168,7 +168,7 @@ exports.userRegisterAdd = function (req, res) {
         id: id,
         password: hashpassword,
         passwordSalt: salt,
-        universityMail: mail + "@skku.edu",
+        universityMail: mail + "@nhnnext.org",
         registerDate: time,
         grade: '0'
     };
@@ -182,14 +182,13 @@ exports.userRegisterAdd = function (req, res) {
     var emailRegExp = /.+\@.+\..+/;
 
     if (emailRegExp.test(mail) === true) {
-        res.render('message', {message: '@skku.edu를 제외한 이메일 앞자리만 입력해주세요'})
+        res.render('message', {message: '@nhnnext.org를 제외한 이메일 앞자리만 입력해주세요'})
     }
     else {
         mysqlConn.query(
             'INSERT INTO user SET ?', userData, function (err, info) {
                 if (err) {
-                    throw err;
-                    //res.render('message', {message: '이미 사용중인 아이디 혹은 대학 메일입니다. 다시 입력해주세요'});
+                    res.render('message', {message: '이미 사용중인 아이디 혹은 메일입니다. 다시 입력해주세요'});
                 }
                 else {
                     mysqlConn.query(
@@ -203,9 +202,9 @@ exports.userRegisterAdd = function (req, res) {
                                 var mailOptions = {
                                     from: "은행잎필무렵 <noReply@ginkgoanonymous.com>", // sender address
                                     to: userData.universityMail, // list of receivers
-                                    subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
+                                    subject: "넥스트 익명게시판 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/><a href = \'http://www.skkuleaf.com/user/register/complete/" + userAuth.user_key
+                                        + "<br/><br/><a href = \'http://ec2-54-238-223-16.ap-northeast-1.compute.amazonaws.com//user/register/complete/" + userAuth.user_key
                                         + "\'></a><br/><br/><b>감사합니다.</b>"
                                 };
 
@@ -218,7 +217,7 @@ exports.userRegisterAdd = function (req, res) {
                                     // if you don't want to use this transport object anymore, uncomment following line
                                     //smtpTransport.close(); // shut down the connection pool, no more messages
                                 });
-                                res.render('message', {message: '입력하신 이메일 계정으로 보내진 메일을 통해 대학 인증을 해주세요'});
+                                res.render('message', {message: '입력하신 이메일 계정으로 보내진 메일을 통해 인증을 해주세요'});
                             }
                         }
                     );
