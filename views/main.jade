@@ -24,7 +24,7 @@ html(lang='en')
             .row
                 .col-md-6.col-md-offset-3.writePostCard
                     #introduction
-                        | 모든 글은 익명으로 작성되며, 24시간 후 지워집니다.
+                        | 모든 글은 익명으로 작성되며, 24시간 후 지워집니다. (임의 삭제 불가)
                     #writePost
                         form.writeCommit(method ='post', role='form', action = '/card/add')
                             textarea#postTextArea.simple(rows='3', cols='60', type='text', name='body')
