@@ -87,7 +87,7 @@ nav .user {
     float: left;
 }
 
-.skkuEmail {
+.Email {
     float: right;
     width: 40%;
     height: auto;
@@ -99,7 +99,7 @@ nav .user {
 
 
 @media(max-width:767px){
-    .skkuEmail {
+    .Email {
         float: right;
         width: 40%;
         height: auto;
