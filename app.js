@@ -27,6 +27,35 @@ app.configure(function () {
     app.use(express.session({ secret: "keyboard cat" }));
     app.use(express.methodOverride());
     app.use(app.router);
+    // Since this is the last non-error-handling
+    // middleware use()d, we assume 404, as nothing else
+    // responded.
+
+    app.use(function (req, res, next) {
+        // the status option, or res.statusCode = 404
+        // are equivalent, however with the option we
+        // get the "status" local available as well
+        res.render('message', { message : "페이지를 찾을 수 없어요!" });
+    });
+
+    // error-handling middleware, take the same form
+    // as regular middleware, however they require an
+    // arity of 4, aka the signature (err, req, res, next).
+    // when connect has an error, it will invoke ONLY error-handling
+    // middleware.
+
+    // If we were to next() here any remaining non-error-handling
+    // middleware would then be executed, or if we next(err) to
+    // continue passing the error, only error-handling middleware
+    // would remain being executed, however here
+    // we simply respond with an error page.
+
+    app.use(function (err, req, res, next) {
+        // we may use properties of the error object
+        // here and next(err) appropriately, or if
+        // we possibly recovered from the error, simply next().
+        res.render('message', {message : "알 수 없는 에러입니다. 다시 시도해주세요" });
+    });
 });
 
 // development only
@@ -56,8 +85,8 @@ app.post('/user/register/add', routes.userRegisterAdd);
 app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
 
 //user login
-app.get('/user/login', function(req, res) {
-   res.render('signin');
+app.get('/user/login', function (req, res) {
+    res.render('signin');
 });
 app.post('/user/login/complete', routes.userLoginComplete);
 app.get('/user/logout', routes.userLogoutComplete);
@@ -72,7 +101,6 @@ app.post('/card/add', routes.write);
 //app.post('/card/:card_id/like', routes.like);
 app.post('/card/:card_id/comment/add', routes.addComment);
 app.post('/card/:card_id/delete', routes.deleteCard);
-
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('\n///////////////////////////////////////////////\n' +
