@@ -238,6 +238,9 @@ exports.userRegisterComplete = function (req, res) {
                 res.render('message', {message: "잘못된 접근입니다"});
             }
             else {
+                if (result.length === 0) {
+                    res.render('message', {message : "이미 인증 되었거나, 없는 인증 번호 입니다."});
+                }
                 var userId = result[0].user_id;
                 mysqlConn.query(
                     'UPDATE user SET grade = \'1\' WHERE id =?', [userId], function (err) {
