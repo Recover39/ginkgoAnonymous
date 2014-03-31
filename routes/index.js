@@ -206,7 +206,7 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/><a href = "+ mailUrl + ">인증하기</a>"
+                                        + "<br/><br/><a href = " + mailUrl + ">인증하기</a>"
                                         + "<br/><br/><b>감사합니다.</b>"
                                 };
 
@@ -239,28 +239,30 @@ exports.userRegisterComplete = function (req, res) {
             }
             else {
                 if (result.length === 0) {
-                    res.render('message', {message : "이미 인증 되었거나, 없는 인증 번호 입니다."});
+                    res.render('message', {message: "이미 인증 되었거나, 없는 인증 번호 입니다."});
                 }
-                var userId = result[0].user_id;
-                mysqlConn.query(
-                    'UPDATE user SET grade = \'1\' WHERE id =?', [userId], function (err) {
-                        if (err) {
-                            res.render('message', {message: "다시 시도해 주세요"});
-                        }
-                        else {
-                            mysqlConn.query(
-                                'DELETE FROM userAuthKey WHERE user_key = ?', [authKey], function (err) {
-                                    if (err) {
-                                        console.log("user_id = " + authKey + "의 AuthKey가 삭제되지 않음");
+                else {
+                    var userId = result[0].user_id;
+                    mysqlConn.query(
+                        'UPDATE user SET grade = \'1\' WHERE id =?', [userId], function (err) {
+                            if (err) {
+                                res.render('message', {message: "다시 시도해 주세요"});
+                            }
+                            else {
+                                mysqlConn.query(
+                                    'DELETE FROM userAuthKey WHERE user_key = ?', [authKey], function (err) {
+                                        if (err) {
+                                            console.log("user_id = " + authKey + "의 AuthKey가 삭제되지 않음");
+                                        }
+                                        else {
+                                            res.render('message', {message: "인증 되었습니다. 감사합니다."});
+                                        }
                                     }
-                                    else {
-                                        res.render('message', {message: "인증 되었습니다. 감사합니다."});
-                                    }
-                                }
-                            );
+                                );
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
         }
     );
