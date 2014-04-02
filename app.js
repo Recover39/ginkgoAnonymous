@@ -51,6 +51,9 @@ app.get('/user/register', routes.userRegisterPage);
 app.get('/privacy', function(req, res) {
     res.render('privacy');
 });
+app.get('/agreement', function(req, res) {
+    res.render('agreement');
+});
 app.post('/user/register/add', routes.userRegisterAdd);
 //app.get('/user/register/checkId', routes.userRegisterCheckId);
 //app.get('/user/register/checkMail', routes.userRegisterCheckMail);
