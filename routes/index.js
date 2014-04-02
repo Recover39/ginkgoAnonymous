@@ -358,32 +358,8 @@ exports.userReviewAdd = function (req, res) {
     res.render('message', {message: "감사합니다"});
 };
 
-var writeValid = {
-    canWrite: function (req, res) {
-        if (writeValid.totalPostNum === true) {
-            if (writeValid.listLastCard === true) {
-                if (writeValid.threeMinutes === true) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            else {
-                if (writeValid.findLastCard === true) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        else {
-            return false;
-        }
-    },
-
-    totalPostNum: function (req, res) {
+exports.write = function (req, res) {
+    var write = function (req, res) {
         var curTime = Date.now(),
             ms6Hour = 21600000,
             hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
@@ -397,20 +373,20 @@ var writeValid = {
                 if (userCardNum === 30) {
                     var lastCardTime = curTime - result[userCardNum].date;
                     if (lastCardTime < ms6Hour) {
-                        return false;
+                        preventWriteCard(req, res);
                     }
                     else {
-                        return true;
+                        listLastCard(req, res);
                     }
                 }
-                else {
-                    return true;
+                else if (userCardNum < 30) {
+                    listLastCard(req, res);
                 }
             }
         });
-    },
+    };
 
-    listLastCard: function (req, res) {
+    var listLastCard = function (req, res) {
         var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
         cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
             if (err) {
@@ -418,16 +394,16 @@ var writeValid = {
             }
             else {
                 if (result[0].user === hashedUserId) {
-                    return true;
+                    threeMinutes(req, res);
                 }
                 else {
-                    return false;
+                    findLastCard(req, res);
                 }
             }
         });
-    },
+    };
 
-    threeMinutes: function (req, res) {
+    var threeMinutes = function (req, res) {
         var curTime = Date.now(),
             ms3Minutes = 180000;
         cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
@@ -436,37 +412,41 @@ var writeValid = {
             }
             else {
                 if (curTime - result[0].date < ms3Minutes) {
-                    return false;
+                    preventWriteCard(req, res);
                 }
                 else {
-                    return true;
+                    writeCard(req, res);
                 }
             }
         });
-    },
+    };
 
-    findLastCard : function (req, res) {
+    var findLastCard = function (req, res) {
         var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
             curTime = Date.now(),
             ms1Minutes = 60000;
-        cardModel.findOne({user : hashedUserId}, function(err, result) {
+        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
             if (err) {
                 res.render('message', {message: "다시 시도해 주세요"});
             }
             else {
-                if (curTime - result.date < ms1Minutes) {
-                    return false;
+                if (result.length === 0) {
+                    console.log("return true");
+                    writeCard(req, res);
                 }
                 else {
-                    return true;
+                    if (curTime - result[0].date < ms1Minutes) {
+                        preventWriteCard(req, res);
+                    }
+                    else {
+                        writeCard(req, res);
+                    }
                 }
             }
         });
-    }
-};
+    };
 
-exports.write = function (req, res) {
-    if (writeValid.canWrite === true) {
+    var writeCard = function (req, res) {
         var body = req.body.body.toString(),
             date = Date.now(),
             hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
@@ -497,10 +477,13 @@ exports.write = function (req, res) {
                 }
             });
         }
-    }
-    else {
+    };
+
+    var preventWriteCard = function (req, res) {
         res.render('message', {message: "도배를 방지합니다. 2분간 기다린 후 작성해주세요"});
-    }
+    };
+
+    write(req, res);
 };
 
 exports.addComment = function (req, res) {
