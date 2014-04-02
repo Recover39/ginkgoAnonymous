@@ -597,6 +597,7 @@ exports.write = function (req, res) {
         res.render('message', {message: "도배를 방지합니다. 2분간 기다린 후 작성해주세요"});
     };
 
+    //// start function ////
     write(req, res);
 };
 
