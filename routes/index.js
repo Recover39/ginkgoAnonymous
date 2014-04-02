@@ -46,7 +46,7 @@ var cardScheme = new Schema({
     body: String,
     like: Number,
     comments: [
-        { body: String }
+        { user: String, body: String, date : String }
     ]
 }, {collection: 'card'});
 
@@ -488,7 +488,9 @@ exports.write = function (req, res) {
 
 exports.addComment = function (req, res) {
     var card_id = req.params.card_id,
-        commentBody = req.body.commentBody.toString();
+        hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+        commentBody = req.body.commentBody.toString(),
+        curTime = Date.now();
 
     // prevent null value on commentBody
     if (commentBody === undefined || commentBody === "") {
@@ -500,7 +502,7 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                data.comments.push({ body: commentBody});
+                data.comments.push({ body: commentBody, user : hashedUserId, date : curTime});
                 data.save(function (err) {
                     if (err) {
                         throw err;
@@ -551,5 +553,5 @@ var deleteCard = function () {
 (function () {
     setInterval(function () {
         deleteCard();
-    }, 120000);
+    }, 60000);
 })();
