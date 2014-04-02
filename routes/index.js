@@ -42,6 +42,7 @@ autoIncrement.initialize(mongoConn);
 var cardScheme = new Schema({
     _id: { type: Number, index: true},
     date: Number,
+    user: String,
     body: String,
     like: Number,
     comments: [
@@ -357,34 +358,148 @@ exports.userReviewAdd = function (req, res) {
     res.render('message', {message: "감사합니다"});
 };
 
-exports.write = function (req, res) {
-    var body = req.body.body.toString(),
-        date = Date.now();
-
-    var card = new cardModel();
-
-    card.body = body;
-    card.date = date;
-    card.like = 0;
-    card.comments = [];
-
-    // prevent null value on body
-    if (body === undefined || body === "") {
-        res.render('message', {message: "글 입력란은 빈칸으로 둘 수 없습니다."});
-    }
-    else {
-        // not using ajax
-        card.save(function (err) {
-            if (err) {
-                throw err;
+var writeValid = {
+    canWrite: function (req, res) {
+        if (writeValid.totalPostNum === true) {
+            if (writeValid.listLastCard === true) {
+                if (writeValid.threeMinutes === true) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
             else {
-//            res.contentType('json');
-//            res.send(card);
-              res.redirect('/');
-//            res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
+                if (writeValid.findLastCard === true) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+    },
+
+    totalPostNum: function (req, res) {
+        var curTime = Date.now(),
+            ms6Hour = 21600000,
+            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
+            if (err) {
+                res.render('message', {message: "다시 시도해 주세요"});
+            }
+            else {
+                // maximum : 30
+                var userCardNum = result.length;
+                if (userCardNum === 30) {
+                    var lastCardTime = curTime - result[userCardNum].date;
+                    if (lastCardTime < ms6Hour) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                else {
+                    return true;
+                }
             }
         });
+    },
+
+    listLastCard: function (req, res) {
+        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+            if (err) {
+                res.render('message', {message: "다시 시도해 주세요"});
+            }
+            else {
+                if (result[0].user === hashedUserId) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        });
+    },
+
+    threeMinutes: function (req, res) {
+        var curTime = Date.now(),
+            ms3Minutes = 180000;
+        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+            if (err) {
+                res.render('message', {message: "다시 시도해 주세요"});
+            }
+            else {
+                if (curTime - result[0].date < ms3Minutes) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        });
+    },
+
+    findLastCard : function (req, res) {
+        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+            curTime = Date.now(),
+            ms1Minutes = 60000;
+        cardModel.findOne({user : hashedUserId}, function(err, result) {
+            if (err) {
+                res.render('message', {message: "다시 시도해 주세요"});
+            }
+            else {
+                if (curTime - result.date < ms1Minutes) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        });
+    }
+};
+
+exports.write = function (req, res) {
+    if (writeValid.canWrite === true) {
+        var body = req.body.body.toString(),
+            date = Date.now(),
+            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+
+        var card = new cardModel();
+
+        card.body = body;
+        card.user = hashedUserId;
+        card.date = date;
+        card.like = 0;
+        card.comments = [];
+
+        // prevent null value on body
+        if (body === undefined || body === "") {
+            res.render('message', {message: "글 입력란은 빈칸으로 둘 수 없습니다."});
+        }
+        else {
+            // not using ajax
+            card.save(function (err) {
+                if (err) {
+                    throw err;
+                }
+                else {
+//            res.contentType('json');
+//            res.send(card);
+                    res.redirect('/');
+//            res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
+                }
+            });
+        }
+    }
+    else {
+        res.render('message', {message: "도배를 방지합니다. 2분간 기다린 후 작성해주세요"});
     }
 };
 
