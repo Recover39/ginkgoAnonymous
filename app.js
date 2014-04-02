@@ -46,10 +46,11 @@ app.get('/', routes.checkLoginStatus);
 app.get('/card/:id', routes.loadCard);
 app.get('/card/checkNewCard', routes.checkNewCard);
 
-app.get('/welcome', routes.welcome);
-
 //user register
 app.get('/user/register', routes.userRegisterPage);
+app.get('/privacy', function(req, res) {
+    res.render('privacy');
+});
 app.post('/user/register/add', routes.userRegisterAdd);
 //app.get('/user/register/checkId', routes.userRegisterCheckId);
 //app.get('/user/register/checkMail', routes.userRegisterCheckMail);

@@ -46,7 +46,12 @@ nav .user {
     background-color: #c7c7c7;
 }
 
-.message {
+.messageField {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#message {
     height: 40px;
     text-align: center;
     background-color: #fafafa;
