@@ -41,7 +41,7 @@ html
                                 .cardCommitTime
                                     | #{card.date}
                             .cardBody
-                                | #{card.body}
+                                | !{card.body}
                             .cardStatus
                                 .commitCount
                                     | 댓글 #{card.comments.length}개
@@ -50,7 +50,7 @@ html
                                 .commentList
                                     each comment in card.comments
                                         .comment
-                                            | #{comment.body}
+                                            | !{comment.body}
                                 form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
                                     input(type='hidden', name='cardId', value='#{card._id}')
                                     textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
