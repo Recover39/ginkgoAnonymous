@@ -8,55 +8,56 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-    background-color: #f7f7f7;
+    background-color: #F2F1ED;
     padding-top: 56px;
 }
 
 nav.navbar {
-    background-color: #5a5a5a;
-    min-height: 40px;
+    background-color: #2d4b7a;
+    min-height: 30px;
+    border-width: 0;
 }
 
 #title {
     position : fixed;
     left: 50%;
     margin : 0 0 0 -101px;
-    height: 30px;
+    height: 34px;
     width: 200px;
     text-align: center;
     font-size: 16px;
     color: #f8f8f8;
     padding: 4px;
     float: left;
-    line-height: 30px;
+    line-height: 26px;
     cursor: pointer;
 }
 
 nav .user {
-    margin-top: 8px;
-    width: 50px;
-    height: 24px;
-    border-radius: 2px;
+    margin-top: 0px;
+    width: 60px;
+    height: 34px;
+    border-radius: 0px;
     font-size: 12px;
     line-height: 3px;
     vertical-align: middle;
     float: right;
     z-index: 2;
-    background-color: #c7c7c7;
+    background-color: #9dadca;
 }
 
 nav .logout {
     clear: both;
-    margin-top: 8px;
-    width: 50px;
-    height: 24px;
-    border-radius: 2px;
+    margin-top: 0px;
+    width: 60px;
+    height: 34px;
+    border-radius: 0px;
     font-size: 12px;
     line-height: 3px;
     vertical-align: middle;
     float: left;
     z-index: 2;
-    background-color: #c7c7c7;
+    background-color: #9dadca;
 }
 
 #newCardButton {
@@ -89,9 +90,9 @@ nav .logout {
 #introduction {
     padding: 10px;
     border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(230, 121, 104, 0.45);
-    background-color: #E57766;
-    color: #eeeeee;
+    box-shadow: 1px 1px 1px rgba(132, 175, 54, 0.26);
+    background-color: #83af3f;
+    color: #e5e8e5;
     font-size: 13px;
     text-align: center;
     z-index: 1;
@@ -199,7 +200,7 @@ nav .logout {
     font-size: 12px;
     padding-left: 25px;
     padding-right: 15px;
-    background-color: #e7e8ec;
+    background-color: #d8e1dc;
     border-top: 1px solid #d4d4d4;
     border-bottom: 1px solid #d4d4d4;
     vertical-align: middle;
@@ -224,7 +225,7 @@ nav .logout {
     clear: both;
     width: 100%;
     height: auto;
-    background-color: #eff0f5;
+    background-color: #ecedf2;
     overflow: hidden;
 }
 
@@ -280,5 +281,5 @@ footer {
     padding: 16px;
     text-align: center;
     color: #6e6c6c;
-    font-size: 15px;
+    font-size: 12px;
 }
