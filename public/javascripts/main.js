@@ -64,11 +64,10 @@ var pageWriteFunction = (function () {
                 if (request.readyState == 4 && request.status == 200) {
                     var res = JSON.parse(request.responseText),
                         commentFragment = document.createDocumentFragment(),
-                        commentDiv = document.createElement('div'),
-                        commentBody = document.createTextNode(res.commentBody);
+                        commentDiv = document.createElement('div');
 
                     commentDiv.className = "comment";
-                    commentDiv.appendChild(commentBody);
+                    commentDiv.innerHTML = res.commentBody;
                     commentFragment.appendChild(commentDiv);
 
                     appendTarget.appendChild(commentFragment);
