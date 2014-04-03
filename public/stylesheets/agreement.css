@@ -67,3 +67,9 @@ nav .user {
     font-size: 15px;
     margin-bottom: 40px;
 }
+
+.register {
+    width: 200px;
+    font-size: 15px;
+    margin: 0 auto 30px auto;
+}
