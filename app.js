@@ -69,13 +69,17 @@ app.get('/test', function (req, res) {
 });
 app.get('/cardTest', routes.loadCardTest);
 
+////////////////
 //basic function
+////////////////
 app.get('/', routes.checkLoginStatus);
 
 app.get('/card/:id', routes.loadCard);
 app.get('/card/checkNewCard', routes.checkNewCard);
 
+////////////////
 //user register
+////////////////
 app.get('/user/register', routes.userRegisterPage);
 app.get('/privacy', function(req, res) {
     res.render('privacy');
@@ -88,20 +92,35 @@ app.post('/user/register/add', routes.userRegisterAdd);
 //app.get('/user/register/checkMail', routes.userRegisterCheckMail);
 app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
 
+////////////////
 //user login
+////////////////
 app.get('/user/login', function(req, res) {
    res.render('signin');
 });
 app.post('/user/login/complete', routes.userLoginComplete);
 app.get('/user/logout', routes.userLogoutComplete);
 
+////////////////
+//user review
+////////////////
 app.get('/user/review', routes.userReviewPage);
 app.post('/user/review/add', routes.userReviewAdd);
 
+////////////////////
+//user close account
+////////////////////
+app.get('/user/closeAccount', routes.userCloseAccountPage);
+app.post('/user/closeAccount/complete', routes.userCloseAccountComplete);
+
+////////////////
 //writeCard
+////////////////
 app.post('/card/add', routes.write);
 
+////////////////
 //modifyCard
+////////////////
 //app.post('/card/:card_id/like', routes.like);
 app.post('/card/:card_id/comment/add', routes.addComment);
 app.post('/card/:card_id/delete', routes.deleteCard);

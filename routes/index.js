@@ -186,14 +186,13 @@ exports.userRegisterAdd = function (req, res) {
     }
     else {
         mysqlConn.query(
-            'INSERT INTO user SET ?', userData, function (err, info) {
+            'INSERT INTO user SET ?', userData, function (err) {
                 if (err) {
-                    throw err;
-                    //res.render('message', {message: '이미 사용중인 아이디 혹은 대학 메일입니다. 다시 입력해주세요'});
+                    res.render('message', {message: '이미 사용중인 아이디 혹은 대학 메일입니다. 다시 입력해주세요'});
                 }
                 else {
                     mysqlConn.query(
-                        'INSERT INTO userAuthKey SET ?', userAuth, function (err, info) {
+                        'INSERT INTO userAuthKey SET ?', userAuth, function (err) {
                             if (err) {
                                 res.render('message', {message: '내부오류입니다. 죄송합니다. 다시 시도해주세요.'});
                             }
@@ -206,7 +205,7 @@ exports.userRegisterAdd = function (req, res) {
                                     to: userData.universityMail, // list of receivers
                                     subject: "은행꽃 필무렵 회원가입 인증 메일입니다.", // Subject line
                                     html: "<b>다음 링크를 클릭해 이메일 인증을 해주세요.</b>"
-                                        + "<br/><br/><a href = " + mailUrl + ">인증하기</a>"
+                                        + "<br/><br/><a href = " + mailURL + ">인증하기</a>"
                                         + "<br/><br/><b>감사합니다.</b>"
                                 };
 
@@ -357,6 +356,46 @@ exports.userReviewAdd = function (req, res) {
     });
 
     res.render('message', {message: "감사합니다"});
+};
+
+exports.userCloseAccountPage = function (req, res) {
+    var userId = req.session.userId,
+        isLogin = req.session.loginStatus;
+    res.render('closeAccount', {user: userId, login: isLogin});
+};
+
+exports.userCloseAccountComplete = function (req, res) {
+    var password = req.body.password,
+        userId = req.session.userId;
+
+    mysqlConn.query('SELECT password, passwordSalt FROM user WHERE id = ?', [userId], function(err, result) {
+        if (err) {
+            res.render('message', {message : '이런! 시스템이 탈퇴를 거부하나봐요. 다시 시도해주세요'});
+        }
+        else {
+            if (result.length === 0) {
+                res.render('message', {message : '잡았다 요놈!'});
+            }
+            else {
+                var hashpassword = crypto.createHash('sha512').update(result[0].passwordSalt + password).digest('hex');
+                if (result[0].password === hashpassword) {
+                    mysqlConn.query('DELETE FROM user WHERE id = ?', [userId], function(err) {
+                        if (err) {
+                            res.render('message', {message : '이런! 시스템이 탈퇴를 거부하나봐요. 다시 시도해주세요'});
+                        }
+                        else {
+                            req.session.loginStatus = false;
+                            req.session.isAdmin = false;
+                            res.render('message', {message : '탈퇴되셨습니다. 다음에 또 뵈요.. 꼭..!'});
+                        }
+                    });
+                }
+                else {
+                    res.render('message', {message : '비밀번호가 틀리셨어요. 탈퇴하지 마세용 ㅜㅠ'});
+                }
+            }
+        }
+    });
 };
 
 //var writeValid = {
@@ -635,7 +674,7 @@ exports.addComment = function (req, res) {
     }
 };
 
-exports.deleteCard = function (req, res) {
+exports.deleteCard = function (req) {
     var card_id = req.params.card_id;
     cardModel.remove({_id: card_id}, function (err) {
         if (err) {

@@ -6,11 +6,11 @@ html
         meta(name='description', content='')
         meta(name='author', content='')
         link(rel='icon', type ='image/x-icon',href='/images/favicon.ico')
-        title 고객센터
+        title 은행잎필무렵
         //Bootstrap core CSS
         link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet', type='text/css')
         //Add custom CSS here
-        link(href='/stylesheets/userReview.css', rel='stylesheet', type='text/css')
+        link(href='/stylesheets/closeAccount.css', rel='stylesheet', type='text/css')
     body
         nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
             .col-md-6.col-md-offset-3.navDiv
@@ -21,19 +21,20 @@ html
                 button.btn.btn-lg.btn-block.user(onclick='location.href=\'/user/review\';')  고객센터
         .container
             .row
-                .review.col-md-6.col-md-offset-3
-                    #userReview
+                .col-md-6.col-md-offset-3
+                    #closeAccount
                         h2
-                            | 개선사항 및 의견
-                        form.writeReview(method ='post', role='form', action = '/user/review/add')
-                            textarea#reviewTextArea.simple(rows='3', cols='60', type='text', name='body')
-
+                            | 회원탈퇴
+                        h4
+                            | #{user} 님,
+                            br
+                            | 탈퇴하시려면 비밀번호를 한번 더 입력해주세요.
+                        form.writeReview(method ='post', role='form', action = '/user/closeAccount/complete')
+                            input#passwordArea(type='password', name='password')
                             .form-actions
-                                button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit')  의견 보내기
-                    if (login === true)
-                        button#closeAccountButton.btn.btn-lg.btn-danger.btn-block(onclick='location.href=\'/user/closeAccount\';')  회원탈퇴
+                                button#closeAccountButton.btn.btn-lg.btn-danger.btn-block(type='submit')  탈퇴하기
         //JavaScript
         script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
         script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-        script(src='/javascripts/userReview.js')
+        script(src='/javascripts/closeAccount.js')
         script(src='/javascripts/googleAnalytics.js')

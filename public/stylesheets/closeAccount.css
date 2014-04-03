@@ -61,14 +61,9 @@ nav .logout {
     background-color: #9dadca;
 }
 
-.review {
-    padding-left: 7px;
-    padding-right: 7px;
-}
-
-#userReview {
+#closeAccount {
     height: auto;
-    padding : 30px;
+    padding : 30px 40px 30px 40px;
     background-color: #fafafa;
     border-radius: 10px;
     border: 1px solid #d4d4d4;
@@ -76,19 +71,23 @@ nav .logout {
     overflow: scroll;
 }
 
-#userReview > h2 {
+#closeAccount > h2 {
     margin-top: 0;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color : #525252;
 }
 
-#reviewTextArea {
+#closeAccount > h4 {
+    color : #525252;
+    line-height: 30px;
+}
+
+#passwordArea {
     width: 100%;
     border: 1px solid #a5abb2;
     border-radius: 2px;
     font-size: 14px;
-    margin-right: 2%;
-    resize: none;
+    margin-top: 10px;
     line-height: 23px;
 }
 
@@ -98,19 +97,8 @@ nav .logout {
     text-align: center;
 }
 
-#writeButton {
+#closeAccountButton {
     width: 70%;
     height: 46px;
     margin : 22px auto -20px auto;
-}
-
-#closeAccountButton {
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100px;
-    height : 34px;
-    font-size: 14px;
-    line-height: 6px;
-    border-radius: 6px;
 }
