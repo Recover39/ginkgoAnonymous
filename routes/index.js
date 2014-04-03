@@ -359,7 +359,7 @@ exports.userReviewAdd = function (req, res) {
     res.render('message', {message: "감사합니다"});
 };
 
-var writeValid = {
+//var writeValid = {
 //    canWrite: function (req, res) {
 //        if (writeValid.totalPostNum(req, res) === true) {
 //            if (writeValid.listLastCard(req, res) === true) {
@@ -383,94 +383,94 @@ var writeValid = {
 //            return false;
 //        }
 //    },
-
-    canWrite: function (req, res) {
-        var curTime = Date.now(),
-            ms6Hour = 21600000,
-            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                // maximum : 30
-                var userCardNum = result.length;
-                if (userCardNum === 30) {
-                    var lastCardTime = curTime - result[userCardNum].date;
-                    if (lastCardTime < ms6Hour) {
-                        return false;
-                    }
-                    else {
-                        writeValid.listLastCard(req, res);
-                    }
-                }
-                else if (userCardNum < 30) {
-                    writeValid.listLastCard(req, res);
-                }
-            }
-        });
-    },
-
-    listLastCard: function (req, res) {
-        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                if (result[0].user === hashedUserId) {
-                    writeValid.threeMinutes(req, res);
-                }
-                else {
-                    writeValid.findLastCard(req, res);
-                }
-            }
-        });
-    },
-
-    threeMinutes: function (req, res) {
-        var curTime = Date.now(),
-            ms3Minutes = 180000;
-        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                if (curTime - result[0].date < ms3Minutes) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            }
-        });
-    },
-
-    findLastCard: function (req, res) {
-        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
-            curTime = Date.now(),
-            ms1Minutes = 60000;
-        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                if (result.length === 0) {
-                    console.log("return true");
-                    return true;
-                }
-                else {
-                    if (curTime - result[0].date < ms1Minutes) {
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
-                }
-            }
-        });
-    }
-};
+//
+//    canWrite: function (req, res) {
+//        var curTime = Date.now(),
+//            ms6Hour = 21600000,
+//            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+//        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
+//            if (err) {
+//                res.render('message', {message: "다시 시도해 주세요"});
+//            }
+//            else {
+//                // maximum : 30
+//                var userCardNum = result.length;
+//                if (userCardNum === 30) {
+//                    var lastCardTime = curTime - result[userCardNum].date;
+//                    if (lastCardTime < ms6Hour) {
+//                        return false;
+//                    }
+//                    else {
+//                        writeValid.listLastCard(req, res);
+//                    }
+//                }
+//                else if (userCardNum < 30) {
+//                    writeValid.listLastCard(req, res);
+//                }
+//            }
+//        });
+//    },
+//
+//    listLastCard: function (req, res) {
+//        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+//        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+//            if (err) {
+//                res.render('message', {message: "다시 시도해 주세요"});
+//            }
+//            else {
+//                if (result[0].user === hashedUserId) {
+//                    writeValid.threeMinutes(req, res);
+//                }
+//                else {
+//                    writeValid.findLastCard(req, res);
+//                }
+//            }
+//        });
+//    },
+//
+//    threeMinutes: function (req, res) {
+//        var curTime = Date.now(),
+//            ms3Minutes = 180000;
+//        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+//            if (err) {
+//                res.render('message', {message: "다시 시도해 주세요"});
+//            }
+//            else {
+//                if (curTime - result[0].date < ms3Minutes) {
+//                    return false;
+//                }
+//                else {
+//                    return true;
+//                }
+//            }
+//        });
+//    },
+//
+//    findLastCard: function (req, res) {
+//        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+//            curTime = Date.now(),
+//            ms1Minutes = 60000;
+//        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
+//            if (err) {
+//                res.render('message', {message: "다시 시도해 주세요"});
+//            }
+//            else {
+//                if (result.length === 0) {
+//                    console.log("return true");
+//                    return true;
+//                }
+//                else {
+//                    if (curTime - result[0].date < ms1Minutes) {
+//                        return false;
+//                    }
+//                    else {
+//                        return true;
+//                    }
+//                }
+//            }
+//        });
+//    }
+//};
 
 exports.write = function (req, res) {
     var write = function (req, res) {
@@ -507,11 +507,16 @@ exports.write = function (req, res) {
                 res.render('message', {message: "다시 시도해 주세요"});
             }
             else {
-                if (result[0].user === hashedUserId) {
-                    threeMinutes(req, res);
+                if (result.length === 0) {
+                    writeCard(req, res);
                 }
                 else {
-                    findLastCard(req, res);
+                    if (result[0].user === hashedUserId) {
+                        threeMinutes(req, res);
+                    }
+                    else {
+                        findLastCard(req, res);
+                    }
                 }
             }
         });
@@ -545,7 +550,6 @@ exports.write = function (req, res) {
             }
             else {
                 if (result.length === 0) {
-                    console.log("return true");
                     writeCard(req, res);
                 }
                 else {
