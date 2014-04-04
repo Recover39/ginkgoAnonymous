@@ -695,12 +695,22 @@ exports.addComment = function (req, res) {
 };
 
 exports.deleteCard = function (req) {
-    var card_id = req.params.card_id;
-    cardModel.remove({_id: card_id}, function (err) {
-        if (err) {
-            throw err;
+    var checkAdmin = function(req) {
+        if (req.session.isAdmin === true) {
+            return true;
         }
-    });
+        else {
+            return false;
+        }
+    };
+    if (checkAdmin(req) === true) {
+        var card_id = req.params.card_id;
+        cardModel.remove({_id: card_id}, function (err) {
+            if (err) {
+                throw err;
+            }
+        });
+    }
 };
 
 var deleteCard = function () {
