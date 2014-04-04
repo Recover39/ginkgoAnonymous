@@ -604,7 +604,17 @@ exports.write = function (req, res) {
     };
 
     var writeCard = function (req, res) {
-        var body = req.body.body.toString(),
+        var XSSfilter = function (content) {
+            return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        };
+        var checkURL = function(string) {
+            var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+
+            var result = string.replace(URLregxp, '<a href="$1" target="_blank">$1</a>');
+
+            return result;
+        };
+        var body = checkURL(XSSfilter(req.body.body)),
             date = Date.now(),
             hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
 
@@ -645,8 +655,18 @@ exports.write = function (req, res) {
 };
 
 exports.addComment = function (req, res) {
+    var XSSfilter = function (content) {
+        return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    };
+    var checkURL = function(string) {
+        var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+
+        var result = string.replace(URLregxp, '<a href="$1" target="_blank">$1</a>');
+
+        return result;
+    };
     var card_id = req.params.card_id,
-        commentBody = req.body.commentBody.toString(),
+        commentBody = checkURL(XSSfilter(req.body.commentBody)),
         user = req.session.userId;
 
     // prevent null value on commentBody

@@ -19,9 +19,9 @@ nav.navbar {
 }
 
 #title {
-    position : fixed;
+    position: fixed;
     left: 50%;
-    margin : 0 0 0 -101px;
+    margin: 0 0 0 -101px;
     height: 34px;
     width: 200px;
     text-align: center;
@@ -191,6 +191,7 @@ nav .logout {
     padding-left: 24px;
     padding-right: 24px;
     text-align: left;
+    word-break: break-all;
 }
 
 .cardStatus {
@@ -242,6 +243,7 @@ nav .logout {
     margin-bottom: 4px;
     border-bottom: 1px solid #ded9d9;
     text-align: left;
+    word-break: break-all;
 }
 
 .cardComment .commentCommit {
