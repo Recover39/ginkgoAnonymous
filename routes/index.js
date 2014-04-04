@@ -393,11 +393,16 @@ exports.write = function (req, res) {
                 res.render('message', {message: "다시 시도해 주세요"});
             }
             else {
-                if (result[0].user === hashedUserId) {
-                    threeMinutes(req, res);
+                if (result.length === 0) {
+                    writeCard(req, res);
                 }
                 else {
-                    findLastCard(req, res);
+                    if (result[0].user === hashedUserId) {
+                        threeMinutes(req, res);
+                    }
+                    else {
+                        findLastCard(req, res);
+                    }
                 }
             }
         });
