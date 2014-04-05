@@ -8,8 +8,8 @@ var http = require('http');
 var path = require('path');
 
 var app = express(),
-    server = http.createServer(app);
-    //io = require('socket.io').listen(4000);
+    server = http.createServer(app),
+    io = require('socket.io').listen(server);
 
 // all environments
 
@@ -119,8 +119,8 @@ app.post('/user/closeAccount/complete', routes.userCloseAccountComplete);
 ////////////////
 //writeCard
 ////////////////
-//app.post('/card/add', routes.write(io));
-app.post('/card/add', routes.write);
+app.post('/card/add', routes.write(io));
+//app.post('/card/add', routes.write);
 
 ////////////////
 //modifyCard
