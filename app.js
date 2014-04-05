@@ -15,7 +15,7 @@ var app = express(),
 
 app.configure(function () {
     app.use(express.static(path.join(__dirname, 'public')), {maxAge : 30 * 24 * 60 * 60 * 1000});
-    app.set('port', process.env.PORT || 3000);
+    app.set('port', process.env.PORT || 80);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
     app.set('view option', { layout: false });
@@ -132,14 +132,4 @@ server.listen(app.get('port'), function () {
     console.log('\n///////////////////////////////////////////////\n' +
         '//// Express server listening on port ' + app.get('port') + ' ////' +
         '\n///////////////////////////////////////////////\n');
-});
-
-
-////////////////
-//ioSession
-////////////////
-io.sockets.on('connection', function(socket) {
-    socket.on('my event', function(content) {
-        console.log(content);
-    });
 });

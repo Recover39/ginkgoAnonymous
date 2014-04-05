@@ -646,13 +646,15 @@ exports.write = function (io) {
                         throw err;
                     }
                     else {
+                        io.sockets.on('connection', function (socket) {
+                            socket.emit('newCard');
+                            socket.emit('socketT');
+                            console.log('socketEmit');
+                        });
 //                  res.contentType('json');
 //                  res.send(card);
                         res.redirect('/');
 //                  res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
-                        io.sockets.on('connection', function(socket) {
-                           socket.emit('newCard');
-                        });
                     }
                 });
             }
