@@ -101,7 +101,7 @@ var pageFunction = (function () {
     var load = {
         checkNewCard: function () {
             var socket = io.connect('http://www.skkuleaf.com');
-            socket.on('newCard', load.showButton());
+            //socket.on('newCard', load.showButton());
             console.log('check');
         },
         showButton: function (number) {
@@ -113,7 +113,7 @@ var pageFunction = (function () {
         newCard: function () {
             window.location.reload();
             load.hideButton();
-            window.location = "/card#newCardStart";
+            window.location = "/";
         }
     };
 
