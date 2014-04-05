@@ -12,7 +12,7 @@ var app = express();
 // all environments
 
 app.configure(function () {
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(express.static(path.join(__dirname, 'public')), {maxAge : 30 * 24 * 60 * 60 * 1000});
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
@@ -26,6 +26,7 @@ app.configure(function () {
     app.use(express.cookieParser());
     app.use(express.session({ secret: "keyboard cat" }));
     app.use(express.methodOverride());
+    app.use(express.compress());
     app.use(app.router);
     // Since this is the last non-error-handling
     // middleware use()d, we assume 404, as nothing else
