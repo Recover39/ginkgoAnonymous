@@ -31,10 +31,10 @@ var pageWriteFunction = (function () {
                         commentDiv = document.createElement('div');
 
                     if(res.isAdmin === true) {
-                        commentDiv.style.color = "#E82C0C";
+                        commentDiv.style.color = "#E85247";
                     }
                     else if (res.userSame === true) {
-                        commentDiv.style.color = "#075FFF";
+                        commentDiv.style.color = "#5C81E8";
                     }
 
                     commentDiv.className = "comment";

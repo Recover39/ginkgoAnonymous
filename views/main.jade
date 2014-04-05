@@ -60,11 +60,11 @@ html
                                 .commentList
                                     each comment in card.comments
                                         if (comment.isAdmin === true)
-                                            .comment(style='color: #E82C0C;')
+                                            .comment(style='color: #E85247;')
                                                 | !{comment.body}
                                         else
                                             if(card.user === comment.user)
-                                                .comment(style='color: #075FFF;')
+                                                .comment(style='color: #5C81E8;')
                                                     | !{comment.body}
                                             else
                                                 .comment
