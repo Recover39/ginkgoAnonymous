@@ -57,10 +57,10 @@ html
                                     .commitCount
                                         | 댓글 #{card.comments.length}개
                                     .likeCount
-                                if (card.isAdmin === true)
-                                else
-                                    .report(onclick='location.href=\'/card/#{card._id}/report\';')
-                                        | 신고
+                                    if (card.isAdmin === true)
+                                    else
+                                        .report(onclick='location.href=\'/card/#{card._id}/report\';')
+                                            | 신고
                                 .cardComment
                                     .commentList
                                         each comment in card.comments
