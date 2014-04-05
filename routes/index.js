@@ -644,7 +644,7 @@ exports.write = function (io) {
                     }
                     else {
                         io.sockets.on('connection', function (socket) {
-                            socket.emit('newCard');
+                            socket.broadcast.emit('newCard');
                         });
 //                  res.contentType('json');
 //                  res.send(card);
