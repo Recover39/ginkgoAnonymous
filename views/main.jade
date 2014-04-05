@@ -40,7 +40,7 @@ html
             .row
                 .col-md-6.col-md-offset-3.cardList
                     each card in cards
-                        if(card.report < 7)
+                        if(card.report < 7 || card.report === undefined || card.report === null)
                             .card
                                 .cardInfomation
                                     .cardNum
