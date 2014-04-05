@@ -30,6 +30,10 @@ var pageWriteFunction = (function () {
                         commentFragment = document.createDocumentFragment(),
                         commentDiv = document.createElement('div');
 
+                    if(res.isAdmin === true) {
+                        commentDiv.style.color = "#E82C0C";
+                    }
+
                     commentDiv.className = "comment";
                     commentDiv.innerHTML = res.commentBody;
                     commentFragment.appendChild(commentDiv);

@@ -49,8 +49,12 @@ html
                             .cardComment
                                 .commentList
                                     each comment in card.comments
-                                        .comment
-                                            | !{comment.body}
+                                        if (comment.isAdmin === true)
+                                            .comment(style='color: #E82C0C;')
+                                                | !{comment.body}
+                                        else
+                                            .comment
+                                                | !{comment.body}
                                 form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
                                     input(type='hidden', name='cardId', value='#{card._id}')
                                     textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')

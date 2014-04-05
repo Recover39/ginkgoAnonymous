@@ -46,7 +46,7 @@ var cardScheme = new Schema({
     body: String,
     like: Number,
     comments: [
-        { user: String, body: String }
+        { user: String, body: String, isAdmin : Boolean }
     ]
 }, {collection: 'card'});
 
@@ -667,7 +667,8 @@ exports.addComment = function (req, res) {
     };
     var card_id = req.params.card_id,
         commentBody = checkURL(XSSfilter(req.body.commentBody)),
-        user = req.session.userId;
+        user = req.session.userId,
+        isAdmin = req.session.isAdmin;
 
     // prevent null value on commentBody
     if (commentBody === undefined || commentBody === "") {
@@ -679,14 +680,14 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                data.comments.push({ user: user, body: commentBody});
+                data.comments.push({ user: user, body: commentBody, isAdmin: isAdmin});
                 data.save(function (err) {
                     if (err) {
                         throw err;
                     }
                     else {
                         res.contentType('json');
-                        res.send({commentBody: commentBody});
+                        res.send({commentBody: commentBody, isAdmin:isAdmin});
                     }
                 });
             }
