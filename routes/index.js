@@ -45,6 +45,7 @@ var cardScheme = new Schema({
     date: Number,
     body: String,
     like: Number,
+    isAdmin : Boolean,
     comments: [
         { user: String, body: String, isAdmin: Boolean }
     ]
@@ -607,6 +608,7 @@ exports.write = function (req, res) {
         var XSSfilter = function (content) {
             return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         };
+
         var checkURL = function (string) {
             var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
@@ -614,9 +616,11 @@ exports.write = function (req, res) {
 
             return result;
         };
+
         var body = checkURL(XSSfilter(req.body.body)),
             date = Date.now(),
-            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+            isAdmin = req.session.isAdmin;
 
         var card = new cardModel();
 
@@ -624,6 +628,7 @@ exports.write = function (req, res) {
         card.user = hashedUserId;
         card.date = date;
         card.like = 0;
+        card.isAdmin = isAdmin;
         card.comments = [];
 
         // prevent null value on body

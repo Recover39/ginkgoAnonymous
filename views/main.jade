@@ -46,8 +46,12 @@ html
                                     | No.#{card._id}
                                 .cardCommitTime
                                     | #{card.date}
-                            .cardBody
-                                | !{card.body}
+                            if (card.isAdmin === true)
+                                .cardBody(style='color: #E82C0C;')
+                                    | !{card.body}
+                            else
+                                .cardBody
+                                    | !{card.body}
                             .cardStatus
                                 .commitCount
                                     | 댓글 #{card.comments.length}개
