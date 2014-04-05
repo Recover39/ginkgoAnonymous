@@ -30,7 +30,7 @@ var pageWriteFunction = (function () {
                         commentFragment = document.createDocumentFragment(),
                         commentDiv = document.createElement('div');
 
-                    if(res.isAdmin === true) {
+                    if (res.isAdmin === true) {
                         commentDiv.style.color = "#E85247";
                     }
                     else if (res.userSame === true) {
@@ -55,7 +55,6 @@ var pageWriteFunction = (function () {
                     (function () {
                         likeSection.innerHTML = "댓글 " + likeCountNum + "개";
                     })();
-
                 }
             };
 
@@ -83,20 +82,37 @@ var pageWriteFunction = (function () {
                 curTextArea.style.height = "";
                 curTextArea.style.height = Math.min(curTextArea.scrollHeight, 100) + "px";
             };
+        },
+
+        toMain: function () {
+            window.location.reload();
+            window.location = "/";
         }
     };
 
     return {
         cardEventAdd: card.addEvent,
-        commentEventAdd: comment.addEvent
+        commentEventAdd: comment.addEvent,
+        toMain: util.toMain
     };
 })();
 
 var pageFunction = (function () {
     var load = {
-        toMain: function () {
+        checkNewCard: function () {
+            var socket = io.connect();
+            socket.on('newCard', load.showButton());
+        },
+        showButton: function (number) {
+            $("#newCardButton").css("display", "block");
+        },
+        hideButton: function () {
+            $("#newCardButton").css("display", "none");
+        },
+        newCard: function () {
             window.location.reload();
-            window.location = "/";
+            load.hideButton();
+            window.location = "/card#newCardStart";
         }
     };
 
@@ -116,13 +132,6 @@ var pageFunction = (function () {
                 //later, add color to Time
                 cardInfoDiv[i].childNodes[1].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
             }
-        },
-
-        deleteCard: function (card_id) {
-            $.ajax({
-                type: "POST",
-                url: "/card/" + card_id + "/delete"
-            });
         }
     };
 
@@ -131,10 +140,8 @@ var pageFunction = (function () {
     })();
 
     return {
-        checkNewCard: load.checkNewCard,
         hideButton: load.hideButton,
-        newCard: load.newCard,
-        toMain: load.toMain
+        newCard: load.newCard
     }
 })();
 
@@ -144,4 +151,4 @@ var pageFunction = (function () {
 })();
 
 var newCard = pageFunction.newCard;
-var toMain = pageFunction.toMain;
+var toMain = pageWriteFunction.toMain;

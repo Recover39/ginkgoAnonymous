@@ -7,7 +7,9 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 
-var app = express();
+var app = express(),
+    server = http.createServer(app),
+    io = require('socket.io').listen(server);
 
 // all environments
 
@@ -117,7 +119,7 @@ app.post('/user/closeAccount/complete', routes.userCloseAccountComplete);
 ////////////////
 //writeCard
 ////////////////
-app.post('/card/add', routes.write);
+app.post('/card/add', routes.write(io));
 
 ////////////////
 //modifyCard
@@ -126,9 +128,18 @@ app.post('/card/add', routes.write);
 app.post('/card/:card_id/comment/add', routes.addComment);
 app.post('/card/:card_id/delete', routes.deleteCard);
 
-
-http.createServer(app).listen(app.get('port'), function () {
+server.listen(app.get('port'), function () {
     console.log('\n///////////////////////////////////////////////\n' +
         '//// Express server listening on port ' + app.get('port') + ' ////' +
         '\n///////////////////////////////////////////////\n');
+});
+
+
+////////////////
+//ioSession
+////////////////
+io.sockets.on('connection', function(socket) {
+    socket.on('my event', function(content) {
+        console.log(content);
+    });
 });

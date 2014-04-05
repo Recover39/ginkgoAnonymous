@@ -45,7 +45,7 @@ var cardScheme = new Schema({
     date: Number,
     body: String,
     like: Number,
-    isAdmin : Boolean,
+    isAdmin: Boolean,
     comments: [
         { user: String, body: String, isAdmin: Boolean }
     ]
@@ -512,154 +512,159 @@ exports.userCloseAccountComplete = function (req, res) {
 //    }
 //};
 
-exports.write = function (req, res) {
-    var write = function (req, res) {
-        var curTime = Date.now(),
-            ms6Hour = 21600000,
-            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                // maximum : 30
-                var userCardNum = result.length;
-                if (userCardNum === 0) {
-                    writeCard(req,res);
+exports.write = function (io) {
+    return function (req, res) {
+        var write = function (req, res) {
+            var curTime = Date.now(),
+                ms6Hour = 21600000,
+                hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+            cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
+                if (err) {
+                    res.render('message', {message: "다시 시도해 주세요"});
                 }
-                if (userCardNum === 30) {
-                    var lastCardTime = curTime - result[userCardNum].date;
-                    if (lastCardTime < ms6Hour) {
-                        preventWriteCard(req, res);
+                else {
+                    // maximum : 30
+                    var userCardNum = result.length;
+                    if (userCardNum === 0) {
+                        writeCard(req, res);
                     }
-                    else {
+                    if (userCardNum === 30) {
+                        var lastCardTime = curTime - result[userCardNum].date;
+                        if (lastCardTime < ms6Hour) {
+                            preventWriteCard(req, res);
+                        }
+                        else {
+                            listLastCard(req, res);
+                        }
+                    }
+                    else if (userCardNum < 30) {
                         listLastCard(req, res);
                     }
                 }
-                else if (userCardNum < 30) {
-                    listLastCard(req, res);
-                }
-            }
-        });
-    };
+            });
+        };
 
-    var listLastCard = function (req, res) {
-        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                if (result.length === 0) {
-                    writeCard(req, res);
+        var listLastCard = function (req, res) {
+            var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+            cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+                if (err) {
+                    res.render('message', {message: "다시 시도해 주세요"});
                 }
                 else {
-                    if (result[0].user === hashedUserId) {
-                        threeMinutes(req, res);
+                    if (result.length === 0) {
+                        writeCard(req, res);
                     }
                     else {
-                        findLastCard(req, res);
+                        if (result[0].user === hashedUserId) {
+                            threeMinutes(req, res);
+                        }
+                        else {
+                            findLastCard(req, res);
+                        }
                     }
                 }
-            }
-        });
-    };
+            });
+        };
 
-    var threeMinutes = function (req, res) {
-        var curTime = Date.now(),
-            ms3Minutes = 180000;
-        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                if (curTime - result[0].date < ms3Minutes) {
-                    preventWriteCard(req, res);
+        var threeMinutes = function (req, res) {
+            var curTime = Date.now(),
+                ms3Minutes = 180000;
+            cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+                if (err) {
+                    res.render('message', {message: "다시 시도해 주세요"});
                 }
                 else {
-                    writeCard(req, res);
-                }
-            }
-        });
-    };
-
-    var findLastCard = function (req, res) {
-        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
-            curTime = Date.now(),
-            ms1Minutes = 60000;
-        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
-            if (err) {
-                res.render('message', {message: "다시 시도해 주세요"});
-            }
-            else {
-                if (result.length === 0) {
-                    writeCard(req, res);
-                }
-                else {
-                    if (curTime - result[0].date < ms1Minutes) {
+                    if (curTime - result[0].date < ms3Minutes) {
                         preventWriteCard(req, res);
                     }
                     else {
                         writeCard(req, res);
                     }
                 }
-            }
-        });
-    };
-
-    var writeCard = function (req, res) {
-        var XSSfilter = function (content) {
-            return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            });
         };
 
-        var checkURL = function (string) {
-            var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-
-            var result = string.replace(URLregxp, '<a href="$1" target="_blank">$1</a>');
-
-            return result;
-        };
-
-        var body = checkURL(XSSfilter(req.body.body)),
-            date = Date.now(),
-            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
-            isAdmin = req.session.isAdmin;
-
-        var card = new cardModel();
-
-        card.body = body;
-        card.user = hashedUserId;
-        card.date = date;
-        card.like = 0;
-        card.isAdmin = isAdmin;
-        card.comments = [];
-
-        // prevent null value on body
-        if (body === undefined || body === "") {
-            res.render('message', {message: "글 입력란은 빈칸으로 둘 수 없습니다."});
-        }
-        else {
-            // not using ajax
-            card.save(function (err) {
+        var findLastCard = function (req, res) {
+            var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+                curTime = Date.now(),
+                ms1Minutes = 60000;
+            cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
                 if (err) {
-                    throw err;
+                    res.render('message', {message: "다시 시도해 주세요"});
                 }
                 else {
-//            res.contentType('json');
-//            res.send(card);
-                    res.redirect('/');
-//            res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
+                    if (result.length === 0) {
+                        writeCard(req, res);
+                    }
+                    else {
+                        if (curTime - result[0].date < ms1Minutes) {
+                            preventWriteCard(req, res);
+                        }
+                        else {
+                            writeCard(req, res);
+                        }
+                    }
                 }
             });
-        }
-    };
+        };
 
-    var preventWriteCard = function (req, res) {
-        res.render('message', {message: "도배를 방지합니다. 2분간 기다린 후 작성해주세요"});
-    };
+        var writeCard = function (req, res) {
+            var XSSfilter = function (content) {
+                return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            };
 
-    //// start function ////
-    write(req, res);
+            var checkURL = function (string) {
+                var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+
+                var result = string.replace(URLregxp, '<a href="$1" target="_blank">$1</a>');
+
+                return result;
+            };
+
+            var body = checkURL(XSSfilter(req.body.body)),
+                date = Date.now(),
+                hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+                isAdmin = req.session.isAdmin;
+
+            var card = new cardModel();
+
+            card.body = body;
+            card.user = hashedUserId;
+            card.date = date;
+            card.like = 0;
+            card.isAdmin = isAdmin;
+            card.comments = [];
+
+            // prevent null value on body
+            if (body === undefined || body === "") {
+                res.render('message', {message: "글 입력란은 빈칸으로 둘 수 없습니다."});
+            }
+            else {
+                // not using ajax
+                card.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                    else {
+//                  res.contentType('json');
+//                  res.send(card);
+                        res.redirect('/');
+//                  res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
+                        io.sockets.on('connection', function(socket) {
+                           socket.emit('newCard');
+                        });
+                    }
+                });
+            }
+        };
+
+        var preventWriteCard = function (req, res) {
+            res.render('message', {message: "도배를 방지합니다. 2분간 기다린 후 작성해주세요"});
+        };
+
+        //// start function ////
+        write(req, res);
+    }
 };
 
 exports.addComment = function (req, res) {
@@ -701,14 +706,14 @@ exports.addComment = function (req, res) {
                 };
                 var userSame = userCompare(writeUser, commentUserId);
 
-                data.comments.push({ user: commentUserId , body: commentBody, isAdmin: isAdmin});
+                data.comments.push({ user: commentUserId, body: commentBody, isAdmin: isAdmin});
                 data.save(function (err) {
                     if (err) {
                         throw err;
                     }
                     else {
                         res.contentType('json');
-                        res.send({commentBody: commentBody, isAdmin: isAdmin, userSame : userSame});
+                        res.send({commentBody: commentBody, isAdmin: isAdmin, userSame: userSame});
                     }
                 });
             }
