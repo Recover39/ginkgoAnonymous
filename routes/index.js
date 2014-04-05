@@ -525,9 +525,6 @@ exports.write = function (io) {
                 else {
                     // maximum : 30
                     var userCardNum = result.length;
-                    if (userCardNum === 0) {
-                        writeCard(req, res);
-                    }
                     if (userCardNum === 30) {
                         var lastCardTime = curTime - result[userCardNum].date;
                         if (lastCardTime < ms6Hour) {
