@@ -100,11 +100,11 @@ var pageWriteFunction = (function () {
 var pageFunction = (function () {
     var load = {
         checkNewCard: function () {
-            var socket = io.connect('http://www.skkuleaf.com');
-            //socket.on('newCard', load.showButton);
-            console.log('check');
+//            var socket = io.connect('http://localhost:4000');
+//            socket.on('newCard', load.showButton);
+//            console.log('check');
         },
-        showButton: function (number) {
+        showButton: function () {
             $("#newCardButton").css("display", "block");
         },
         hideButton: function () {

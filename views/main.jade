@@ -40,39 +40,168 @@ html
             .row
                 .col-md-6.col-md-offset-3.cardList
                     each card in cards
-                        .card
-                            .cardInfomation
-                                .cardNum
-                                    | No.#{card._id}
-                                .cardCommitTime
-                                    | #{card.date}
-                            if (card.isAdmin === true)
-                                .cardBody(style='color: #E82C0C;')
-                                    | !{card.body}
-                            else
-                                .cardBody
-                                    | !{card.body}
-                            .cardStatus
-                                .commitCount
-                                    | 댓글 #{card.comments.length}개
-                                .likeCount
-                            .cardComment
-                                .commentList
-                                    each comment in card.comments
-                                        if (comment.isAdmin === true)
-                                            .comment(style='color: #E85247;')
-                                                | !{comment.body}
-                                        else
-                                            if(card.user === comment.user)
-                                                .comment(style='color: #5C81E8;')
+                        if(card.report < 7)
+                            .card
+                                .cardInfomation
+                                    .cardNum
+                                        | No.#{card._id}
+                                    .cardCommitTime
+                                        | #{card.date}
+                                if (card.isAdmin === true)
+                                    .cardBody(style='color: #E82C0C;')
+                                        | !{card.body}
+                                else
+                                    .cardBody
+                                        | !{card.body}
+                                .cardStatus
+                                    .commitCount
+                                        | 댓글 #{card.comments.length}개
+                                    .likeCount
+                                    .report(onclick='location.href=\'/card/#{card._id}/report\';')
+                                        | 신고
+                                .cardComment
+                                    .commentList
+                                        each comment in card.comments
+                                            if (comment.isAdmin === true)
+                                                .comment(style='color: #E85247;')
                                                     | !{comment.body}
                                             else
-                                                .comment
+                                                if(card.user === comment.user)
+                                                    .comment(style='color: #5C81E8;')
+                                                        | !{comment.body}
+                                                else
+                                                    .comment
+                                                        | !{comment.body}
+                                    form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
+                                        input(type='hidden', name='cardId', value='#{card._id}')
+                                        textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
+                                        button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+                        else if (card.report === 7)
+                            .card(style='background-color : #F2D7D7;')
+                                .cardInfomation
+                                    .cardNum
+                                        | No.#{card._id}
+                                    .cardCommitTime
+                                        | #{card.date}
+                                if (card.isAdmin === true)
+                                    .cardBody(style='color: #E82C0C;')
+                                        | !{card.body}
+                                else
+                                    .cardBody
+                                        | !{card.body}
+                                .cardStatus
+                                    .commitCount
+                                        | 댓글 #{card.comments.length}개
+                                    .likeCount
+                                    .report(onclick='location.href=\'/card/#{card._id}/report\';')
+                                        | 신고
+                                .cardComment
+                                    .commentList
+                                        each comment in card.comments
+                                            if (comment.isAdmin === true)
+                                                .comment(style='color: #E85247;')
                                                     | !{comment.body}
-                                form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
-                                    input(type='hidden', name='cardId', value='#{card._id}')
-                                    textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
-                                    button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+                                            else
+                                                if(card.user === comment.user)
+                                                    .comment(style='color: #5C81E8;')
+                                                        | !{comment.body}
+                                                else
+                                                    .comment
+                                                        | !{comment.body}
+                                    form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
+                                        input(type='hidden', name='cardId', value='#{card._id}')
+                                        textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
+                                        button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+                        else if (card.report === 8)
+                            .card(style='background-color : #FF8D8F;')
+                                .cardInfomation(style='color: #666363;')
+                                    .cardNum
+                                        | No.#{card._id}
+                                    .cardCommitTime
+                                        | #{card.date}
+                                .cardBody(style='color: #666363;')
+                                    | !{card.body}
+                                .cardStatus
+                                    .commitCount
+                                        | 댓글 #{card.comments.length}개
+                                    .likeCount
+                                    .report(onclick='location.href=\'/card/#{card._id}/report\';')
+                                        | 신고
+                                .cardComment
+                                    .commentList
+                                        each comment in card.comments
+                                            if (comment.isAdmin === true)
+                                                .comment(style='color: #E85247;')
+                                                    | !{comment.body}
+                                            else
+                                                if(card.user === comment.user)
+                                                    .comment(style='color: #5C81E8;')
+                                                        | !{comment.body}
+                                                else
+                                                    .comment
+                                                        | !{comment.body}
+                                    form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
+                                        input(type='hidden', name='cardId', value='#{card._id}')
+                                        textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
+                                        button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+                        else if (card.report === 9)
+                            .card(style='background-color : #FF5955;')
+                                .cardInfomation(style='color: #5E5C5C;')
+                                    .cardNum
+                                        | No.#{card._id}
+                                    .cardCommitTime
+                                        | #{card.date}
+                                .cardBody(style='color: #5E5C5C;')
+                                    | !{card.body}
+                                .cardStatus
+                                    .commitCount
+                                        | 댓글 #{card.comments.length}개
+                                    .likeCount
+                                    .report(onclick='location.href=\'/card/#{card._id}/report\';')
+                                        | 신고
+                                .cardComment
+                                    .commentList
+                                        each comment in card.comments
+                                            if (comment.isAdmin === true)
+                                                .comment(style='color: #E85247;')
+                                                    | !{comment.body}
+                                            else
+                                                if(card.user === comment.user)
+                                                    .comment(style='color: #5C81E8;')
+                                                        | !{comment.body}
+                                                else
+                                                    .comment
+                                                        | !{comment.body}
+                                    form.commentCommit(action = '/card/#{card._id}/comment/add', method = 'post', role='form')
+                                        input(type='hidden', name='cardId', value='#{card._id}')
+                                        textarea.commentBody(rows='1', cols='20', type='text', name='commentBody')
+                                        button.btn.btn-lg.btn-block.commentButton(type='submit')  댓글
+                        else if (card.report >= 10)
+                            .card(style='background-color : #4C4747;')
+                                .cardInfomation
+                                    .cardNum
+                                        | No.#{card._id}
+                                    .cardCommitTime
+                                        | #{card.date}
+                                .cardBody(style='color: #BDB0AE;')
+                                    | 신고가 10개가 넘어 펑! 터진 글이에요
+                                .cardStatus
+                                    .commitCount
+                                        | 댓글 #{card.comments.length}개
+                                    .likeCount
+                                .cardComment
+                                    .commentList
+                                        each comment in card.comments
+                                            if (comment.isAdmin === true)
+                                                .comment(style='color: #E85247;')
+                                                    | !{comment.body}
+                                            else
+                                                if(card.user === comment.user)
+                                                    .comment(style='color: #5C81E8;')
+                                                        | !{comment.body}
+                                                else
+                                                    .comment
+                                                        | !{comment.body}
         footer
             .col-md-6.col-md-offset-3
                 | © 2014 &nbsp

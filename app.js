@@ -8,8 +8,8 @@ var http = require('http');
 var path = require('path');
 
 var app = express(),
-    server = http.createServer(app),
-    io = require('socket.io').listen(server);
+    server = http.createServer(app);
+    //io = require('socket.io').listen(4000);
 
 // all environments
 
@@ -119,7 +119,8 @@ app.post('/user/closeAccount/complete', routes.userCloseAccountComplete);
 ////////////////
 //writeCard
 ////////////////
-app.post('/card/add', routes.write(io));
+//app.post('/card/add', routes.write(io));
+app.post('/card/add', routes.write);
 
 ////////////////
 //modifyCard
@@ -127,6 +128,7 @@ app.post('/card/add', routes.write(io));
 //app.post('/card/:card_id/like', routes.like);
 app.post('/card/:card_id/comment/add', routes.addComment);
 app.post('/card/:card_id/delete', routes.deleteCard);
+app.get('/card/:card_id/report', routes.reportCard);
 
 server.listen(app.get('port'), function () {
     console.log('\n///////////////////////////////////////////////\n' +

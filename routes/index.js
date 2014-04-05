@@ -46,6 +46,10 @@ var cardScheme = new Schema({
     body: String,
     like: Number,
     isAdmin: Boolean,
+    report: Number,
+    reportUser: [
+        {user: String}
+    ],
     comments: [
         { user: String, body: String, isAdmin: Boolean }
     ]
@@ -630,6 +634,8 @@ exports.write = function (io) {
             card.date = date;
             card.like = 0;
             card.isAdmin = isAdmin;
+            card.report = 0;
+            card.reportUser = [];
             card.comments = [];
 
             // prevent null value on body
@@ -643,9 +649,9 @@ exports.write = function (io) {
                         throw err;
                     }
                     else {
-                        io.sockets.on('connection', function (socket) {
-                            socket.broadcast.emit('newCard');
-                        });
+//                        io.sockets.on('connection', function (socket) {
+//                            socket.broadcast.emit('newCard');
+//                        });
 //                  res.contentType('json');
 //                  res.send(card);
                         res.redirect('/');
@@ -766,3 +772,39 @@ var deleteCard = function () {
         deleteCard();
     }, 60000);
 })();
+
+exports.reportCard = function (req, res) {
+    var curUser = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
+        card_id = req.params.card_id;
+
+    cardModel.findOne({_id: card_id}, function (err, data) {
+        if (err) {
+            throw err;
+        }
+        else {
+            var reportNum = data.report;
+            console.log(reportNum);
+            var firstReport = 0;
+            for (var i = 0; i < reportNum; i++) {
+                if (data.reportUser[i].user === curUser) {
+                    firstReport = firstReport + 1;
+                }
+            }
+            if (firstReport === 0) {
+                data.report = reportNum + 1;
+                data.reportUser.push({ user: curUser});
+                data.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                    else {
+                        res.render('message', {message: '신고되었습니다. 감사합니다.'});
+                    }
+                });
+            }
+            else {
+                res.render('message', {message: '이미 신고하신 글은 다시 신고할 수 없어요!'});
+            }
+        }
+    });
+};
