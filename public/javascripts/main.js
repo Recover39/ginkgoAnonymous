@@ -33,6 +33,9 @@ var pageWriteFunction = (function () {
                     if(res.isAdmin === true) {
                         commentDiv.style.color = "#E82C0C";
                     }
+                    else if (res.userSame === true) {
+                        commentDiv.style.color = "#075FFF";
+                    }
 
                     commentDiv.className = "comment";
                     commentDiv.innerHTML = res.commentBody;

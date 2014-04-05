@@ -98,6 +98,18 @@ nav .logout {
     z-index: 1;
 }
 
+#notice {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(132, 175, 54, 0.26);
+    background-color: #7797af;
+    color: #e5e8e5;
+    font-size: 13px;
+    text-align: center;
+    z-index: 1;
+}
+
 #writePost {
     height: auto;
     margin-top: 20px;

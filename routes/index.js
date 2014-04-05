@@ -46,7 +46,7 @@ var cardScheme = new Schema({
     body: String,
     like: Number,
     comments: [
-        { user: String, body: String, isAdmin : Boolean }
+        { user: String, body: String, isAdmin: Boolean }
     ]
 }, {collection: 'card'});
 
@@ -368,30 +368,30 @@ exports.userCloseAccountComplete = function (req, res) {
     var password = req.body.password,
         userId = req.session.userId;
 
-    mysqlConn.query('SELECT password, passwordSalt FROM user WHERE id = ?', [userId], function(err, result) {
+    mysqlConn.query('SELECT password, passwordSalt FROM user WHERE id = ?', [userId], function (err, result) {
         if (err) {
-            res.render('message', {message : '이런! 시스템이 탈퇴를 거부하나봐요. 다시 시도해주세요'});
+            res.render('message', {message: '이런! 시스템이 탈퇴를 거부하나봐요. 다시 시도해주세요'});
         }
         else {
             if (result.length === 0) {
-                res.render('message', {message : '잡았다 요놈!'});
+                res.render('message', {message: '잡았다 요놈!'});
             }
             else {
                 var hashpassword = crypto.createHash('sha512').update(result[0].passwordSalt + password).digest('hex');
                 if (result[0].password === hashpassword) {
-                    mysqlConn.query('DELETE FROM user WHERE id = ?', [userId], function(err) {
+                    mysqlConn.query('DELETE FROM user WHERE id = ?', [userId], function (err) {
                         if (err) {
-                            res.render('message', {message : '이런! 시스템이 탈퇴를 거부하나봐요. 다시 시도해주세요'});
+                            res.render('message', {message: '이런! 시스템이 탈퇴를 거부하나봐요. 다시 시도해주세요'});
                         }
                         else {
                             req.session.loginStatus = false;
                             req.session.isAdmin = false;
-                            res.render('message', {message : '탈퇴되셨습니다. 다음에 또 뵈요.. 꼭..!'});
+                            res.render('message', {message: '탈퇴되셨습니다. 다음에 또 뵈요.. 꼭..!'});
                         }
                     });
                 }
                 else {
-                    res.render('message', {message : '비밀번호가 틀리셨어요. 탈퇴하지 마세용 ㅜㅠ'});
+                    res.render('message', {message: '비밀번호가 틀리셨어요. 탈퇴하지 마세용 ㅜㅠ'});
                 }
             }
         }
@@ -607,7 +607,7 @@ exports.write = function (req, res) {
         var XSSfilter = function (content) {
             return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         };
-        var checkURL = function(string) {
+        var checkURL = function (string) {
             var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
             var result = string.replace(URLregxp, '<a href="$1" target="_blank">$1</a>');
@@ -658,16 +658,18 @@ exports.addComment = function (req, res) {
     var XSSfilter = function (content) {
         return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     };
-    var checkURL = function(string) {
+
+    var checkURL = function (string) {
         var URLregxp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
         var result = string.replace(URLregxp, '<a href="$1" target="_blank">$1</a>');
 
         return result;
     };
+
     var card_id = req.params.card_id,
         commentBody = checkURL(XSSfilter(req.body.commentBody)),
-        user = req.session.userId,
+        commentUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
         isAdmin = req.session.isAdmin;
 
     // prevent null value on commentBody
@@ -680,14 +682,25 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                data.comments.push({ user: user, body: commentBody, isAdmin: isAdmin});
+                var writeUser = data.user;
+                var userCompare = function (cardUser, commentUser) {
+                    if (cardUser === commentUser) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                };
+                var userSame = userCompare(writeUser, commentUserId);
+
+                data.comments.push({ user: commentUserId , body: commentBody, isAdmin: isAdmin});
                 data.save(function (err) {
                     if (err) {
                         throw err;
                     }
                     else {
                         res.contentType('json');
-                        res.send({commentBody: commentBody, isAdmin:isAdmin});
+                        res.send({commentBody: commentBody, isAdmin: isAdmin, userSame : userSame});
                     }
                 });
             }
@@ -696,7 +709,7 @@ exports.addComment = function (req, res) {
 };
 
 exports.deleteCard = function (req) {
-    var checkAdmin = function(req) {
+    var checkAdmin = function (req) {
         if (req.session.isAdmin === true) {
             return true;
         }
