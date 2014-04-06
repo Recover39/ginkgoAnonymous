@@ -791,7 +791,12 @@ exports.reportCard = function (req, res) {
                 }
             }
             if (firstReport === 0) {
-                data.report = reportNum + 1;
+                if(req.session.isAdmin === true) {
+                    data.report = reportNum + 4;
+                }
+                else {
+                    data.report = reportNum + 1;
+                }
                 data.reportUser.push({ user: curUser});
                 data.save(function (err) {
                     if (err) {
