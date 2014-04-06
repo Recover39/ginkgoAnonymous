@@ -53,7 +53,8 @@ var cardScheme = new Schema({
     comments: [
         { user: String, body: String, isAdmin: Boolean }
     ],
-    favoriteUser: [ String ]
+    favoriteUser: [ String ],
+    available: Boolean
 }, {collection: 'card'});
 
 cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
@@ -110,7 +111,7 @@ exports.loadWholeCard = function (req, res) {
     if (isLogin === false) {
         res.redirect('/');
     }
-    cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
+    cardModel.find({available: true}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
         }
@@ -141,7 +142,7 @@ exports.loadUserCard = function (req, res) {
     if (userSessionId !== userId) {
         res.redirect('/');
     }
-    cardModel.find({user: hashedUserId}, null, {sort: {'date': -1}}, function (err, data) {
+    cardModel.find({user: hashedUserId, available: true}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
         }
@@ -166,7 +167,7 @@ exports.loadHitCard = function (req, res) {
     if (isLogin === false) {
         res.redirect('/');
     }
-    cardModel.find({comments: {$exists: true}, $where: 'this.comments.length >= 5'}, null, {sort: {'date': -1}}, function (err, data) {
+    cardModel.find({available: true, comments: {$exists: true}, $where: 'this.comments.length >= 5'}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
         }
@@ -184,14 +185,14 @@ exports.setFavoriteCard = function (req, res) {
         res.redirect('/');
     }
 
-    cardModel.findOne({_id: card_id}, function (err, data) {
+    cardModel.findOne({_id: card_id, available: true}, function (err, data) {
         if (err) {
             throw err;
         }
         else {
             var dataLen = data.length;
             if (dataLen === 0) {
-                res.render('message', {message: '잘못된 접근입니다.'});
+                res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
             }
             else {
                 data.favoriteUser.push(curUser);
@@ -223,7 +224,7 @@ exports.loadFavoriteCard = function (req, res) {
     if (userSessionId !== userId) {
         res.redirect('/');
     }
-    cardModel.find({favoriteUser: {$in: [userSessionId]}}, null, {sort: {'date': -1}}, function (err, data) {
+    cardModel.find({available: true, favoriteUser: {$in: [userSessionId]}}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
         }
@@ -500,7 +501,7 @@ exports.write = function (socket) {
             var curTime = Date.now(),
                 ms6Hour = 6 * 60 * 60 * 1000,
                 hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-            cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
+            cardModel.find({user: hashedUserId, available: true}).sort({'date': -1}).limit(30).exec(function (err, result) {
                 if (err) {
                     res.render('message', {message: "다시 시도해 주세요"});
                 }
@@ -525,7 +526,7 @@ exports.write = function (socket) {
 
         var listLastCard = function (req, res) {
             var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-            cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+            cardModel.find({available: true}).sort({'date': -1}).limit(1).exec(function (err, result) {
                 if (err) {
                     res.render('message', {message: "다시 시도해 주세요"});
                 }
@@ -548,7 +549,7 @@ exports.write = function (socket) {
         var threeMinutes = function (req, res) {
             var curTime = Date.now(),
                 ms3Minutes = 180000;
-            cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
+            cardModel.find({available: true}).sort({'date': -1}).limit(1).exec(function (err, result) {
                 if (err) {
                     res.render('message', {message: "다시 시도해 주세요"});
                 }
@@ -567,7 +568,7 @@ exports.write = function (socket) {
             var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
                 curTime = Date.now(),
                 ms1Minutes = 60 * 1000;
-            cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
+            cardModel.find({user: hashedUserId, available: true}).sort({'date': -1}).limit(1).exec(function (err, result) {
                 if (err) {
                     res.render('message', {message: "다시 시도해 주세요"});
                 }
@@ -616,6 +617,7 @@ exports.write = function (socket) {
             card.reportUser = [];
             card.comments = [];
             card.favoriteUser = [];
+            card.available = true;
 
             // prevent null value on body
             if (body === undefined || body === "") {
@@ -670,32 +672,37 @@ exports.addComment = function (req, res) {
         res.render('message', {message: "댓글란은 빈칸으로 둘 수 없습니다."});
     }
     else {
-        cardModel.findOne({_id: card_id}, function (err, data) {
+        cardModel.findOne({_id: card_id, available: true}, function (err, data) {
             if (err) {
                 throw err;
             }
             else {
-                var writeUser = data.user;
-                var userCompare = function (cardUser, commentUser) {
-                    if (cardUser === commentUser) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                };
-                var userSame = userCompare(writeUser, commentUserId);
+                if (data.length === 1) {
+                    var writeUser = data.user;
+                    var userCompare = function (cardUser, commentUser) {
+                        if (cardUser === commentUser) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    };
+                    var userSame = userCompare(writeUser, commentUserId);
 
-                data.comments.push({ user: commentUserId, body: commentBody, isAdmin: isAdmin});
-                data.save(function (err) {
-                    if (err) {
-                        throw err;
-                    }
-                    else {
-                        res.contentType('json');
-                        res.send({commentBody: commentBody, isAdmin: isAdmin, userSame: userSame});
-                    }
-                });
+                    data.comments.push({ user: commentUserId, body: commentBody, isAdmin: isAdmin});
+                    data.save(function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                        else {
+                            res.contentType('json');
+                            res.send({commentBody: commentBody, isAdmin: isAdmin, userSame: userSame});
+                        }
+                    });
+                }
+                else {
+                    res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
+                }
             }
         });
     }
@@ -721,9 +728,9 @@ exports.deleteCard = function (req) {
 };
 
 var deleteCard = function () {
-    var cardLifeMs = 86400000,
+    var cardLifeMs = 24 * 60 * 60 * 1000,
         curTime = Date.now();
-    cardModel.find({}, null, null, function (err, data) {
+    cardModel.find({available: true}, null, null, function (err, data) {
         if (err) {
             throw err;
         }
@@ -733,7 +740,8 @@ var deleteCard = function () {
                 var cardTime = data[i].date,
                     cardSurviveTime = curTime - cardTime;
                 if (cardSurviveTime >= cardLifeMs) {
-                    cardModel.remove({_id: data[i]._id}, function (err) {
+                    data[i].available = false;
+                    data.save(function (err) {
                         if (err) {
                             throw err;
                         }
@@ -758,41 +766,46 @@ exports.reportCard = function (req, res) {
         res.redirect('/');
     }
 
-    cardModel.findOne({_id: card_id}, function (err, data) {
+    cardModel.findOne({_id: card_id, available: true}, function (err, data) {
         if (err) {
             throw err;
         }
         else {
-            var reportNum = data.report;
-            var firstReport = 0;
-            for (var i = 0; i < reportNum; i++) {
-                if (data.reportUser[i].user === curUser) {
-                    firstReport = firstReport + 1;
-                }
-            }
-            if (firstReport === 0) {
-                if (req.session.isAdmin === true) {
-                    var adminReport = 4;
-                    data.report = reportNum + adminReport;
-                    for (var j = 0; j < adminReport; j++) {
-                        data.reportUser.push({ user: curUser});
+            if (data.length === 1) {
+                var reportNum = data.report;
+                var firstReport = 0;
+                for (var i = 0; i < reportNum; i++) {
+                    if (data.reportUser[i].user === curUser) {
+                        firstReport = firstReport + 1;
                     }
                 }
-                else {
-                    data.report = reportNum + 1;
-                    data.reportUser.push({ user: curUser});
-                }
-                data.save(function (err) {
-                    if (err) {
-                        throw err;
+                if (firstReport === 0) {
+                    if (req.session.isAdmin === true) {
+                        var adminReport = 4;
+                        data.report = reportNum + adminReport;
+                        for (var j = 0; j < adminReport; j++) {
+                            data.reportUser.push({ user: curUser});
+                        }
                     }
                     else {
-                        res.render('message', {message: '신고되었습니다. 감사합니다.'});
+                        data.report = reportNum + 1;
+                        data.reportUser.push({ user: curUser});
                     }
-                });
+                    data.save(function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                        else {
+                            res.render('message', {message: '신고되었습니다. 감사합니다.'});
+                        }
+                    });
+                }
+                else {
+                    res.render('message', {message: '이미 신고하신 글은 다시 신고할 수 없어요!'});
+                }
             }
             else {
-                res.render('message', {message: '이미 신고하신 글은 다시 신고할 수 없어요!'});
+                res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
             }
         }
     });
