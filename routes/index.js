@@ -740,7 +740,7 @@ var deleteCard = function () {
                     cardSurviveTime = curTime - cardTime;
                 if (cardSurviveTime >= cardLifeMs) {
                     data[i].available = false;
-                    data.save(function (err) {
+                    data[i].save(function (err) {
                         if (err) {
                             throw err;
                         }
