@@ -153,6 +153,18 @@ nav .logout {
     float: right;
 }
 
+.pageSelect {
+    margin-top: 18px;
+    margin-bottom: -10px;
+}
+
+.pageSelectButton {
+    width: 90px;
+    background-color: #eceed6;
+    color: #8c8888;
+    border-color: #d1cbcb;
+}
+
 .cardList {
     height: auto;
     text-align: center;
@@ -220,11 +232,12 @@ nav .logout {
     line-height: 28px;
 }
 
-.cardStatus .likeCount {
+.cardStatus .favorite {
     float: left;
     width: 60px;
     height: 30px;
     text-align: left;
+    cursor: pointer;
 }
 
 .cardStatus .commitCount {

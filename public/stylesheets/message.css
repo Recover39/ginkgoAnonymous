@@ -35,10 +35,10 @@ nav.navbar {
 }
 
 nav .user {
-    margin-top: 0px;
+    margin-top: 0;
     width: 60px;
     height: 34px;
-    border-radius: 0px;
+    border-radius: 0;
     font-size: 12px;
     line-height: 3px;
     vertical-align: middle;
@@ -49,10 +49,10 @@ nav .user {
 
 nav .logout {
     clear: both;
-    margin-top: 0px;
+    margin-top: 0;
     width: 60px;
     height: 34px;
-    border-radius: 0px;
+    border-radius: 0;
     font-size: 12px;
     line-height: 3px;
     vertical-align: middle;
@@ -78,4 +78,10 @@ nav .logout {
     font-size: 14px;
     padding-right: 10px;
     padding-left: 10px;
+}
+
+.toMainButton {
+    width: 120px;
+    font-size: 15px;
+    margin: 30px auto 30px auto;
 }

@@ -77,8 +77,17 @@ app.get('/cardTest', routes.loadCardTest);
 ////////////////
 app.get('/', routes.checkLoginStatus);
 
+
+//////////////////
+//card sort option
+//////////////////
+app.get('/card/hitCard', routes.sendHitCard);
+app.get('/card/hit/:id', routes.loadHitCard);
+app.get('/card/:card_id/setFavorite', routes.setFavoriteCard);
+app.get('/card/favoriteCard', routes.sendFavoriteCard);
+app.get('/card/favorite/:id', routes.loadFavoriteCard);
+
 app.get('/card/:id', routes.loadCard);
-app.get('/card/checkNewCard', routes.checkNewCard);
 
 ////////////////
 //user register
@@ -95,6 +104,7 @@ app.post('/user/register/add', routes.userRegisterAdd);
 //app.get('/user/register/checkMail', routes.userRegisterCheckMail);
 app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
 
+
 ////////////////
 //user login
 ////////////////
@@ -104,11 +114,13 @@ app.get('/user/login', function(req, res) {
 app.post('/user/login/complete', routes.userLoginComplete);
 app.get('/user/logout', routes.userLogoutComplete);
 
+
 ////////////////
 //user review
 ////////////////
 app.get('/user/review', routes.userReviewPage);
 app.post('/user/review/add', routes.userReviewAdd);
+
 
 ////////////////////
 //user close account
@@ -116,11 +128,13 @@ app.post('/user/review/add', routes.userReviewAdd);
 app.get('/user/closeAccount', routes.userCloseAccountPage);
 app.post('/user/closeAccount/complete', routes.userCloseAccountComplete);
 
+
 ////////////////
 //writeCard
 ////////////////
 //app.post('/card/add', routes.write(io));
 //app.post('/card/add', routes.write);
+
 
 ////////////////
 //modifyCard

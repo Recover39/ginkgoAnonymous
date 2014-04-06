@@ -34,6 +34,10 @@ html
                             textarea#postTextArea.simple(rows='3', cols='60', type='text', name='body')
                             button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit', onclick = 'preventShowButton()')  글쓰기
                             #newCardStart
+                    .btn-group.pageSelect
+                        button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/\';') 전체글
+                        button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/card/hitCard\';') 인기글
+                        button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/card/favoriteCard\';') 관심글
         .container
             .row
                 .col-md-6.col-md-offset-3.cardList
@@ -54,7 +58,8 @@ html
                                 .cardStatus
                                     .commitCount
                                         | 댓글 #{card.comments.length}개
-                                    .likeCount
+                                    .favorite(onclick = 'location.href=\'/card/#{card._id}/setFavorite\';')
+                                        | 관심글
                                     if (card.isAdmin === true)
                                     else
                                         .report(onclick='location.href=\'/card/#{card._id}/report\';')

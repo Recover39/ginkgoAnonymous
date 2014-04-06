@@ -52,7 +52,8 @@ var cardScheme = new Schema({
     ],
     comments: [
         { user: String, body: String, isAdmin: Boolean }
-    ]
+    ],
+    favoriteUser: [ String ]
 }, {collection: 'card'});
 
 cardScheme.plugin(autoIncrement.plugin, {model: 'Card', field: '_id' });
@@ -81,7 +82,10 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 
 exports.checkLoginStatus = function (req, res) {
     //loginStatus on
-    if (req.session.loginStatus) {
+    if (req.cookies.rememberMe === true || req.session.loginStatus) {
+        req.session.userId = req.cookies.userId;
+        req.session.isAdmin = req.cookies.admin;
+        req.session.loginStatus = true;
         res.redirect('/card/' + req.session.userId);
     }
 
@@ -89,6 +93,9 @@ exports.checkLoginStatus = function (req, res) {
     else {
         req.session.isAdmin = false;
         req.session.loginStatus = false;
+        res.cookie('rememberMe', false, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        res.cookie('userId', null, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        res.cookie('admin', false, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
         res.redirect('/user/login');
     }
 };
@@ -118,7 +125,7 @@ exports.loadCard = function (req, res) {
             for (var i = 0; dataLen < i; i++) {
 
             }
-            res.render('main', { cards: data });
+            res.render('main', { cards: data, tab: 0 });
         }
     });
 };
@@ -134,19 +141,85 @@ exports.loadCardTest = function (req, res) {
             for (var i = 0; dataLen < i; i++) {
 
             }
-            res.render('test', { cards: data });
+            res.render('test', { cards: data});
         }
     });
 };
 
-exports.checkNewCard = function (req, res) {
-    cardModel.find({}, function (err, data) {
+exports.sendHitCard = function (req, res) {
+    res.redirect('/card/hit/' + req.session.userId);
+};
+
+exports.loadHitCard = function (req, res) {
+    var isLogin = req.session.loginStatus,
+        userSessionId = req.session.userId;
+    var userId = req.params.id;
+
+    if (isLogin === false) {
+        res.redirect('/');
+    }
+    if (userSessionId !== userId) {
+        res.redirect('/');
+    }
+    cardModel.find({comments: {$exists: true}, $where: 'this.comments.length >= 5'}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
         }
         else {
-            res.contentType('json');
-            res.send({data: data});
+            res.render('main', { cards: data, tab: 1 });
+        }
+    });
+};
+
+exports.setFavoriteCard = function (req, res) {
+    var card_id = req.params.card_id,
+        curUser = req.session.userId;
+
+    cardModel.findOne({_id: card_id}, function (err, data) {
+        if (err) {
+            throw err;
+        }
+        else {
+            var dataLen = data.length;
+            if (dataLen === 0) {
+                res.render('message', {message: '잘못된 접근입니다.'});
+            }
+            else {
+                data.favoriteUser.push(curUser);
+                data.save(function (err) {
+                    if (err) {
+                        res.render('message', {message: '관심글 설정에서 에러가 생겼네요!'});
+                    }
+                    else {
+                        res.render('message', {message: '관심글로 설정되었습니다.'});
+                    }
+                });
+            }
+        }
+    });
+};
+
+exports.sendFavoriteCard = function (req, res) {
+    res.redirect('/card/favorite/' + req.session.userId);
+};
+
+exports.loadFavoriteCard = function (req, res) {
+    var isLogin = req.session.loginStatus,
+        userSessionId = req.session.userId;
+    var userId = req.params.id;
+
+    if (isLogin === false) {
+        res.redirect('/');
+    }
+    if (userSessionId !== userId) {
+        res.redirect('/');
+    }
+    cardModel.find({favoriteUser: {$in: [userSessionId]}}, null, {sort: {'date': -1}}, function (err, data) {
+        if (err) {
+            throw err;
+        }
+        else {
+            res.render('main', { cards: data, tab: 2 });
         }
     });
 };
@@ -280,12 +353,18 @@ exports.userLoginComplete = function (req, res) {
         req.session.isAdmin = false;
         req.session.loginStatus = true;
         req.session.userId = userId;
+        res.cookie('rememberMe', true, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        res.cookie('userId', userId, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        res.cookie('admin', false, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
     }
 
     function setAdminSession() {
         req.session.isAdmin = true;
         req.session.loginStatus = true;
         req.session.userId = userId;
+        res.cookie('rememberMe', true, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        res.cookie('userId', userId, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+        res.cookie('admin', true, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
     }
 
     mysqlConn.query(
@@ -328,6 +407,9 @@ exports.userLoginComplete = function (req, res) {
 exports.userLogoutComplete = function (req, res) {
     req.session.loginStatus = false;
     req.session.isAdmin = false;
+    res.cookie('rememberMe', false, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+    res.cookie('userId', null, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
+    res.cookie('admin', false, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000), httpOnly: true });
     res.redirect('/');
 };
 
@@ -402,119 +484,6 @@ exports.userCloseAccountComplete = function (req, res) {
         }
     });
 };
-
-//var writeValid = {
-//    canWrite: function (req, res) {
-//        if (writeValid.totalPostNum(req, res) === true) {
-//            if (writeValid.listLastCard(req, res) === true) {
-//                if (writeValid.threeMinutes(req, res) === true) {
-//                    return true;
-//                }
-//                else {
-//                    return false;
-//                }
-//            }
-//            else {
-//                if (writeValid.findLastCard(req, res) === true) {
-//                    return true;
-//                }
-//                else {
-//                    return false;
-//                }
-//            }
-//        }
-//        else {
-//            return false;
-//        }
-//    },
-//
-//    canWrite: function (req, res) {
-//        var curTime = Date.now(),
-//            ms6Hour = 21600000,
-//            hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-//        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
-//            if (err) {
-//                res.render('message', {message: "다시 시도해 주세요"});
-//            }
-//            else {
-//                // maximum : 30
-//                var userCardNum = result.length;
-//                if (userCardNum === 30) {
-//                    var lastCardTime = curTime - result[userCardNum].date;
-//                    if (lastCardTime < ms6Hour) {
-//                        return false;
-//                    }
-//                    else {
-//                        writeValid.listLastCard(req, res);
-//                    }
-//                }
-//                else if (userCardNum < 30) {
-//                    writeValid.listLastCard(req, res);
-//                }
-//            }
-//        });
-//    },
-//
-//    listLastCard: function (req, res) {
-//        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
-//        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
-//            if (err) {
-//                res.render('message', {message: "다시 시도해 주세요"});
-//            }
-//            else {
-//                if (result[0].user === hashedUserId) {
-//                    writeValid.threeMinutes(req, res);
-//                }
-//                else {
-//                    writeValid.findLastCard(req, res);
-//                }
-//            }
-//        });
-//    },
-//
-//    threeMinutes: function (req, res) {
-//        var curTime = Date.now(),
-//            ms3Minutes = 180000;
-//        cardModel.find({}).sort({'date': -1}).limit(1).exec(function (err, result) {
-//            if (err) {
-//                res.render('message', {message: "다시 시도해 주세요"});
-//            }
-//            else {
-//                if (curTime - result[0].date < ms3Minutes) {
-//                    return false;
-//                }
-//                else {
-//                    return true;
-//                }
-//            }
-//        });
-//    },
-//
-//    findLastCard: function (req, res) {
-//        var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
-//            curTime = Date.now(),
-//            ms1Minutes = 60000;
-//        cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
-//            if (err) {
-//                res.render('message', {message: "다시 시도해 주세요"});
-//            }
-//            else {
-//                if (result.length === 0) {
-//                    console.log("return true");
-//                    return true;
-//                }
-//                else {
-//                    if (curTime - result[0].date < ms1Minutes) {
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }
-//                }
-//            }
-//        });
-//    }
-//};
 
 exports.write = function (socket) {
     return function (req, res) {
@@ -637,6 +606,7 @@ exports.write = function (socket) {
             card.report = 0;
             card.reportUser = [];
             card.comments = [];
+            card.favoriteUser = [];
 
             // prevent null value on body
             if (body === undefined || body === "") {
@@ -781,7 +751,6 @@ exports.reportCard = function (req, res) {
         }
         else {
             var reportNum = data.report;
-            console.log(reportNum);
             var firstReport = 0;
             for (var i = 0; i < reportNum; i++) {
                 if (data.reportUser[i].user === curUser) {
@@ -792,7 +761,7 @@ exports.reportCard = function (req, res) {
                 if (req.session.isAdmin === true) {
                     var adminReport = 4;
                     data.report = reportNum + adminReport;
-                    for (var i = 0; i < adminReport; i++) {
+                    for (var j = 0; j < adminReport; j++) {
                         data.reportUser.push({ user: curUser});
                     }
                 }
