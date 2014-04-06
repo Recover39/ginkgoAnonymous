@@ -530,7 +530,7 @@ exports.write = function (socket) {
                     // maximum : 30
                     var userCardNum = result.length;
                     if (userCardNum === 30) {
-                        var lastCardTime = curTime - result[userCardNum-1].date;
+                        var lastCardTime = curTime - result[userCardNum - 1].date;
                         if (lastCardTime < ms6Hour) {
                             preventWriteCard(req, res);
                         }
@@ -790,12 +790,16 @@ exports.reportCard = function (req, res) {
             }
             if (firstReport === 0) {
                 if (req.session.isAdmin === true) {
-                    data.report = reportNum + 4;
+                    var adminReport = 4;
+                    data.report = reportNum + adminReport;
+                    for (var i = 0; i < adminReport; i++) {
+                        data.reportUser.push({ user: curUser});
+                    }
                 }
                 else {
                     data.report = reportNum + 1;
+                    data.reportUser.push({ user: curUser});
                 }
-                data.reportUser.push({ user: curUser});
                 data.save(function (err) {
                     if (err) {
                         throw err;
