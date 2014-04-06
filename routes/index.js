@@ -175,6 +175,10 @@ exports.setFavoriteCard = function (req, res) {
     var card_id = req.params.card_id,
         curUser = req.session.userId;
 
+    if(curUser === null || curUser === undefined) {
+        res.redirect('/');
+    }
+
     cardModel.findOne({_id: card_id}, function (err, data) {
         if (err) {
             throw err;
@@ -744,6 +748,10 @@ var deleteCard = function () {
 exports.reportCard = function (req, res) {
     var curUser = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
         card_id = req.params.card_id;
+
+    if(curUser === null || curUser === undefined) {
+        res.redirect('/');
+    }
 
     cardModel.findOne({_id: card_id}, function (err, data) {
         if (err) {
