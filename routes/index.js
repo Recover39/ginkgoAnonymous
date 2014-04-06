@@ -520,7 +520,7 @@ exports.write = function (socket) {
     return function (req, res) {
         var write = function (req, res) {
             var curTime = Date.now(),
-                ms6Hour = 21600000,
+                ms6Hour = 6 * 60 * 60 * 1000,
                 hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
             cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(30).exec(function (err, result) {
                 if (err) {
@@ -530,7 +530,7 @@ exports.write = function (socket) {
                     // maximum : 30
                     var userCardNum = result.length;
                     if (userCardNum === 30) {
-                        var lastCardTime = curTime - result[userCardNum].date;
+                        var lastCardTime = curTime - result[userCardNum-1].date;
                         if (lastCardTime < ms6Hour) {
                             preventWriteCard(req, res);
                         }
@@ -588,7 +588,7 @@ exports.write = function (socket) {
         var findLastCard = function (req, res) {
             var hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
                 curTime = Date.now(),
-                ms1Minutes = 60000;
+                ms1Minutes = 60 * 1000;
             cardModel.find({user: hashedUserId}).sort({'date': -1}).limit(1).exec(function (err, result) {
                 if (err) {
                     res.render('message', {message: "다시 시도해 주세요"});
