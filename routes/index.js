@@ -677,7 +677,7 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-                if (data.length === 1) {
+
                     var writeUser = data.user;
                     var userCompare = function (cardUser, commentUser) {
                         if (cardUser === commentUser) {
@@ -699,10 +699,7 @@ exports.addComment = function (req, res) {
                             res.send({commentBody: commentBody, isAdmin: isAdmin, userSame: userSame});
                         }
                     });
-                }
-                else {
-                    res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
-                }
+                
             }
         });
     }
