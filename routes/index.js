@@ -190,8 +190,7 @@ exports.setFavoriteCard = function (req, res) {
             throw err;
         }
         else {
-            var dataLen = data.length;
-            if (dataLen === 0) {
+            if (!data) {
                 res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
             }
             else {
@@ -677,7 +676,10 @@ exports.addComment = function (req, res) {
                 throw err;
             }
             else {
-
+                if (!data) {
+                    res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
+                }
+                else {
                     var writeUser = data.user;
                     var userCompare = function (cardUser, commentUser) {
                         if (cardUser === commentUser) {
@@ -699,7 +701,7 @@ exports.addComment = function (req, res) {
                             res.send({commentBody: commentBody, isAdmin: isAdmin, userSame: userSame});
                         }
                     });
-                
+                }
             }
         });
     }
@@ -768,7 +770,10 @@ exports.reportCard = function (req, res) {
             throw err;
         }
         else {
-            if (data.length === 1) {
+            if (!data) {
+                res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
+            }
+            else {
                 var reportNum = data.report;
                 var firstReport = 0;
                 for (var i = 0; i < reportNum; i++) {
@@ -800,9 +805,6 @@ exports.reportCard = function (req, res) {
                 else {
                     res.render('message', {message: '이미 신고하신 글은 다시 신고할 수 없어요!'});
                 }
-            }
-            else {
-                res.render('message', {message: '존재하지 않는 카드 주소입니다.'});
             }
         }
     });
