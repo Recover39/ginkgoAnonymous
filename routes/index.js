@@ -516,7 +516,7 @@ exports.userCloseAccountComplete = function (req, res) {
 //    }
 //};
 
-exports.write = function (io) {
+exports.write = function (socket) {
     return function (req, res) {
         var write = function (req, res) {
             var curTime = Date.now(),
@@ -649,12 +649,10 @@ exports.write = function (io) {
                         throw err;
                     }
                     else {
-//                        io.sockets.on('connection', function (socket) {
-//                            socket.broadcast.emit('newCard');
-//                        });
 //                  res.contentType('json');
 //                  res.send(card);
                         res.redirect('/');
+                        socket.broadcast.emit('newCard');
 //                  res.render('message', {message : "입력하신 카드번호는 " ++ "번 입니다. 기억해주세요!"})
                     }
                 });
@@ -791,7 +789,7 @@ exports.reportCard = function (req, res) {
                 }
             }
             if (firstReport === 0) {
-                if(req.session.isAdmin === true) {
+                if (req.session.isAdmin === true) {
                     data.report = reportNum + 4;
                 }
                 else {

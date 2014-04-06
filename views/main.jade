@@ -32,7 +32,7 @@ html
                     #writePost
                         form.writeCommit(method ='post', role='form', action = '/card/add')
                             textarea#postTextArea.simple(rows='3', cols='60', type='text', name='body')
-                            button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit')  글쓰기
+                            button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit', onclick = 'preventShowButton()')  글쓰기
                             #newCardStart
         .container
             .row

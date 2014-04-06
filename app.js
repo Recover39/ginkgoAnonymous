@@ -119,7 +119,7 @@ app.post('/user/closeAccount/complete', routes.userCloseAccountComplete);
 ////////////////
 //writeCard
 ////////////////
-app.post('/card/add', routes.write(io));
+//app.post('/card/add', routes.write(io));
 //app.post('/card/add', routes.write);
 
 ////////////////
@@ -134,4 +134,12 @@ server.listen(app.get('port'), function () {
     console.log('\n///////////////////////////////////////////////\n' +
         '//// Express server listening on port ' + app.get('port') + ' ////' +
         '\n///////////////////////////////////////////////\n');
+});
+
+////////////////
+//socketFunction
+////////////////
+
+io.sockets.on('connection', function(socket) {
+    app.post('/card/add', routes.write(socket));
 });

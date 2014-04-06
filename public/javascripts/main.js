@@ -99,10 +99,9 @@ var pageWriteFunction = (function () {
 
 var pageFunction = (function () {
     var load = {
+        socket : io.connect('http://localhost:3000'),
         checkNewCard: function () {
-//            var socket = io.connect('http://localhost:4000');
-//            socket.on('newCard', load.showButton);
-//            console.log('check');
+            load.socket.on('newCard', load.showButton);
         },
         showButton: function () {
             $("#newCardButton").css("display", "block");
@@ -114,6 +113,9 @@ var pageFunction = (function () {
             window.location.reload();
             load.hideButton();
             window.location = "/";
+        },
+        preventShowButton : function(socket) {
+            load.socket.disconnect();
         }
     };
 
@@ -133,17 +135,35 @@ var pageFunction = (function () {
                 //later, add color to Time
                 cardInfoDiv[i].childNodes[1].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
             }
+        },
+        toggleComment : function (e) {
+            var cardComment = e.target.parentNode.parentNode.childNodes[3];
+            console.log(cardComment);
+            if (cardComment.style.display === 'none') {
+                cardComment.style.display = 'block';
+            }
+            else {
+                cardComment.style.display = 'none';
+            }
+        },
+        addToggleComment : function () {
+            var commentNumSection = $(".commitCount");
+            commentNumSection.click(cardInfo.toggleComment);
+            var commentSection = $(".cardComment");
+            commentSection.css("display",'none');
         }
     };
 
     (function () {
         cardInfo.showCardCommitTime();
+        cardInfo.addToggleComment();
         load.checkNewCard();
     })();
 
     return {
         hideButton: load.hideButton,
-        newCard: load.newCard
+        newCard: load.newCard,
+        preventShowButton : load.preventShowButton
     }
 })();
 
@@ -153,4 +173,6 @@ var pageFunction = (function () {
 })();
 
 var newCard = pageFunction.newCard;
+var preventShowButton = pageFunction.preventShowButton;
 var toMain = pageWriteFunction.toMain;
+
