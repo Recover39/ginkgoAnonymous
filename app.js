@@ -66,12 +66,6 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-//testFunction
-app.get('/test', function (req, res) {
-    res.render('testmain');
-});
-app.get('/cardTest', routes.loadCardTest);
-
 ////////////////
 //basic function
 ////////////////
@@ -82,12 +76,14 @@ app.get('/', routes.checkLoginStatus);
 //card sort option
 //////////////////
 app.get('/card/hitCard', routes.sendHitCard);
-app.get('/card/hit/:id', routes.loadHitCard);
+app.get('/card/hit', routes.loadHitCard);
 app.get('/card/:card_id/setFavorite', routes.setFavoriteCard);
 app.get('/card/favoriteCard', routes.sendFavoriteCard);
 app.get('/card/favorite/:id', routes.loadFavoriteCard);
+app.get('/card/userCard', routes.sendUserCard);
+app.get('/card/user/:id', routes.loadUserCard);
+app.get('/card', routes.loadWholeCard);
 
-app.get('/card/:id', routes.loadCard);
 
 ////////////////
 //user register

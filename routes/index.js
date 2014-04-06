@@ -86,7 +86,7 @@ exports.checkLoginStatus = function (req, res) {
         req.session.userId = req.cookies.userId;
         req.session.isAdmin = req.cookies.admin;
         req.session.loginStatus = true;
-        res.redirect('/card/' + req.session.userId);
+        res.redirect('/card');
     }
 
     //loginStatus off
@@ -104,15 +104,10 @@ exports.welcome = function (req, res) {
     res.render('welcome');
 };
 
-exports.loadCard = function (req, res) {
-    var isLogin = req.session.loginStatus,
-        userSessionId = req.session.userId;
-    var userId = req.params.id;
+exports.loadWholeCard = function (req, res) {
+    var isLogin = req.session.loginStatus;
 
     if (isLogin === false) {
-        res.redirect('/');
-    }
-    if (userSessionId !== userId) {
         res.redirect('/');
     }
     cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
@@ -130,8 +125,23 @@ exports.loadCard = function (req, res) {
     });
 };
 
-exports.loadCardTest = function (req, res) {
-    cardModel.find({}, null, {sort: {'date': -1}}, function (err, data) {
+exports.sendUserCard = function (req, res) {
+    res.redirect('/card/user/' + req.session.userId);
+};
+
+exports.loadUserCard = function (req, res) {
+    var isLogin = req.session.loginStatus,
+        userSessionId = req.session.userId,
+        userId = req.params.id,
+        hashedUserId = crypto.createHash('sha512').update(req.session.userId).digest('hex');
+
+    if (isLogin === false) {
+        res.redirect('/');
+    }
+    if (userSessionId !== userId) {
+        res.redirect('/');
+    }
+    cardModel.find({user: hashedUserId}, null, {sort: {'date': -1}}, function (err, data) {
         if (err) {
             throw err;
         }
@@ -141,24 +151,19 @@ exports.loadCardTest = function (req, res) {
             for (var i = 0; dataLen < i; i++) {
 
             }
-            res.render('test', { cards: data});
+            res.render('main', { cards: data, tab: 3 });
         }
     });
 };
 
 exports.sendHitCard = function (req, res) {
-    res.redirect('/card/hit/' + req.session.userId);
+    res.redirect('/card/hit');
 };
 
 exports.loadHitCard = function (req, res) {
-    var isLogin = req.session.loginStatus,
-        userSessionId = req.session.userId;
-    var userId = req.params.id;
+    var isLogin = req.session.loginStatus;
 
     if (isLogin === false) {
-        res.redirect('/');
-    }
-    if (userSessionId !== userId) {
         res.redirect('/');
     }
     cardModel.find({comments: {$exists: true}, $where: 'this.comments.length >= 5'}, null, {sort: {'date': -1}}, function (err, data) {
@@ -175,7 +180,7 @@ exports.setFavoriteCard = function (req, res) {
     var card_id = req.params.card_id,
         curUser = req.session.userId;
 
-    if(curUser === null || curUser === undefined) {
+    if (curUser === null || curUser === undefined) {
         res.redirect('/');
     }
 
@@ -391,12 +396,12 @@ exports.userLoginComplete = function (req, res) {
                         if (result[0].grade === '1') {
                             // 인증한 사용자
                             setUserSession();
-                            res.redirect('/card/' + userId);
+                            res.redirect('/');
                         }
                         else {
                             // 관리자
                             setAdminSession();
-                            res.redirect('/card/' + userId);
+                            res.redirect('/');
                         }
                     }
                 }
@@ -749,7 +754,7 @@ exports.reportCard = function (req, res) {
     var curUser = crypto.createHash('sha512').update(req.session.userId).digest('hex'),
         card_id = req.params.card_id;
 
-    if(curUser === null || curUser === undefined) {
+    if (curUser === null || curUser === undefined) {
         res.redirect('/');
     }
 

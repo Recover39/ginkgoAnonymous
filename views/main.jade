@@ -23,21 +23,30 @@ html
         .container
             .row
                 .col-md-6.col-md-offset-3.writePostCard
-                    #introduction
-                        | 모든 글은 익명으로 작성되며, 24시간 후 지워집니다. (개별 삭제는 고객센터에 문의해주세요)
-                    #notice
-                        | 글쓰기 문화와 관련하여 공지 드립니다.
-                        br
-                        | 성균인으로서 서로에게 존중을 표하고, 예의를 지켜주시기 바랍니다. 감사합니다.
-                    #writePost
-                        form.writeCommit(method ='post', role='form', action = '/card/add')
-                            textarea#postTextArea.simple(rows='3', cols='60', type='text', name='body')
-                            button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit', onclick = 'preventShowButton()')  글쓰기
-                            #newCardStart
+                    if (tab === 0 || tab === 1)
+                        #introduction
+                            | 모든 글은 익명으로 작성되며, 24시간 후 지워집니다. (개별 삭제는 고객센터에 문의해주세요)
+                        #notice
+                            | 글쓰기 문화와 관련하여 공지 드립니다.
+                            br
+                            | 성균인으로서 서로에게 존중을 표하고, 예의를 지켜주시기 바랍니다. 감사합니다.
+                    else if (tab === 2)
+                        #introduction
+                            | 자신이 관심글로 지정한 글을 모아 볼 수 있습니다.
+                    else if (tab === 3)
+                        #introduction
+                            | 자신이 쓴 글을 24시간이 지나 삭제되기 전에 확인할 수 있습니다.
+                    if (tab === 0 || tab === 1)
+                        #writePost
+                            form.writeCommit(method ='post', role='form', action = '/card/add')
+                                textarea#postTextArea.simple(rows='3', cols='60', type='text', name='body')
+                                button#writeButton.btn.btn-lg.btn-primary.btn-block(type='submit', onclick = 'preventShowButton()')  글쓰기
+                                #newCardStart
                     .btn-group.pageSelect
                         button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/\';') 전체글
                         button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/card/hitCard\';') 인기글
                         button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/card/favoriteCard\';') 관심글
+                        button.btn.btn-default.pageSelectButton(type='button', onclick='location.href=\'/card/UserCard\';') 내 글
         .container
             .row
                 .col-md-6.col-md-offset-3.cardList

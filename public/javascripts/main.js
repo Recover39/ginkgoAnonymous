@@ -3,7 +3,9 @@ var pageWriteFunction = (function () {
         addEvent: function () {
             var writeArea = document.getElementById('postTextArea'),
                 writeButton = document.getElementById('writeButton');
-            writeArea.addEventListener("click", util.writeSectionExpand, true);
+            if (writeArea) {
+                writeArea.addEventListener("click", util.writeSectionExpand, true);
+            }
         }
     };
 
@@ -99,7 +101,7 @@ var pageWriteFunction = (function () {
 
 var pageFunction = (function () {
     var load = {
-        socket : io.connect('http://www.skkuleaf.com'),
+        socket: io.connect('http://www.skkuleaf.com'),
         checkNewCard: function () {
             load.socket.on('newCard', load.showButton);
         },
@@ -114,7 +116,7 @@ var pageFunction = (function () {
             load.hideButton();
             window.location = "/";
         },
-        preventShowButton : function(socket) {
+        preventShowButton: function (socket) {
             load.socket.disconnect();
         }
     };
@@ -136,7 +138,7 @@ var pageFunction = (function () {
                 cardInfoDiv[i].childNodes[1].innerHTML = "삭제까지 " + elapsedHours + "시간 " + elapsedMinutes + "분 남음";
             }
         },
-        toggleComment : function (e) {
+        toggleComment: function (e) {
             var cardComment = e.target.parentNode.parentNode.childNodes[3];
             console.log(cardComment);
             if (cardComment.style.display === 'none') {
@@ -146,11 +148,11 @@ var pageFunction = (function () {
                 cardComment.style.display = 'none';
             }
         },
-        addToggleComment : function () {
+        addToggleComment: function () {
             var commentNumSection = $(".commitCount");
             commentNumSection.click(cardInfo.toggleComment);
             var commentSection = $(".cardComment");
-            commentSection.css("display",'none');
+            commentSection.css("display", 'none');
         }
     };
 
@@ -163,7 +165,7 @@ var pageFunction = (function () {
     return {
         hideButton: load.hideButton,
         newCard: load.newCard,
-        preventShowButton : load.preventShowButton
+        preventShowButton: load.preventShowButton
     }
 })();
 
