@@ -165,6 +165,16 @@ nav .logout {
     border-color: #d1cbcb;
 }
 
+@media(max-width:767px){
+    .pageSelectButton {
+        width: 60px;
+        background-color: #f8f0d9;
+        color: #8c8888;
+        border-color: #d1cbcb;
+        font-size: 13px;
+    }
+}
+
 .cardList {
     height: auto;
     text-align: center;
