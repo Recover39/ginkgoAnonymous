@@ -99,7 +99,7 @@ var pageWriteFunction = (function () {
 
 var pageFunction = (function () {
     var load = {
-        socket : io.connect('http://localhost:3000'),
+        socket : io.connect('http://www.skkuleaf.com'),
         checkNewCard: function () {
             load.socket.on('newCard', load.showButton);
         },
