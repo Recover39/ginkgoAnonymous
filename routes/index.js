@@ -801,5 +801,10 @@ exports.reportCard = function (req, res) {
 };
 
 exports.startChat = function (req, res) {
+    var isLogin = req.session.loginStatus;
+
+    if (isLogin === false) {
+        res.redirect('/');
+    }
     res.render('chat');
 };
