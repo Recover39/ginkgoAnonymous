@@ -29,12 +29,11 @@ html
                     #chatRoom
                         #chatTitle
                             h2#t1 랜덤채팅
-                            h4#t2 최대 3명까지 입장가능 합니다
+                            h4#t2 최대 3명까지 입장 가능합니다
                             button.btn.btn-lg.btn-primary#requestRandomChat 채팅시작
                             button.btn.btn-lg.btn-primary#cancelRequest 그만찾아요
                             button.btn.btn-lg.btn-primary#requestDisconnect 채팅나가기
                         #chatField
-                            #chatValue
                         #chatInput
                             input#inputText(type='text')
                             button#sendChat.btn(type='submit') 보내기
@@ -48,5 +47,6 @@ html
         script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
         script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
         script(src='//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js')
+        script(src='//cdnjs.cloudflare.com/ajax/libs/iScroll/5.1.1/iscroll-infinite.min.js')
         script(src='/javascripts/chat.js')
         script(src='/javascripts/googleAnalytics.js')

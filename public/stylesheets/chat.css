@@ -63,7 +63,7 @@ nav .logout {
 #chatRoom {
     width: 100%;
     height: 100%;
-    -webkit-touch-overflow:scroll;
+    padding-bottom: 30px;
 }
 
 #chatTitle {
@@ -118,21 +118,21 @@ nav .logout {
     margin-top: 10px;
     margin-bottom: -4px;
     width: 100%;
-    height: 50%;
+    height: 60%;
     border-radius: 6px 6px 0 0;
     border: 2px solid #7ba8ca;
     border-bottom: 2px solid #c2c2c2;
     background-color: #f9f9f9;
     padding: 10px 15px 10px 15px;
-    overflow: hidden;
+    overflow: scroll;
     line-height: 25px;
-    -webkit-touch-overflow:scroll;
 }
 
 #chatValue {
     width: 100%;
-    min-height: 50%;
     overflow: scroll;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
 }
 
 #chatInput {
@@ -141,7 +141,6 @@ nav .logout {
 }
 
 #inputText {
-    margin-top: -2px;
     width: 100%;
     height: 30px;
     border: 2px solid #c6c6c6;
@@ -152,7 +151,6 @@ nav .logout {
 }
 
 #sendChat {
-    margin-top: -2px;
     width: 18%;
     height: 30px;
     border-radius: 0 0 6px 0;
