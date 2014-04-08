@@ -1,6 +1,6 @@
 // chat client
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://www.skkuleaf.com');
 
 (function () {
     $(document).ready(function () {
