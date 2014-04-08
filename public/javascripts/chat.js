@@ -68,6 +68,8 @@ var socket = io.connect('http://www.skkuleaf.com');
 
         // 상대방이 나갔을 때 나도 같이 로비로 나감.
         socket.on('disconnect', function () {
+            $('#requestDisconnect').hide();
+            $('#sendChat').hide();
             if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
                 $('#chatField').append('<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span></br>');
             }
