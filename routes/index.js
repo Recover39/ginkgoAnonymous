@@ -682,12 +682,7 @@ exports.addComment = function (req, res) {
                 else {
                     var writeUser = data.user;
                     var userCompare = function (cardUser, commentUser) {
-                        if (cardUser === commentUser) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
+                        return cardUser === commentUser;
                     };
                     var userSame = userCompare(writeUser, commentUserId);
 
@@ -709,12 +704,7 @@ exports.addComment = function (req, res) {
 
 exports.deleteCard = function (req) {
     var checkAdmin = function (req) {
-        if (req.session.isAdmin === true) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return req.session.isAdmin === true;
     };
     if (checkAdmin(req) === true) {
         var card_id = req.params.card_id;
@@ -808,4 +798,8 @@ exports.reportCard = function (req, res) {
             }
         }
     });
+};
+
+exports.startChat = function (req, res) {
+    res.render('chat');
 };

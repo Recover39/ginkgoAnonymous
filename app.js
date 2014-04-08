@@ -14,7 +14,7 @@ var app = express(),
 // all environments
 
 app.configure(function () {
-    app.use(express.static(path.join(__dirname, 'public')), {maxAge : 30 * 24 * 60 * 60 * 1000});
+    app.use(express.static(path.join(__dirname, 'public')), {maxAge: 30 * 24 * 60 * 60 * 1000});
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
@@ -38,7 +38,7 @@ app.configure(function () {
         // the status option, or res.statusCode = 404
         // are equivalent, however with the option we
         // get the "status" local available as well
-        res.render('message', { message : "페이지를 찾을 수 없어요!" });
+        res.render('message', { message: "페이지를 찾을 수 없어요!" });
     });
 
     // error-handling middleware, take the same form
@@ -57,7 +57,7 @@ app.configure(function () {
         // we may use properties of the error object
         // here and next(err) appropriately, or if
         // we possibly recovered from the error, simply next().
-        res.render('message', {message : "알 수 없는 에러입니다. 다시 시도해주세요" });
+        res.render('message', {message: "알 수 없는 에러입니다. 다시 시도해주세요" });
     });
 });
 
@@ -89,10 +89,10 @@ app.get('/card', routes.loadWholeCard);
 //user register
 ////////////////
 app.get('/user/register', routes.userRegisterPage);
-app.get('/privacy', function(req, res) {
+app.get('/privacy', function (req, res) {
     res.render('privacy');
 });
-app.get('/agreement', function(req, res) {
+app.get('/agreement', function (req, res) {
     res.render('agreement');
 });
 app.post('/user/register/add', routes.userRegisterAdd);
@@ -104,8 +104,8 @@ app.get('/user/register/complete/:authKey', routes.userRegisterComplete);
 ////////////////
 //user login
 ////////////////
-app.get('/user/login', function(req, res) {
-   res.render('signin');
+app.get('/user/login', function (req, res) {
+    res.render('signin');
 });
 app.post('/user/login/complete', routes.userLoginComplete);
 app.get('/user/logout', routes.userLogoutComplete);
@@ -146,10 +146,77 @@ server.listen(app.get('port'), function () {
         '\n///////////////////////////////////////////////\n');
 });
 
+app.get('/angtree!!!', routes.startChat);
+
 ////////////////
 //socketFunction
 ////////////////
 
-io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function (socket) {
     app.post('/card/add', routes.write(socket));
+
+    var chatRoom = {};
+
+    socket.emit('randomChatPageConnected');
+
+    // chat요청을 할 시
+    socket.on('requestRandomChat', function () {
+        // 빈방 확인
+        var rooms = io.sockets.manager.rooms;
+
+        for (var key in rooms) {
+            if (key === '') {
+                continue;
+            }
+
+            // 1명 혹은 2명일 때 입장
+            var curUserNum = rooms[key].length;
+
+            if (curUserNum === 1 || curUserNum === 2) {
+                var roomKey = key.replace('/', '');
+                socket.join(roomKey);
+                io.sockets.in(roomKey).emit('completeMatch');
+                chatRoom[socket.id] = roomKey;
+                return;
+            }
+        }
+
+        // 빈방이 없으면 혼자 방만들고 기다림.
+        socket.join(socket.id);
+        chatRoom[socket.id] = socket.id;
+    });
+
+    // 요청 취소 시
+    socket.on('cancelRequest', function () {
+        socket.leave(chatRoom[socket.id]);
+    });
+
+    // client -> server Message전송 시
+    socket.on('sendMessage', function (data) {
+        io.sockets.in(chatRoom[socket.id]).emit('receiveMessage', data);
+    });
+
+    // disconnectChat
+    socket.on('disconnectChat', function () {
+        var RoomKey = chatRoom[socket.id];
+        socket.leave(RoomKey);
+        io.sockets.in(RoomKey).emit('disconnectOther');
+        var clients = io.sockets.clients(RoomKey);
+        var clientsNum = clients.length;
+        for (var i = 0; i < clientsNum; i++) {
+            clients[i].leave(RoomKey);
+        }
+    });
+
+    socket.on('disconnect', function () {
+        var RoomKey = chatRoom[socket.id];
+        socket.leave(RoomKey);
+        io.sockets.in(RoomKey).emit('disconnectOther');
+        var clients = io.sockets.clients(RoomKey);
+        var clientsNum = clients.length;
+        for (var i = 0; i < clientsNum; i++) {
+            clients[i].leave(RoomKey);
+        }
+    });
 });
+
