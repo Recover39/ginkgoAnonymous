@@ -172,7 +172,7 @@ io.sockets.on('connection', function (socket) {
             // 1명 혹은 2명일 때 입장
             var curUserNum = rooms[key].length;
 
-            if (curUserNum === 1 || curUserNum === 2) {
+            if (curUserNum === 1) {
                 var roomKey = key.replace('/', '');
                 socket.join(roomKey);
                 io.sockets.in(roomKey).emit('completeMatch');
