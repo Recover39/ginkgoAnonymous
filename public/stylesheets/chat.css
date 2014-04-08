@@ -154,6 +154,12 @@ nav .logout {
     }
 }
 
+@media (max-width: 320px) {
+    #t2 {
+        display: none;
+    }
+}
+
 #chatField {
     margin-top: 10px;
     margin-bottom: -4px;
