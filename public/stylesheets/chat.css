@@ -63,7 +63,7 @@ nav .logout {
 #chatRoom {
     width: 100%;
     height: 100%;
-    margin-bottom: 30px;
+    -webkit-touch-overflow:scroll;
 }
 
 #chatTitle {
@@ -126,6 +126,7 @@ nav .logout {
     padding: 10px 15px 10px 15px;
     overflow: hidden;
     line-height: 25px;
+    -webkit-touch-overflow:scroll;
 }
 
 #chatValue {
