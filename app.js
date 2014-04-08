@@ -146,7 +146,7 @@ server.listen(app.get('port'), function () {
         '\n///////////////////////////////////////////////\n');
 });
 
-app.get('/angtree!!!', routes.startChat);
+app.get('/randomChatTest', routes.startChat);
 
 ////////////////
 //socketFunction

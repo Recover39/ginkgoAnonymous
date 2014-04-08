@@ -42,7 +42,7 @@ var socket = io.connect('http://www.skkuleaf.com');
             $('#inputText').css("width", "100%");
             document.getElementById('inputText').style.borderBottomRightRadius = "6px";
             document.getElementById('inputText').style.borderTopRightRadius = "6px";
-            if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild  !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
+            if (document.getElementById('chatField').lastChild !== '' && document.getElementById('chatField').lastChild  !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
                 $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
             socket.emit('disconnectChat');
@@ -55,7 +55,7 @@ var socket = io.connect('http://www.skkuleaf.com');
             $('#inputText').css("width", "100%");
             document.getElementById('inputText').style.borderBottomRightRadius = "6px";
             document.getElementById('inputText').style.borderTopRightRadius = "6px";
-            if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild  !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
+            if (document.getElementById('chatField').lastChild !== '' && document.getElementById('chatField').lastChild  !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
                 $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
         });
@@ -73,7 +73,7 @@ var socket = io.connect('http://www.skkuleaf.com');
         socket.on('disconnect', function () {
             $('#requestDisconnect').hide();
             $('#sendChat').hide();
-            if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
+            if (document.getElementById('chatField').lastChild !== '' && document.getElementById('chatField').lastChild !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
                 $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
         });
