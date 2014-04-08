@@ -29,9 +29,10 @@ var socket = io.connect('http://www.skkuleaf.com');
             $('#sendChat').show();
             $('#inputText').css("width", "82%");
             document.getElementById('inputText').style.borderBottomRightRadius = "0";
+            document.getElementById('inputText').style.borderTopRightRadius = "0";
             $('#cancelRequest').hide();
             $('#requestDisconnect').show();
-            document.getElementById('chatField').innerHTML = '<span style = "color : #7ba8ca"> 채팅이 연결되었습니다 </span></br>';
+            document.getElementById('chatField').innerHTML = '<span style = "color : #7ba8ca"> 채팅이 연결되었습니다 </span>';
         });
 
         $('#requestDisconnect').click(function () {
@@ -40,8 +41,9 @@ var socket = io.connect('http://www.skkuleaf.com');
             $('#requestRandomChat').show();
             $('#inputText').css("width", "100%");
             document.getElementById('inputText').style.borderBottomRightRadius = "6px";
+            document.getElementById('inputText').style.borderTopRightRadius = "6px";
             if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild  !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
-                $('#chatField').append('<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span></br>');
+                $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
             socket.emit('disconnectChat');
         });
@@ -52,14 +54,15 @@ var socket = io.connect('http://www.skkuleaf.com');
             $('#requestRandomChat').show();
             $('#inputText').css("width", "100%");
             document.getElementById('inputText').style.borderBottomRightRadius = "6px";
+            document.getElementById('inputText').style.borderTopRightRadius = "6px";
             if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild  !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
-                $('#chatField').append('<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span></br>');
+                $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
         });
 
         // receiveMessage
         socket.on('receiveMessage', function (data) {
-            $('#chatField').append('<span>' + data.message + '</span></br>');
+            $('#chatField').append('</br><span>' + data.message + '</span>');
             console.log('message come');
             var chatField = document.getElementById("chatField");
             chatField.scrollTop = chatField.scrollHeight;
@@ -71,7 +74,7 @@ var socket = io.connect('http://www.skkuleaf.com');
             $('#requestDisconnect').hide();
             $('#sendChat').hide();
             if (document.getElementById('chatField').innerHTML !== '' && document.getElementById('chatField').lastChild !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
-                $('#chatField').append('<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span></br>');
+                $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
         });
 
