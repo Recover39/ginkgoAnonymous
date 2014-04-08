@@ -146,7 +146,7 @@ server.listen(app.get('port'), function () {
         '\n///////////////////////////////////////////////\n');
 });
 
-app.get('/randomChatTest', routes.startChat);
+app.get('/randomChat', routes.startChat);
 
 ////////////////
 //socketFunction
@@ -198,17 +198,6 @@ io.sockets.on('connection', function (socket) {
 
     // disconnectChat
     socket.on('disconnectChat', function () {
-        var RoomKey = chatRoom[socket.id];
-        socket.leave(RoomKey);
-        io.sockets.in(RoomKey).emit('disconnectOther');
-        var clients = io.sockets.clients(RoomKey);
-        var clientsNum = clients.length;
-        for (var i = 0; i < clientsNum; i++) {
-            clients[i].leave(RoomKey);
-        }
-    });
-
-    socket.on('disconnect', function () {
         var RoomKey = chatRoom[socket.id];
         socket.leave(RoomKey);
         io.sockets.in(RoomKey).emit('disconnectOther');

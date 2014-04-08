@@ -806,5 +806,7 @@ exports.startChat = function (req, res) {
     if (isLogin === false) {
         res.redirect('/');
     }
-    res.render('chat');
+    else {
+        res.render('chat');
+    }
 };

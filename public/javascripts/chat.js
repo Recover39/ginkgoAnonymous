@@ -73,6 +73,7 @@ var socket = io.connect('http://www.skkuleaf.com');
         socket.on('disconnect', function () {
             $('#requestDisconnect').hide();
             $('#sendChat').hide();
+            $('#requestRandomChat').show();
             if (document.getElementById('chatField').lastChild !== '' && document.getElementById('chatField').lastChild !== '<span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>') {
                 $('#chatField').append('</br><span style = "color : #7ba8ca"> 채팅이 종료되었습니다. </span>');
             }
